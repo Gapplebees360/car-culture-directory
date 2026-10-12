@@ -1,0 +1,32 @@
+name: Daily Automotive Event Refresh
+
+on:
+  schedule:
+    # 14:00 UTC = 7:00 AM PDT daily
+    - cron: '0 14 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-events:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run Event Purge & Update Script
+        run: python scripts/update_events.py
+
+      - name: Commit & Push Changes
+        run: |
+          git config user.name "USA-Auto-Meets-Bot"
+          git config user.email "bot@usautomeets.com"
+          git add index.html
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update: Daily event purge & refresh" && git push)
