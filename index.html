@@ -566,6 +566,7 @@
       </a>
       <div class="header-actions">
         <button class="btn btn-outline" onclick="exportData('csv')"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
+        <button class="btn btn-outline" onclick="openModal('subscribeModal')"><i class="fa-solid fa-bell"></i> Get Alerts</button>
         <button class="btn btn-primary" onclick="openModal('submitModal')"><i class="fa-solid fa-plus"></i> Submit Event</button>
       </div>
     </div>
@@ -719,6 +720,46 @@
     </div>
   </div>
 
+  <!-- Email Subscription Modal -->
+  <div id="subscribeModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fa-solid fa-bell" style="color: var(--red-primary);"></i> Local Event Alerts</h3>
+        <button class="close-btn" onclick="closeModal('subscribeModal')">&times;</button>
+      </div>
+      <form id="subscribeForm" onsubmit="handleSubscribeSubmit(event)">
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Receive email notifications whenever new car meets, pop-up events, or track days are announced in your area.</p>
+        <div class="filter-group" style="margin-bottom: 1rem;">
+          <label>Email Address *</label>
+          <input type="email" id="subEmail" class="filter-control" required placeholder="you@example.com">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+          <div class="filter-group">
+            <label>State *</label>
+            <select id="subState" class="filter-control" required onchange="handleSubStateChange()">
+              <!-- Populated via JS -->
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>City *</label>
+            <select id="subCity" class="filter-control" required>
+              <option value="ALL">All Cities in State</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Invisible Bot Trap (Honeypot) -->
+        <div style="display: none !important;" aria-hidden="true">
+          <input type="text" id="sub_website_hp" name="sub_website_hp" tabindex="-1" autocomplete="off">
+        </div>
+
+        <button type="submit" id="subBtn" class="btn btn-primary" style="width: 100%;">
+          <i class="fa-solid fa-paper-plane"></i> Subscribe to Alerts
+        </button>
+      </form>
+    </div>
+  </div>
+
   <!-- Toast Notification -->
   <div id="toast" class="toast">
     <i class="fa-solid fa-circle-check" style="color: var(--red-primary);"></i>
@@ -868,13 +909,16 @@
     function populateStateDropdowns() {
       const stateFilter = document.getElementById('stateFilter');
       const newState = document.getElementById('newState');
+      const subState = document.getElementById('subState');
 
       stateFilter.innerHTML = '<option value="ALL">All US States (50)</option>';
       newState.innerHTML = '<option value="">Select State</option>';
+      if (subState) subState.innerHTML = '<option value="">Select State</option>';
 
       US_STATES.forEach(st => {
         stateFilter.innerHTML += `<option value="${st.code}">${st.name} (${st.code})</option>`;
         newState.innerHTML += `<option value="${st.code}">${st.name} (${st.code})</option>`;
+        if (subState) subState.innerHTML += `<option value="${st.code}">${st.name} (${st.code})</option>`;
       });
     }
 
@@ -900,6 +944,19 @@
       });
 
       renderEvents();
+    }
+
+    // Sync State -> City for Subscribe Modal
+    function handleSubStateChange() {
+      const selectedState = document.getElementById('subState').value;
+      const subCity = document.getElementById('subCity');
+      subCity.innerHTML = '<option value="ALL">All Cities in State</option>';
+
+      if (selectedState && CITIES_BY_STATE[selectedState]) {
+        CITIES_BY_STATE[selectedState].forEach(city => {
+          subCity.innerHTML += `<option value="${city}">${city}</option>`;
+        });
+      }
     }
 
     // Category Pill Selector
@@ -1014,7 +1071,7 @@
     async function handleFormSubmit(e) {
       e.preventDefault();
 
-      // 1. HONEYPOT FILTER: Silent drop for automated bots filling hidden input
+      // 1. HONEYPOT FILTER
       const honeypot = document.getElementById('website_hp')?.value;
       if (honeypot && honeypot.trim() !== '') {
         showToast('Event submitted live!');
@@ -1023,7 +1080,7 @@
         return;
       }
 
-      // 2. SPEED FILTER: Drop submissions completed in < 2.5 seconds
+      // 2. SPEED FILTER (< 2.5 seconds)
       const timeElapsed = (Date.now() - modalOpenTime) / 1000;
       if (timeElapsed < 2.5) {
         showToast('Event submitted live!');
@@ -1032,7 +1089,7 @@
         return;
       }
 
-      // 3. TURNSTILE FILTER: Verify human token from Cloudflare challenge
+      // 3. TURNSTILE FILTER
       if (typeof turnstile !== 'undefined') {
         const token = turnstile.getResponse();
         if (!token) {
@@ -1067,7 +1124,6 @@
         }
       }
 
-      // Render new event locally in real time
       newEv.id = 'custom-' + Date.now();
       eventsData.unshift(newEv);
 
@@ -1083,6 +1139,43 @@
 
       handleStateChange();
       renderEvents();
+    }
+
+    // Handle Subscription Submission
+    async function handleSubscribeSubmit(e) {
+      e.preventDefault();
+
+      const hp = document.getElementById('sub_website_hp')?.value;
+      if (hp && hp.trim() !== '') {
+        showToast('Alerts enabled!');
+        closeModal('subscribeModal');
+        return;
+      }
+
+      const email = document.getElementById('subEmail').value.trim();
+      const state = document.getElementById('subState').value;
+      const city = document.getElementById('subCity').value;
+
+      const btn = document.getElementById('subBtn');
+      btn.disabled = true;
+      btn.textContent = 'Subscribing...';
+
+      if (supabaseClient) {
+        const { error } = await supabaseClient.from('subscribers').insert([{ email, state, city }]);
+        if (error && error.code !== '23505') {
+          console.error('Subscription error:', error);
+          showToast('Error saving subscription. Please try again.');
+          btn.disabled = false;
+          btn.textContent = 'Subscribe to Alerts';
+          return;
+        }
+      }
+
+      showToast(`Alerts enabled for ${city === 'ALL' ? state : city + ', ' + state}!`);
+      btn.disabled = false;
+      btn.textContent = 'Subscribe to Alerts';
+      closeModal('subscribeModal');
+      document.getElementById('subscribeForm').reset();
     }
 
     // Download .ics Calendar File
