@@ -1,42 +1,39 @@
-name: Daily Automotive Event Refresh
+name: Daily Event Refresh Scraper
 
 on:
   schedule:
-    # Runs daily at 14:00 UTC (07:00 PDT)
-    - cron: '0 14 * * *'
-  workflow_dispatch:
+    - cron: '0 12 * * *' # Runs automatically every day at 12:00 UTC (5 AM PST)
+  workflow_dispatch: # Allows manual trigger button from GitHub UI
 
 jobs:
-  update-events:
+  refresh-events:
     runs-on: ubuntu-latest
     permissions:
       contents: write
 
     steps:
-      - name: Checkout Code
+      - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Run Track Ingestion & Supabase Sync
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run Event Ingestion Script
         env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
         run: python scripts/update_events.py
 
-      - name: Commit & Push Changes
+      - name: Commit and Push Updated index.html
         run: |
-          git config user.name "USA-Auto-Meets-Bot"
-          git config user.email "bot@usautomeets.com"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
           git add index.html
-          if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "Auto-update: Daily Facebook & MotorsportReg event refresh"
-            git pull --rebase origin main
-            git push origin main
-          else
-            echo "No changes detected in index.html, skipping commit."
-          fi
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update: Daily 50-state event refresh [skip ci]" && git push)
