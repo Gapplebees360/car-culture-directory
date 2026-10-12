@@ -32,11 +32,10 @@ REGIONAL_HUBS = [
     {"name": "Southwest", "lat": "33.4484", "lon": "-112.0740"}
 ]
 
-# 50-STATE MULTI-WEEK ROLLING SCHEDULE ENGINE
-def generate_30_day_50_state_schedule():
+# 50-STATE 365-DAY MULTI-WEEK ROLLING SCHEDULE ENGINE
+def generate_365_day_50_state_schedule():
     events = []
     
-    # State Template Definitions (Title, State, City, Venue, Category, Time, Description)
     state_templates = [
         ("Alabama International Dragway Street Legal Night", "AL", "Steele", "1245 Dragstrip Rd", "Track / Drag", "05:00 PM - 10:00 PM", "Friday night street legal drag racing test & tune."),
         ("Hoover Met Cars & Coffee", "AL", "Hoover", "Hoover Metropolitan Complex", "Cars & Coffee", "08:00 AM - 11:00 AM", "Monthly community gathering of muscle cars, hot rods, and exotics."),
@@ -92,25 +91,24 @@ def generate_30_day_50_state_schedule():
         ("District Cars & Coffee Capitol Meet", "DC", "Washington", "RFK Stadium Lot 8", "Cars & Coffee", "08:30 AM - 11:30 AM", "D.C. metro automotive gathering.")
     ]
 
-    # Project events across 4 consecutive weekend offsets (Days +4, +11, +18, +25)
-    offsets = [3, 4, 5, 10, 11, 12, 17, 18, 19, 24, 25, 26]
-    
+    # Stagger offsets across 52 weeks (365 days out)
     idx = 0
     for title, state, city, venue, cat, time_str, desc in state_templates:
-        # Assign 3 to 4 distinct dates per state event over 30 days
-        assigned_offsets = [offsets[(idx + i) % len(offsets)] for i in range(4)]
-        for offset in assigned_offsets:
-            ev_date = days_ahead(offset)
-            events.append({
-                "title": title,
-                "state": state,
-                "city": city,
-                "venue": venue,
-                "category": cat,
-                "date": ev_date,
-                "time": time_str,
-                "description": desc
-            })
+        base_offset = 3 + (idx % 3)  # Fri (+3), Sat (+4), Sun (+5)
+        for week in range(52):
+            offset = base_offset + (week * 7)
+            if offset <= 365:
+                ev_date = days_ahead(offset)
+                events.append({
+                    "title": title,
+                    "state": state,
+                    "city": city,
+                    "venue": venue,
+                    "category": cat,
+                    "date": ev_date,
+                    "time": time_str,
+                    "description": desc
+                })
         idx += 1
 
     return events
@@ -212,8 +210,7 @@ def update_index():
     raw_js = match.group(1)
     existing = parse_json_safely(raw_js)
 
-    # Combine 30-Day 50-State Recurring Generator + Multi-Hub API Scraper
-    rolling_events = generate_30_day_50_state_schedule()
+    rolling_events = generate_365_day_50_state_schedule()
     msr_events = fetch_multi_hub_msr_events()
     all_events = rolling_events + msr_events
 
