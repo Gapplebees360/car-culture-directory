@@ -261,6 +261,21 @@
       box-shadow: 0 0 0 2px var(--border-glow);
     }
 
+    select.filter-control[multiple] {
+      padding: 0.5rem;
+    }
+
+    select.filter-control[multiple] option {
+      padding: 0.4rem 0.6rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 2px;
+    }
+
+    select.filter-control[multiple] option:checked {
+      background: var(--red-primary) linear-gradient(0deg, var(--red-primary) 0%, var(--red-primary) 100%);
+      color: white;
+    }
+
     /* Category Badges / Quick Filter */
     .category-pills {
       display: flex;
@@ -720,7 +735,7 @@
     </div>
   </div>
 
-  <!-- Email Subscription Modal -->
+  <!-- Email Subscription Modal (Multi-City Enabled) -->
   <div id="subscribeModal" class="modal-overlay">
     <div class="modal-content">
       <div class="modal-header">
@@ -728,12 +743,12 @@
         <button class="close-btn" onclick="closeModal('subscribeModal')">&times;</button>
       </div>
       <form id="subscribeForm" onsubmit="handleSubscribeSubmit(event)">
-        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Receive email notifications whenever new car meets, pop-up events, or track days are announced in your area.</p>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Receive email notifications whenever new car meets, pop-up events, or track days are announced in your selected cities.</p>
         <div class="filter-group" style="margin-bottom: 1rem;">
           <label>Email Address *</label>
           <input type="email" id="subEmail" class="filter-control" required placeholder="you@example.com">
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
           <div class="filter-group">
             <label>State *</label>
             <select id="subState" class="filter-control" required onchange="handleSubStateChange()">
@@ -741,12 +756,15 @@
             </select>
           </div>
           <div class="filter-group">
-            <label>City *</label>
-            <select id="subCity" class="filter-control" required>
-              <option value="ALL">All Cities in State</option>
+            <label>Cities (Multiple Selection) *</label>
+            <select id="subCity" class="filter-control" multiple size="4" style="height: 110px;" required>
+              <option value="ALL" selected>All Cities in State</option>
             </select>
           </div>
         </div>
+        <p style="font-size: 0.75rem; color: var(--text-dim); margin-bottom: 1.5rem;">
+          <i class="fa-solid fa-circle-info"></i> Hold <strong>Ctrl</strong> (or <strong>Cmd</strong> on Mac) to select multiple target cities.
+        </p>
 
         <!-- Invisible Bot Trap (Honeypot) -->
         <div style="display: none !important;" aria-hidden="true">
@@ -946,17 +964,22 @@
       renderEvents();
     }
 
-    // Sync State -> City for Subscribe Modal
+    // Sync State -> Multi-City Options for Subscribe Modal
     function handleSubStateChange() {
       const selectedState = document.getElementById('subState').value;
       const subCity = document.getElementById('subCity');
-      subCity.innerHTML = '<option value="ALL">All Cities in State</option>';
+      subCity.innerHTML = '<option value="ALL" selected>All Cities in State</option>';
 
-      if (selectedState && CITIES_BY_STATE[selectedState]) {
-        CITIES_BY_STATE[selectedState].forEach(city => {
-          subCity.innerHTML += `<option value="${city}">${city}</option>`;
-        });
+      let cityList = [];
+      if (selectedState) {
+        const presetCities = CITIES_BY_STATE[selectedState] || [];
+        const stateEventsCities = eventsData.filter(e => e.state === selectedState).map(e => e.city);
+        cityList = Array.from(new Set([...presetCities, ...stateEventsCities])).sort();
       }
+
+      cityList.forEach(city => {
+        subCity.innerHTML += `<option value="${city}">${city}</option>`;
+      });
     }
 
     // Category Pill Selector
@@ -1141,7 +1164,7 @@
       renderEvents();
     }
 
-    // Handle Subscription Submission
+    // Handle Multi-City Subscription Submission
     async function handleSubscribeSubmit(e) {
       e.preventDefault();
 
@@ -1154,16 +1177,22 @@
 
       const email = document.getElementById('subEmail').value.trim();
       const state = document.getElementById('subState').value;
-      const city = document.getElementById('subCity').value;
+      const subCitySelect = document.getElementById('subCity');
+      
+      const selectedOptions = Array.from(subCitySelect.selectedOptions).map(opt => opt.value);
+      const citiesToSave = (selectedOptions.includes('ALL') || selectedOptions.length === 0) ? ['ALL'] : selectedOptions;
 
       const btn = document.getElementById('subBtn');
       btn.disabled = true;
       btn.textContent = 'Subscribing...';
 
+      // Build array of subscriber database records
+      const records = citiesToSave.map(c => ({ email, state, city: c }));
+
       if (supabaseClient) {
-        const { error } = await supabaseClient.from('subscribers').insert([{ email, state, city }]);
+        const { error } = await supabaseClient.from('subscribers').insert(records);
         if (error && error.code !== '23505') {
-          console.error('Subscription error:', error);
+          console.error('Subscription insertion error:', error);
           showToast('Error saving subscription. Please try again.');
           btn.disabled = false;
           btn.textContent = 'Subscribe to Alerts';
@@ -1171,7 +1200,9 @@
         }
       }
 
-      showToast(`Alerts enabled for ${city === 'ALL' ? state : city + ', ' + state}!`);
+      const cityLabel = citiesToSave.includes('ALL') ? `all cities in ${state}` : `${citiesToSave.length} cities in ${state}`;
+      showToast(`Alerts enabled for ${cityLabel}!`);
+      
       btn.disabled = false;
       btn.textContent = 'Subscribe to Alerts';
       closeModal('subscribeModal');
