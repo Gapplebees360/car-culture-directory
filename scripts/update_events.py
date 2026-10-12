@@ -24,13 +24,11 @@ def days_ahead(n):
 NOISE_WORDS = {'and', 'the', 'at', 'in', 'of', 'for', '2026', '2027', 'annual', 'weekly', 'monthly', 'show', 'meet', 'car', 'cars', 'meetup'}
 
 def tokenize_title(title):
-    """Normalizes title into a clean set of word tokens."""
     clean = re.sub(r'[^a-z0-9\s]', '', str(title or '').lower())
     tokens = set(clean.split())
     return tokens - NOISE_WORDS
 
 def is_fuzzy_duplicate(ev1, ev2):
-    """Determines if two event records represent the same real-world meet."""
     d1, d2 = str(ev1.get('date') or ''), str(ev2.get('date') or '')
     if not d1 or not d2 or d1 != d2:
         return False
@@ -60,9 +58,7 @@ def is_fuzzy_duplicate(ev1, ev2):
     return False
 
 def deduplicate_events(event_list):
-    """Filters out duplicate meets across all sources."""
     unique_list = []
-    
     for incoming in event_list:
         duplicate_found = False
         for existing in unique_list:
@@ -71,115 +67,72 @@ def deduplicate_events(event_list):
                 if len(incoming.get('description', '')) > len(existing.get('description', '')):
                     existing['description'] = incoming['description']
                 break
-        
         if not duplicate_found:
             unique_list.append(incoming)
-
     return unique_list
 
 # ---------------------------------------------------------
-# 2. HIGH & MEDIUM VALUE APIFY SCRAPER ENGINE
+# 2. APIFY FACEBOOK EVENTS SCRAPER
 # ---------------------------------------------------------
-def fetch_apify_events():
+def fetch_apify_facebook_events():
     apify_token = os.environ.get("APIFY_TOKEN")
     if not apify_token:
-        print("Notice: APIFY_TOKEN secret not set. Skipping Apify ingestion.")
+        print("Notice: APIFY_TOKEN environment variable not set. Skipping Facebook scraper.")
         return []
 
     events = []
+    fb_endpoint = f"https://api.apify.com/v2/acts/apify~facebook-events-scraper/run-sync-get-dataset-items?token={apify_token}&timeout=110"
     
-    # Target 1: Facebook Events Scraper (High Value)
-    fb_url = f"https://api.apify.com/v2/acts/apify~facebook-events-scraper/run-sync-get-dataset-items?token={apify_token}"
-    payload_fb = json.dumps({
-        "searchTerms": ["cars and coffee", "drag racing", "car show", "pop up car meet"],
-        "maxEvents": 80
+    fb_payload = json.dumps({
+        "searchQueries": [
+            "cars and coffee", "cars & coffee", "car meet", "pop up car meet",
+            "car show", "cruise night", "drag racing", "test and tune",
+            "test & tune", "street legal drags", "autocross", "track day"
+        ],
+        "cities": [
+            "Birmingham, AL", "Anchorage, AK", "Phoenix, AZ", "Little Rock, AR",
+            "Los Angeles, CA", "San Diego, CA", "San Francisco, CA", "Denver, CO",
+            "Hartford, CT", "Wilmington, DE", "Washington, DC", "Miami, FL",
+            "Orlando, FL", "Tampa, FL", "Atlanta, GA", "Honolulu, HI",
+            "Boise, ID", "Chicago, IL", "Indianapolis, IN", "Des Moines, IA",
+            "Wichita, KS", "Louisville, KY", "New Orleans, LA", "Portland, ME",
+            "Baltimore, MD", "Boston, MA", "Detroit, MI", "Minneapolis, MN",
+            "Jackson, MS", "St. Louis, MO", "Billings, MT", "Omaha, NE",
+            "Las Vegas, NV", "Manchester, NH", "Newark, NJ", "Albuquerque, NM",
+            "New York, NY", "Charlotte, NC", "Raleigh, NC", "Fargo, ND",
+            "Columbus, OH", "Cleveland, OH", "Oklahoma City, OK", "Portland, OR",
+            "Philadelphia, PA", "Pittsburgh, PA", "Providence, RI", "Charleston, SC",
+            "Sioux Falls, SD", "Nashville, TN", "Memphis, TN", "Austin, TX",
+            "Dallas, TX", "Houston, TX", "San Antonio, TX", "Salt Lake City, UT",
+            "Burlington, VT", "Richmond, VA", "Seattle, WA", "Spokane, WA",
+            "Tacoma, WA", "Charleston, WV", "Milwaukee, WI", "Cheyenne, WY"
+        ],
+        "country": "United States",
+        "maxItems": 50,
+        "eventFilter": "upcoming"
     }).encode('utf-8')
 
     try:
-        req = urllib.request.Request(fb_url, data=payload_fb, headers={'Content-Type': 'application/json'}, method='POST')
-        with urllib.request.urlopen(req, timeout=30) as resp:
+        print("Invoking Apify Facebook Events Scraper...")
+        req = urllib.request.Request(fb_endpoint, data=fb_payload, headers={'Content-Type': 'application/json'}, method='POST')
+        with urllib.request.urlopen(req, timeout=120) as resp:
             dataset = json.loads(resp.read().decode('utf-8'))
             for item in dataset:
-                start_date = str(item.get('utcStartDate', ''))[:10]
+                start_date = str(item.get('utcStartDate') or item.get('startDate') or '')[:10]
                 if start_date and start_date >= today_str:
                     events.append({
-                        "title": str(item.get('name') or 'Facebook Car Meet')[:80],
+                        "title": str(item.get('name') or item.get('title') or 'Facebook Car Meet')[:80],
                         "state": str(item.get('state') or 'WA')[:2].upper(),
                         "city": str(item.get('city') or 'Regional'),
-                        "venue": str(item.get('locationName') or 'Local Venue')[:80],
-                        "category": "Pop-Up Meet",
+                        "venue": str(item.get('locationName') or item.get('venueName') or 'Local Venue')[:80],
+                        "category": "Pop-Up Meet" if "meet" in str(item.get('name','')).lower() else "Car Show",
                         "date": start_date,
-                        "time": "See Event Description",
+                        "time": "See Facebook Event",
                         "description": str(item.get('description') or 'Facebook community car meet.')[:200]
                     })
-            print(f"Scraped {len(dataset)} events from Facebook via Apify.")
+            print(f"Success: Extracted {len(events)} Facebook events from Apify.")
     except Exception as e:
-        print(f"Notice: Apify Facebook scraper note: {e}")
-
-    # Target 2: Eventbrite Scraper (High Value)
-    eb_url = f"https://api.apify.com/v2/acts/apify~eventbrite-scraper/run-sync-get-dataset-items?token={apify_token}"
-    payload_eb = json.dumps({
-        "searchKeywords": ["car show", "cars and coffee", "track day", "drag racing"],
-        "maxItems": 50,
-        "country": "United States"
-    }).encode('utf-8')
-
-    try:
-        req = urllib.request.Request(eb_url, data=payload_eb, headers={'Content-Type': 'application/json'}, method='POST')
-        with urllib.request.urlopen(req, timeout=25) as resp:
-            dataset = json.loads(resp.read().decode('utf-8'))
-            for item in dataset:
-                start_date = str(item.get('startDate') or item.get('start_date') or '')[:10]
-                if start_date and start_date >= today_str:
-                    location = item.get('location') or {}
-                    state = str(location.get('stateCode') or location.get('state') or 'WA')[:2].upper()
-                    city = str(location.get('city') or 'Regional')
-                    venue_name = str(item.get('venueName') or location.get('name') or 'Local Venue')[:80]
-                    
-                    events.append({
-                        "title": str(item.get('name') or item.get('title') or 'Eventbrite Car Show')[:80],
-                        "state": state,
-                        "city": city,
-                        "venue": venue_name,
-                        "category": "Car Show" if "show" in str(item.get('name','')).lower() else "Track / Drag",
-                        "date": start_date,
-                        "time": "See Eventbrite Page",
-                        "description": str(item.get('description') or 'Automotive event via Eventbrite.')[:200]
-                    })
-            print(f"Scraped events from Eventbrite via Apify.")
-    except Exception as e:
-        print(f"Notice: Apify Eventbrite scraper note: {e}")
-
-    # Target 3: Instagram Hashtag Scraper (Medium Value)
-    ig_url = f"https://api.apify.com/v2/acts/apify~instagram-hashtag-scraper/run-sync-get-dataset-items?token={apify_token}"
-    payload_ig = json.dumps({
-        "hashtags": ["carsandcoffee", "carmeet", "dragracing"],
-        "resultsLimit": 30
-    }).encode('utf-8')
-
-    try:
-        req = urllib.request.Request(ig_url, data=payload_ig, headers={'Content-Type': 'application/json'}, method='POST')
-        with urllib.request.urlopen(req, timeout=25) as resp:
-            dataset = json.loads(resp.read().decode('utf-8'))
-            for item in dataset:
-                caption = str(item.get('caption') or '')
-                date_match = re.search(r'\b(2026-\d{2}-\d{2})\b', caption)
-                if date_match:
-                    ev_date = date_match.group(1)
-                    if ev_date >= today_str:
-                        events.append({
-                            "title": caption[:60] or "Instagram Car Meet",
-                            "state": "WA",
-                            "city": "Regional",
-                            "venue": "See Instagram Post",
-                            "category": "Pop-Up Meet",
-                            "date": ev_date,
-                            "time": "TBD",
-                            "description": caption[:200]
-                        })
-            print(f"Scraped posts from Instagram via Apify.")
-    except Exception as e:
-        print(f"Notice: Apify Instagram scraper note: {e}")
+        print(f"Notice: Apify Facebook scraper execution note: {e}")
 
     return events
 
@@ -375,9 +328,9 @@ def update_index():
 
     rolling_events = generate_365_day_50_state_schedule()
     msr_events = fetch_multi_hub_msr_events()
-    apify_events = fetch_apify_events()
+    fb_events = fetch_apify_facebook_events()
     
-    raw_combined = rolling_events + msr_events + apify_events
+    raw_combined = rolling_events + msr_events + fb_events
     unique_events = deduplicate_events(raw_combined)
 
     push_to_supabase(unique_events)
@@ -396,7 +349,7 @@ def update_index():
     with open(INDEX_PATH, 'w', encoding='utf-8') as f:
         f.write(new_html)
 
-    print(f"Success: Directory updated with {len(final_directory)} unique events via Facebook, Eventbrite, Instagram & MotorsportReg.")
+    print(f"Success: Directory updated with {len(final_directory)} unique events via Facebook, MotorsportReg & Rolling Engine.")
 
 if __name__ == '__main__':
     try:
