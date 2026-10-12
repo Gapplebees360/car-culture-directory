@@ -12,6 +12,9 @@
   <!-- Supabase JS Client Library -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+  <!-- Cloudflare Turnstile API -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
   <style>
     :root {
       --bg-main: #0B0E14;
@@ -697,10 +700,20 @@
           <label>Venue / Address *</label>
           <input type="text" id="newVenue" class="filter-control" required placeholder="e.g. Capital Mall South Parking Lot">
         </div>
-        <div class="filter-group" style="margin-bottom: 1.5rem;">
+        <div class="filter-group" style="margin-bottom: 1rem;">
           <label>Description</label>
           <textarea id="newDesc" class="filter-control" rows="3" placeholder="Rules, parking details, host information..."></textarea>
         </div>
+
+        <!-- Invisible Bot Trap (Honeypot) -->
+        <div style="display: none !important;" aria-hidden="true">
+          <label for="website_hp">Leave blank</label>
+          <input type="text" id="website_hp" name="website_hp" tabindex="-1" autocomplete="off">
+        </div>
+
+        <!-- Cloudflare Turnstile Challenge Widget -->
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAAFUW25T4izWgAeJc" data-theme="dark" style="margin-bottom: 1rem;"></div>
+
         <button type="submit" id="submitBtn" class="btn btn-primary" style="width: 100%;">Publish Event Live</button>
       </form>
     </div>
@@ -716,7 +729,7 @@
     // System reference date constraint
     const MIN_DATE = '2026-10-11';
 
-    // SUPABASE DATABASE CREDENTIALS (EXACT PROJECT VALUES)
+    // SUPABASE DATABASE CREDENTIALS
     const SUPABASE_URL = 'https://lswnpxeiagureogrlopy.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxzd25weGVpYWd1cmVvZ3Jsb3B5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE3NjkwNDcsImV4cCI6MjEwNzM0NTA0N30.yg0B_yyMAgdM692J9s-HevvfaykqZoVV0a0AiS6mZ_s';
     
@@ -807,6 +820,9 @@
       }
     ];
 
+    // Timestamp tracker for bot speed check
+    let modalOpenTime = 0;
+
     // Fetch Live Real-Time Events from Supabase
     async function loadSupabaseEvents() {
       if (!supabaseClient) return;
@@ -820,7 +836,6 @@
           .order('date', { ascending: true });
 
         if (!error && data && data.length > 0) {
-          // Merge Supabase events with static fallback data
           const combined = [...data, ...eventsData];
           const seen = new Set();
 
@@ -984,17 +999,47 @@
       handleStateChange();
     }
 
-    // Modal Control
+    // Modal Control & Timestamp Capture
     function openModal(id) {
       document.getElementById(id).classList.add('active');
+      if (id === 'submitModal') {
+        modalOpenTime = Date.now();
+      }
     }
     function closeModal(id) {
       document.getElementById(id).classList.remove('active');
     }
 
-    // Submit Event to Supabase & Local Interface
+    // Submit Event with Anti-Bot Layer (Honeypot + Speed Check + Turnstile)
     async function handleFormSubmit(e) {
       e.preventDefault();
+
+      // 1. HONEYPOT FILTER: Silent drop for automated bots filling hidden input
+      const honeypot = document.getElementById('website_hp')?.value;
+      if (honeypot && honeypot.trim() !== '') {
+        showToast('Event submitted live!');
+        closeModal('submitModal');
+        document.getElementById('eventForm').reset();
+        return;
+      }
+
+      // 2. SPEED FILTER: Drop submissions completed in < 2.5 seconds
+      const timeElapsed = (Date.now() - modalOpenTime) / 1000;
+      if (timeElapsed < 2.5) {
+        showToast('Event submitted live!');
+        closeModal('submitModal');
+        document.getElementById('eventForm').reset();
+        return;
+      }
+
+      // 3. TURNSTILE FILTER: Verify human token from Cloudflare challenge
+      if (typeof turnstile !== 'undefined') {
+        const token = turnstile.getResponse();
+        if (!token) {
+          showToast('Please complete the security check before publishing.');
+          return;
+        }
+      }
 
       const newEv = {
         title: document.getElementById('newTitle').value,
@@ -1014,22 +1059,28 @@
       if (supabaseClient) {
         const { error } = await supabaseClient.from('events').insert([newEv]);
         if (error) {
-          console.error('Supabase submission error:', error);
-          showToast('Database error: Published locally instead.');
-        } else {
-          showToast('Published live to Supabase instantly!');
+          console.error('Supabase insertion error:', error);
+          showToast('Database error. Please try again.');
+          btn.disabled = false;
+          btn.textContent = 'Publish Event Live';
+          return;
         }
-      } else {
-        showToast('Published event to directory!');
       }
 
+      // Render new event locally in real time
       newEv.id = 'custom-' + Date.now();
       eventsData.unshift(newEv);
 
+      showToast('Published live to usautomeets.com!');
       btn.disabled = false;
       btn.textContent = 'Publish Event Live';
       closeModal('submitModal');
       document.getElementById('eventForm').reset();
+
+      if (typeof turnstile !== 'undefined') {
+        turnstile.reset();
+      }
+
       handleStateChange();
       renderEvents();
     }
