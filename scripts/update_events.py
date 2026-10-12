@@ -72,7 +72,7 @@ def deduplicate_events(event_list):
     return unique_list
 
 # ---------------------------------------------------------
-# 2. APIFY FACEBOOK EVENTS SCRAPER
+# 2. APIFY FACEBOOK EVENTS SCRAPER (ASYNC POLLING)
 # ---------------------------------------------------------
 def fetch_apify_facebook_events():
     apify_token = os.environ.get("APIFY_TOKEN")
@@ -81,7 +81,8 @@ def fetch_apify_facebook_events():
         return []
 
     events = []
-    fb_endpoint = f"https://api.apify.com/v2/acts/apify~facebook-events-scraper/run-sync-get-dataset-items?token={apify_token}&timeout=110"
+    # 1. Start Async Actor Run
+    run_endpoint = f"https://api.apify.com/v2/acts/apify~facebook-events-scraper/runs?token={apify_token}"
     
     fb_payload = json.dumps({
         "searchQueries": [
@@ -90,22 +91,10 @@ def fetch_apify_facebook_events():
             "test & tune", "street legal drags", "autocross", "track day"
         ],
         "cities": [
-            "Birmingham, AL", "Anchorage, AK", "Phoenix, AZ", "Little Rock, AR",
-            "Los Angeles, CA", "San Diego, CA", "San Francisco, CA", "Denver, CO",
-            "Hartford, CT", "Wilmington, DE", "Washington, DC", "Miami, FL",
-            "Orlando, FL", "Tampa, FL", "Atlanta, GA", "Honolulu, HI",
-            "Boise, ID", "Chicago, IL", "Indianapolis, IN", "Des Moines, IA",
-            "Wichita, KS", "Louisville, KY", "New Orleans, LA", "Portland, ME",
-            "Baltimore, MD", "Boston, MA", "Detroit, MI", "Minneapolis, MN",
-            "Jackson, MS", "St. Louis, MO", "Billings, MT", "Omaha, NE",
-            "Las Vegas, NV", "Manchester, NH", "Newark, NJ", "Albuquerque, NM",
-            "New York, NY", "Charlotte, NC", "Raleigh, NC", "Fargo, ND",
-            "Columbus, OH", "Cleveland, OH", "Oklahoma City, OK", "Portland, OR",
-            "Philadelphia, PA", "Pittsburgh, PA", "Providence, RI", "Charleston, SC",
-            "Sioux Falls, SD", "Nashville, TN", "Memphis, TN", "Austin, TX",
-            "Dallas, TX", "Houston, TX", "San Antonio, TX", "Salt Lake City, UT",
-            "Burlington, VT", "Richmond, VA", "Seattle, WA", "Spokane, WA",
-            "Tacoma, WA", "Charleston, WV", "Milwaukee, WI", "Cheyenne, WY"
+            "Seattle, WA", "Los Angeles, CA", "San Diego, CA", "Phoenix, AZ", 
+            "Denver, CO", "Dallas, TX", "Houston, TX", "Austin, TX", 
+            "Atlanta, GA", "Miami, FL", "Orlando, FL", "Chicago, IL", 
+            "Detroit, MI", "Las Vegas, NV", "Portland, OR"
         ],
         "country": "United States",
         "maxItems": 50,
@@ -113,10 +102,37 @@ def fetch_apify_facebook_events():
     }).encode('utf-8')
 
     try:
-        print("Invoking Apify Facebook Events Scraper...")
-        req = urllib.request.Request(fb_endpoint, data=fb_payload, headers={'Content-Type': 'application/json'}, method='POST')
-        with urllib.request.urlopen(req, timeout=120) as resp:
-            dataset = json.loads(resp.read().decode('utf-8'))
+        print("Invoking Apify Facebook Events Scraper (Async)...")
+        req = urllib.request.Request(run_endpoint, data=fb_payload, headers={'Content-Type': 'application/json'}, method='POST')
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            data = json.loads(resp.read().decode('utf-8')).get('data', {})
+            run_id = data.get('id')
+            dataset_id = data.get('defaultDatasetId')
+
+        if not run_id or not dataset_id:
+            print("Notice: Could not start Apify run.")
+            return []
+
+        # 2. Poll status until complete (up to 5 minutes)
+        import time
+        poll_endpoint = f"https://api.apify.com/v2/actor-runs/{run_id}?token={apify_token}"
+        for _ in range(30):
+            time.sleep(10)
+            poll_req = urllib.request.Request(poll_endpoint)
+            with urllib.request.urlopen(poll_req, timeout=15) as poll_resp:
+                poll_data = json.loads(poll_resp.read().decode('utf-8')).get('data', {})
+                status = poll_data.get('status')
+                if status == 'SUCCEEDED':
+                    break
+                elif status in ['FAILED', 'ABORTED', 'TIMED-OUT']:
+                    print(f"Notice: Apify run ended with status: {status}")
+                    return []
+
+        # 3. Fetch Dataset Items
+        items_endpoint = f"https://api.apify.com/v2/datasets/{dataset_id}/items?token={apify_token}"
+        ds_req = urllib.request.Request(items_endpoint)
+        with urllib.request.urlopen(ds_req, timeout=30) as ds_resp:
+            dataset = json.loads(ds_resp.read().decode('utf-8'))
             for item in dataset:
                 start_date = str(item.get('utcStartDate') or item.get('startDate') or '')[:10]
                 if start_date and start_date >= today_str:
