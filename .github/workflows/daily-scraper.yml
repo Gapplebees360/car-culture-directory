@@ -21,11 +21,6 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install json5 beautifulsoup4 requests icalendar
-
       - name: Run Track Ingestion & Supabase Sync
         run: python scripts/update_events.py
 
@@ -34,4 +29,4 @@ jobs:
           git config user.name "USA-Auto-Meets-Bot"
           git config user.email "bot@usautomeets.com"
           git add index.html
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update: Daily nationwide track schedule refresh" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update: Daily 50-state event refresh" && git push)
