@@ -29,4 +29,9 @@ jobs:
           git config user.name "USA-Auto-Meets-Bot"
           git config user.email "bot@usautomeets.com"
           git add index.html
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update: Daily 50-state event refresh" && git push)
+          if [ -n "$(git status --porcelain)" ]; then
+            git commit -m "Auto-update: Daily 50-state event refresh"
+            git push
+          else
+            echo "No changes detected in index.html, skipping commit."
+          fi
