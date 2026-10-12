@@ -1,4 +1,4 @@
-import os
+﻿import os
 import re
 import json
 import sys
@@ -374,3 +374,4 @@ if __name__ == '__main__':
     except Exception as err:
         print(f"Notice: Workflow step recovered from warning: {err}")
     sys.exit(0)
+
