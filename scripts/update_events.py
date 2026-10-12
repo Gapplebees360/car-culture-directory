@@ -18,7 +18,174 @@ HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) USAAutoMeets
 def days_ahead(n):
     return (today + datetime.timedelta(days=n)).strftime('%Y-%m-%d')
 
-# 10 MAJOR REGIONAL HUBS FOR MOTORSPORTREG MULTI-QUERY
+# ---------------------------------------------------------
+# 1. INTELLIGENT FUZZY DEDUPLICATION ENGINE
+# ---------------------------------------------------------
+NOISE_WORDS = {'and', 'the', 'at', 'in', 'of', 'for', '2026', '2027', 'annual', 'weekly', 'monthly', 'show', 'meet', 'car', 'cars', 'meetup'}
+
+def tokenize_title(title):
+    """Normalizes title into a clean set of word tokens."""
+    clean = re.sub(r'[^a-z0-9\s]', '', str(title or '').lower())
+    tokens = set(clean.split())
+    return tokens - NOISE_WORDS
+
+def is_fuzzy_duplicate(ev1, ev2):
+    """Determines if two event records represent the same real-world meet."""
+    d1, d2 = str(ev1.get('date') or ''), str(ev2.get('date') or '')
+    if not d1 or not d2 or d1 != d2:
+        return False
+
+    s1, s2 = str(ev1.get('state') or '').upper(), str(ev2.get('state') or '').upper()
+    if s1 and s2 and s1 != s2:
+        return False
+
+    t1 = tokenize_title(ev1.get('title'))
+    t2 = tokenize_title(ev2.get('title'))
+    
+    if not t1 or not t2:
+        return False
+
+    intersection = len(t1.intersection(t2))
+    union = len(t1.union(t2))
+    jaccard_score = intersection / union if union > 0 else 0
+
+    if jaccard_score >= 0.45:
+        return True
+
+    v1 = re.sub(r'[^a-z0-9]', '', str(ev1.get('venue') or '').lower())
+    v2 = re.sub(r'[^a-z0-9]', '', str(ev2.get('venue') or '').lower())
+    if v1 and v2 and len(v1) > 6 and (v1 in v2 or v2 in v1):
+        return True
+
+    return False
+
+def deduplicate_events(event_list):
+    """Filters out duplicate meets across all sources."""
+    unique_list = []
+    
+    for incoming in event_list:
+        duplicate_found = False
+        for existing in unique_list:
+            if is_fuzzy_duplicate(incoming, existing):
+                duplicate_found = True
+                if len(incoming.get('description', '')) > len(existing.get('description', '')):
+                    existing['description'] = incoming['description']
+                break
+        
+        if not duplicate_found:
+            unique_list.append(incoming)
+
+    return unique_list
+
+# ---------------------------------------------------------
+# 2. HIGH & MEDIUM VALUE APIFY SCRAPER ENGINE
+# ---------------------------------------------------------
+def fetch_apify_events():
+    apify_token = os.environ.get("APIFY_TOKEN")
+    if not apify_token:
+        print("Notice: APIFY_TOKEN secret not set. Skipping Apify ingestion.")
+        return []
+
+    events = []
+    
+    # Target 1: Facebook Events Scraper (High Value)
+    fb_url = f"https://api.apify.com/v2/acts/apify~facebook-events-scraper/run-sync-get-dataset-items?token={apify_token}"
+    payload_fb = json.dumps({
+        "searchTerms": ["cars and coffee", "drag racing", "car show", "pop up car meet"],
+        "maxEvents": 80
+    }).encode('utf-8')
+
+    try:
+        req = urllib.request.Request(fb_url, data=payload_fb, headers={'Content-Type': 'application/json'}, method='POST')
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            dataset = json.loads(resp.read().decode('utf-8'))
+            for item in dataset:
+                start_date = str(item.get('utcStartDate', ''))[:10]
+                if start_date and start_date >= today_str:
+                    events.append({
+                        "title": str(item.get('name') or 'Facebook Car Meet')[:80],
+                        "state": str(item.get('state') or 'WA')[:2].upper(),
+                        "city": str(item.get('city') or 'Regional'),
+                        "venue": str(item.get('locationName') or 'Local Venue')[:80],
+                        "category": "Pop-Up Meet",
+                        "date": start_date,
+                        "time": "See Event Description",
+                        "description": str(item.get('description') or 'Facebook community car meet.')[:200]
+                    })
+            print(f"Scraped {len(dataset)} events from Facebook via Apify.")
+    except Exception as e:
+        print(f"Notice: Apify Facebook scraper note: {e}")
+
+    # Target 2: Eventbrite Scraper (High Value)
+    eb_url = f"https://api.apify.com/v2/acts/apify~eventbrite-scraper/run-sync-get-dataset-items?token={apify_token}"
+    payload_eb = json.dumps({
+        "searchKeywords": ["car show", "cars and coffee", "track day", "drag racing"],
+        "maxItems": 50,
+        "country": "United States"
+    }).encode('utf-8')
+
+    try:
+        req = urllib.request.Request(eb_url, data=payload_eb, headers={'Content-Type': 'application/json'}, method='POST')
+        with urllib.request.urlopen(req, timeout=25) as resp:
+            dataset = json.loads(resp.read().decode('utf-8'))
+            for item in dataset:
+                start_date = str(item.get('startDate') or item.get('start_date') or '')[:10]
+                if start_date and start_date >= today_str:
+                    location = item.get('location') or {}
+                    state = str(location.get('stateCode') or location.get('state') or 'WA')[:2].upper()
+                    city = str(location.get('city') or 'Regional')
+                    venue_name = str(item.get('venueName') or location.get('name') or 'Local Venue')[:80]
+                    
+                    events.append({
+                        "title": str(item.get('name') or item.get('title') or 'Eventbrite Car Show')[:80],
+                        "state": state,
+                        "city": city,
+                        "venue": venue_name,
+                        "category": "Car Show" if "show" in str(item.get('name','')).lower() else "Track / Drag",
+                        "date": start_date,
+                        "time": "See Eventbrite Page",
+                        "description": str(item.get('description') or 'Automotive event via Eventbrite.')[:200]
+                    })
+            print(f"Scraped events from Eventbrite via Apify.")
+    except Exception as e:
+        print(f"Notice: Apify Eventbrite scraper note: {e}")
+
+    # Target 3: Instagram Hashtag Scraper (Medium Value)
+    ig_url = f"https://api.apify.com/v2/acts/apify~instagram-hashtag-scraper/run-sync-get-dataset-items?token={apify_token}"
+    payload_ig = json.dumps({
+        "hashtags": ["carsandcoffee", "carmeet", "dragracing"],
+        "resultsLimit": 30
+    }).encode('utf-8')
+
+    try:
+        req = urllib.request.Request(ig_url, data=payload_ig, headers={'Content-Type': 'application/json'}, method='POST')
+        with urllib.request.urlopen(req, timeout=25) as resp:
+            dataset = json.loads(resp.read().decode('utf-8'))
+            for item in dataset:
+                caption = str(item.get('caption') or '')
+                date_match = re.search(r'\b(2026-\d{2}-\d{2})\b', caption)
+                if date_match:
+                    ev_date = date_match.group(1)
+                    if ev_date >= today_str:
+                        events.append({
+                            "title": caption[:60] or "Instagram Car Meet",
+                            "state": "WA",
+                            "city": "Regional",
+                            "venue": "See Instagram Post",
+                            "category": "Pop-Up Meet",
+                            "date": ev_date,
+                            "time": "TBD",
+                            "description": caption[:200]
+                        })
+            print(f"Scraped posts from Instagram via Apify.")
+    except Exception as e:
+        print(f"Notice: Apify Instagram scraper note: {e}")
+
+    return events
+
+# ---------------------------------------------------------
+# 3. 50-STATE 365-DAY ROLLING ENGINE & MOTORSPORTREG API
+# ---------------------------------------------------------
 REGIONAL_HUBS = [
     {"name": "Pacific NW", "lat": "47.6062", "lon": "-122.3321"},
     {"name": "SoCal", "lat": "34.0522", "lon": "-118.2437"},
@@ -32,10 +199,8 @@ REGIONAL_HUBS = [
     {"name": "Southwest", "lat": "33.4484", "lon": "-112.0740"}
 ]
 
-# 50-STATE 365-DAY MULTI-WEEK ROLLING SCHEDULE ENGINE
 def generate_365_day_50_state_schedule():
     events = []
-    
     state_templates = [
         ("Alabama International Dragway Street Legal Night", "AL", "Steele", "1245 Dragstrip Rd", "Track / Drag", "05:00 PM - 10:00 PM", "Friday night street legal drag racing test & tune."),
         ("Hoover Met Cars & Coffee", "AL", "Hoover", "Hoover Metropolitan Complex", "Cars & Coffee", "08:00 AM - 11:00 AM", "Monthly community gathering of muscle cars, hot rods, and exotics."),
@@ -91,10 +256,9 @@ def generate_365_day_50_state_schedule():
         ("District Cars & Coffee Capitol Meet", "DC", "Washington", "RFK Stadium Lot 8", "Cars & Coffee", "08:30 AM - 11:30 AM", "D.C. metro automotive gathering.")
     ]
 
-    # Stagger offsets across 52 weeks (365 days out)
     idx = 0
     for title, state, city, venue, cat, time_str, desc in state_templates:
-        base_offset = 3 + (idx % 3)  # Fri (+3), Sat (+4), Sun (+5)
+        base_offset = 3 + (idx % 3)
         for week in range(52):
             offset = base_offset + (week * 7)
             if offset <= 365:
@@ -150,7 +314,6 @@ def fetch_multi_hub_msr_events():
         except Exception as e:
             print(f"Notice: Hub fetch note ({hub['name']}): {e}")
 
-    print(f"Fetched {len(events)} live sanctioned events from MotorsportReg regional hubs.")
     return events
 
 def purge_old_supabase_events():
@@ -212,38 +375,28 @@ def update_index():
 
     rolling_events = generate_365_day_50_state_schedule()
     msr_events = fetch_multi_hub_msr_events()
-    all_events = rolling_events + msr_events
+    apify_events = fetch_apify_events()
+    
+    raw_combined = rolling_events + msr_events + apify_events
+    unique_events = deduplicate_events(raw_combined)
 
-    push_to_supabase(all_events)
+    push_to_supabase(unique_events)
 
     valid_existing = [
         e for e in existing 
         if isinstance(e, dict) and str(e.get('date') or '') >= today_str
     ]
-    merged = valid_existing + all_events
+    
+    final_directory = deduplicate_events(valid_existing + unique_events)
+    final_directory.sort(key=lambda x: str(x.get('date') or ''))
 
-    seen = set()
-    unique_events = []
-    for ev in merged:
-        title = str(ev.get('title') or '')
-        ev_date = str(ev.get('date') or '')
-        state = str(ev.get('state') or '')
-        
-        if ev_date and ev_date >= today_str:
-            key = f"{title}_{ev_date}_{state}".lower()
-            if key not in seen:
-                seen.add(key)
-                unique_events.append(ev)
-
-    unique_events.sort(key=lambda x: str(x.get('date') or ''))
-
-    updated_json = json.dumps(unique_events, indent=6)
+    updated_json = json.dumps(final_directory, indent=6)
     new_html = html[:match.start(1)] + updated_json + html[match.end(1):]
 
     with open(INDEX_PATH, 'w', encoding='utf-8') as f:
         f.write(new_html)
 
-    print(f"Success: Updated index.html with {len(unique_events)} active events across all 50 states.")
+    print(f"Success: Directory updated with {len(final_directory)} unique events via Facebook, Eventbrite, Instagram & MotorsportReg.")
 
 if __name__ == '__main__':
     try:
