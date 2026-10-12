@@ -1,6 +1,7 @@
 import os
 import re
 import json
+import sys
 import datetime
 import urllib.request
 
@@ -76,21 +77,26 @@ def fetch_msr_events_direct():
         with urllib.request.urlopen(req, timeout=10) as resp:
             data = json.loads(resp.read().decode('utf-8'))
             for item in data.get('recordset', {}).get('events', []):
-                start_date = item.get('start', '')[:10]
-                if start_date >= today_str:
-                    venue = item.get('venue', {})
+                title = str(item.get('name') or 'Motorsports Event')[:80]
+                start_date = str(item.get('start') or '')[:10]
+                venue = item.get('venue') or {}
+                state = str(venue.get('state') or 'WA')[:2].upper()
+                city = str(venue.get('city') or 'Regional')
+                venue_name = str(venue.get('name') or 'Motorsports Park')[:80]
+                
+                if start_date and start_date >= today_str:
                     events.append({
-                        "title": item.get('name', 'Motorsports Event')[:80],
-                        "state": (venue.get('state', 'WA') or 'WA')[:2].upper(),
-                        "city": venue.get('city', 'Regional') or 'Regional',
-                        "venue": (venue.get('name', 'Motorsports Park') or 'Motorsports Park')[:80],
-                        "category": "Track / Drag" if any(w in item.get('name','').lower() for w in ["drag", "track", "autocross", "lapping"]) else "Car Show",
+                        "title": title,
+                        "state": state,
+                        "city": city,
+                        "venue": venue_name,
+                        "category": "Track / Drag" if any(w in title.lower() for w in ["drag", "track", "autocross", "lapping"]) else "Car Show",
                         "date": start_date,
                         "time": "08:00 AM - 05:00 PM",
-                        "description": item.get('type', 'Motorsports gathering.')
+                        "description": str(item.get('type') or 'Motorsports gathering.')
                     })
     except Exception as e:
-        print(f"MSR API fetch note (skipped): {e}")
+        print(f"Notice: MSR API fetch notice (skipped): {e}")
     return events
 
 def purge_old_supabase_events():
@@ -102,7 +108,7 @@ def purge_old_supabase_events():
         with urllib.request.urlopen(req, timeout=10) as resp:
             print(f"Supabase database purge completed (Status {resp.status}).")
     except Exception as e:
-        print(f"Supabase purge note (skipped): {e}")
+        print(f"Notice: Supabase purge notice (skipped): {e}")
 
 def push_to_supabase(event_list):
     if not event_list:
@@ -123,7 +129,7 @@ def push_to_supabase(event_list):
             with urllib.request.urlopen(req, timeout=10) as resp:
                 pass
         except Exception as e:
-            print(f"Supabase push batch note: {e}")
+            print(f"Notice: Supabase push batch notice: {e}")
     print(f"Pushed {len(event_list)} records to Supabase.")
 
 def parse_json_safely(raw_js):
@@ -131,13 +137,13 @@ def parse_json_safely(raw_js):
     try:
         return json.loads(cleaned)
     except Exception as e:
-        print(f"JSON parse error on index.html: {e}")
+        print(f"Notice: JSON parse notice on index.html: {e}")
         return []
 
 def update_index():
     if not os.path.exists(INDEX_PATH):
         print(f"File {INDEX_PATH} not found.")
-        return
+        sys.exit(0)
 
     with open(INDEX_PATH, 'r', encoding='utf-8') as f:
         html = f.read()
@@ -145,7 +151,7 @@ def update_index():
     match = re.search(r'let eventsData = (\[[\s\S]*?\]);', html)
     if not match:
         print("Could not match 'let eventsData = [...]' in index.html.")
-        return
+        sys.exit(0)
 
     raw_js = match.group(1)
     existing = parse_json_safely(raw_js)
@@ -156,18 +162,26 @@ def update_index():
 
     push_to_supabase(all_events)
 
-    valid_existing = [e for e in existing if isinstance(e, dict) and e.get('date', '') >= today_str]
+    valid_existing = [
+        e for e in existing 
+        if isinstance(e, dict) and str(e.get('date') or '') >= today_str
+    ]
     merged = valid_existing + all_events
 
     seen = set()
     unique_events = []
     for ev in merged:
-        key = f"{ev.get('title')}_{ev.get('date')}_{ev.get('state')}".lower()
-        if key not in seen:
-            seen.add(key)
-            unique_events.append(ev)
+        title = str(ev.get('title') or '')
+        ev_date = str(ev.get('date') or '')
+        state = str(ev.get('state') or '')
+        
+        if ev_date and ev_date >= today_str:
+            key = f"{title}_{ev_date}_{state}".lower()
+            if key not in seen:
+                seen.add(key)
+                unique_events.append(ev)
 
-    unique_events.sort(key=lambda x: x.get('date', ''))
+    unique_events.sort(key=lambda x: str(x.get('date') or ''))
 
     updated_json = json.dumps(unique_events, indent=6)
     new_html = html[:match.start(1)] + updated_json + html[match.end(1):]
@@ -180,3 +194,4 @@ def update_index():
 if __name__ == '__main__':
     purge_old_supabase_events()
     update_index()
+    sys.exit(0)
