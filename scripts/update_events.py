@@ -2,29 +2,12 @@ import os
 import re
 import json
 import datetime
-import ast
+import json5
 
-# Establish current reference date (YYYY-MM-DD)
+# Current reference date (YYYY-MM-DD)
 today = datetime.datetime.now(datetime.timezone.utc).date()
 today_str = today.strftime('%Y-%m-%d')
 INDEX_PATH = 'index.html'
-
-def parse_js_array(js_str):
-    """Parses standard JSON or JavaScript object array containing single quotes."""
-    try:
-        return json.loads(js_str)
-    except json.JSONDecodeError:
-        pass
-
-    try:
-        # Normalize JavaScript literals to Python-compatible literal syntax
-        cleaned = re.sub(r'\btrue\b', 'True', js_str)
-        cleaned = re.sub(r'\bfalse\b', 'False', cleaned)
-        cleaned = re.sub(r'\bnull\b', 'None', cleaned)
-        return ast.literal_eval(cleaned)
-    except Exception as e:
-        print(f"Parsing error: {e}")
-        return None
 
 def update_index():
     if not os.path.exists(INDEX_PATH):
@@ -40,17 +23,23 @@ def update_index():
         exit(1)
 
     raw_js = match.group(1)
-    events = parse_js_array(raw_js)
-
-    if events is None or not isinstance(events, list):
-        print("Error: Failed to convert events array into a valid dataset list.")
+    
+    try:
+        # JSON5 parses JS object literals (unquoted keys, single quotes, etc.) effortlessly
+        events = json5.loads(raw_js)
+    except Exception as e:
+        print(f"Error parsing eventsData with json5: {e}")
         exit(1)
 
-    # Purge events prior to current reference date
+    if not isinstance(events, list):
+        print("Error: Parsed events data is not a valid list.")
+        exit(1)
+
+    # Purge past events prior to current reference date
     valid_events = [e for e in events if isinstance(e, dict) and e.get('date', '') >= today_str]
     valid_events.sort(key=lambda x: x.get('date', ''))
 
-    # Format array into strict JSON
+    # Format array back into strict JSON for index.html
     updated_json = json.dumps(valid_events, indent=6)
     new_html = html[:match.start(1)] + updated_json + html[match.end(1):]
 
