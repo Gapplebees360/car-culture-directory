@@ -1,1547 +1,1172 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Culture Directory - Nationwide Automotive Event Hub</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>USA Auto Meets - Nationwide Car Event Directory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #0B0E14;
+      --bg-card: #131822;
+      --bg-input: #1C2333;
+      --bg-accent: #252E42;
+      --red-primary: #FF2A3B;
+      --red-hover: #E01E2E;
+      --text-bright: #F3F4F6;
+      --text-muted: #9CA3AF;
+      --text-dim: #6B7280;
+      --border-color: #2D3748;
+      --border-glow: rgba(255, 42, 59, 0.3);
+      --font-body: 'Inter', sans-serif;
+      --font-head: 'Orbitron', sans-serif;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+    }
 
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        carbon: {
-                            950: '#07080A',
-                            900: '#0D0F14',
-                            800: '#141820',
-                            700: '#1F2532',
-                            600: '#2A3243',
-                            border: 'rgba(255, 255, 255, 0.08)'
-                        },
-                        brand: {
-                            red: '#E53E3E',
-                            accent: '#FF4A4A',
-                            gold: '#FFB800',
-                            neon: '#00F0FF',
-                            emerald: '#10B981',
-                            purple: '#9333EA'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        display: ['Chakra Petch', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    <style>
-        body {
-            background-color: #07080A;
-            color: #E2E8F0;
-            font-family: 'Inter', sans-serif;
-            background-image: 
-                radial-gradient(rgba(255, 74, 74, 0.07) 1px, transparent 1px),
-                radial-gradient(rgba(255, 184, 0, 0.03) 1px, transparent 1px);
-            background-size: 28px 28px, 14px 14px;
-            background-position: 0 0, 7px 7px;
-        }
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-bright);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      line-height: 1.5;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255, 42, 59, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(37, 46, 66, 0.3) 0%, transparent 50%);
+      background-attachment: fixed;
+    }
 
-        .font-display {
-            font-family: 'Chakra Petch', sans-serif;
-        }
+    /* Header & Branding */
+    header {
+      background: rgba(19, 24, 34, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+    }
 
-        .carbon-panel {
-            background: linear-gradient(145deg, #121620 0%, #0B0E14 100%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
-        }
+    .header-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
 
-        .carbon-card {
-            background: rgba(18, 22, 32, 0.88);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-bright);
+    }
 
-        .carbon-card:hover {
-            border-color: rgba(255, 74, 74, 0.45);
-            transform: translateY(-4px);
-            box-shadow: 0 14px 35px -5px rgba(229, 62, 62, 0.22);
-        }
+    .brand-icon {
+      background: linear-gradient(135deg, var(--red-primary), #990011);
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      box-shadow: 0 0 15px rgba(255, 42, 59, 0.4);
+    }
 
-        .gold-border-glow {
-            box-shadow: 0 0 15px rgba(255, 184, 0, 0.15);
-            border-color: rgba(255, 184, 0, 0.35);
-        }
+    .brand-text h1 {
+      font-family: var(--font-head);
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #FFFFFF, var(--text-muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #0D0F14;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #2A3243;
-            border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #FF4A4A;
-        }
+    .brand-text p {
+      font-size: 0.75rem;
+      color: var(--red-primary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+    }
 
-        @keyframes pulse-ring {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            50% { transform: scale(1.2); opacity: 0.3; }
-            100% { transform: scale(0.95); opacity: 0.8; }
-        }
-        .live-indicator {
-            animation: pulse-ring 2s infinite ease-in-out;
-        }
-    </style>
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--red-primary), var(--red-hover));
+      color: white;
+      box-shadow: 0 4px 12px rgba(255, 42, 59, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(255, 42, 59, 0.5);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border-color: var(--border-color);
+      color: var(--text-bright);
+    }
+
+    .btn-outline:hover {
+      background: var(--bg-accent);
+      border-color: var(--text-muted);
+    }
+
+    /* Main Container */
+    main {
+      max-width: 1400px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      padding: 2.5rem 1rem;
+      background: radial-gradient(circle at center, rgba(37, 46, 66, 0.4) 0%, transparent 70%);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .hero h2 {
+      font-family: var(--font-head);
+      font-size: 2.25rem;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      max-width: 650px;
+      margin: 0 auto 1.5rem auto;
+      font-size: 1rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    .stat-box {
+      background: rgba(19, 24, 34, 0.6);
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+    }
+
+    .stat-number {
+      font-family: var(--font-head);
+      font-size: 1.5rem;
+      color: var(--red-primary);
+      font-weight: 800;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Filter Panel */
+    .filter-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .filter-group label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .filter-control {
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      color: var(--text-bright);
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      outline: none;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+
+    .filter-control:focus {
+      border-color: var(--red-primary);
+      box-shadow: 0 0 0 2px var(--border-glow);
+    }
+
+    /* Category Badges / Quick Filter */
+    .category-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .pill-btn {
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 0.4rem 0.9rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .pill-btn:hover, .pill-btn.active {
+      background: var(--red-primary);
+      border-color: var(--red-primary);
+      color: white;
+    }
+
+    /* Results Bar */
+    .results-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding: 0 0.5rem;
+    }
+
+    .results-count {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .results-count span {
+      color: var(--text-bright);
+      font-weight: 700;
+    }
+
+    /* Event Cards Grid */
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .event-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .event-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-glow);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+    }
+
+    .card-header-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(19, 24, 34, 0.85);
+      backdrop-filter: blur(6px);
+      border: 1px solid var(--border-color);
+      color: var(--red-primary);
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0.25rem 0.6rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .card-body {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card-location-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .card-location-tag i {
+      color: var(--red-primary);
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--text-bright);
+      line-height: 1.3;
+    }
+
+    .card-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .meta-item i {
+      width: 16px;
+      color: var(--text-dim);
+    }
+
+    .card-description {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      flex: 1;
+    }
+
+    .card-footer {
+      border-top: 1px solid var(--border-color);
+      padding-top: 1rem;
+      margin-top: auto;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .card-footer .btn {
+      flex: 1;
+      justify-content: center;
+      padding: 0.5rem;
+      font-size: 0.8rem;
+    }
+
+    /* Modal Styling */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 2rem;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-title {
+      font-family: var(--font-head);
+      font-size: 1.4rem;
+    }
+
+    .close-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.25rem;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
+      color: var(--text-bright);
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: var(--bg-card);
+      border: 1px border-dashed var(--border-color);
+      border-radius: var(--radius-lg);
+      grid-column: 1 / -1;
+    }
+
+    .no-results i {
+      font-size: 3rem;
+      color: var(--text-dim);
+      margin-bottom: 1rem;
+    }
+
+    .no-results h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .no-results p {
+      color: var(--text-muted);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--bg-card);
+      border: 1px solid var(--red-primary);
+      color: var(--text-bright);
+      padding: 1rem 1.5rem;
+      border-radius: var(--radius-md);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      z-index: 2000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .toast.active {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .header-actions {
+        justify-content: space-between;
+      }
+      .hero h2 {
+        font-size: 1.6rem;
+      }
+      .events-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between custom-scrollbar">
+<body>
 
-    <header class="sticky top-0 z-40 carbon-panel border-b border-gray-800 shadow-2xl">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
-            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-                
-                <!-- Brand Title -->
-                <div class="flex items-center space-x-3.5">
-                    <div class="w-11 h-11 bg-gradient-to-tr from-red-800 via-brand-red to-amber-500 rounded-xl flex items-center justify-center shadow-lg shadow-red-950/60 text-white font-display text-xl font-bold">
-                        <i class="fa-solid fa-gauge-high"></i>
-                    </div>
-                    <div>
-                        <div class="flex items-center gap-2 flex-wrap">
-                            <h1 class="text-xl sm:text-2xl font-extrabold font-display tracking-wider text-white">
-                                CAR CULTURE DIRECTORY
-                            </h1>
-                            <span class="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-amber-950/80 text-brand-gold border border-amber-800/60">
-                                USA NATIONWIDE HUB
-                            </span>
-                            <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-emerald-950/90 text-emerald-400 border border-emerald-800/80">
-                                <i class="fa-solid fa-clock-rotate-left mr-1"></i>Oct 11, 2026+ Verified
-                            </span>
-                        </div>
-                        <p class="text-xs text-gray-400 font-medium">Statewide & Nationwide Cars & Coffee, Track Days, Drag Racing & Car Shows</p>
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="flex flex-wrap items-center gap-2.5">
-                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-950/40 border border-red-800/40 text-xs text-gray-300">
-                        <span class="relative flex h-2.5 w-2.5">
-                          <span class="live-indicator absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
-                          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-red"></span>
-                        </span>
-                        <span class="font-semibold text-gray-200" id="liveBadgeText">Upcoming Verified Events</span>
-                    </div>
-
-                    <button id="btnOpenSubmitModal" class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-brand-red to-red-700 hover:from-red-600 hover:to-red-800 text-white font-bold text-xs rounded-xl transition shadow-md shadow-red-950/50 cursor-pointer">
-                        <i class="fa-solid fa-plus-circle"></i>
-                        <span>Submit Event</span>
-                    </button>
-
-                    <button id="btnExportData" class="flex items-center gap-2 px-3.5 py-2 bg-carbon-700 hover:bg-carbon-600 text-gray-200 font-semibold text-xs rounded-xl border border-gray-700 transition cursor-pointer">
-                        <i class="fa-solid fa-file-export text-brand-gold"></i>
-                        <span>Export</span>
-                    </button>
-                </div>
-
-            </div>
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <a href="#" class="brand">
+        <div class="brand-icon"><i class="fa-solid => fa-gauge-high"></i></div>
+        <div class="brand-text">
+          <h1>USA Auto Meets</h1>
+          <p>Nationwide Car Culture Directory</p>
         </div>
-    </header>
+      </a>
+      <div class="header-actions">
+        <button class="btn btn-outline" onclick="exportData('csv')"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
+        <button class="btn btn-primary" onclick="openModal('submitModal')"><i class="fa-solid fa-plus"></i> Submit Event</button>
+      </div>
+    </div>
+  </header>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-grow space-y-6">
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <h2>Nationwide Automotive Event Directory</h2>
+      <p>Discover Cars & Coffee meets, track days, drag racing, auto shows, and swap meets across all 50 U.S. states.</p>
+      <div class="hero-stats">
+        <div class="stat-box">
+          <div class="stat-number" id="statStates">50</div>
+          <div class="stat-label">States Covered</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number" id="statEvents">0</div>
+          <div class="stat-label">Upcoming Events</div>
+        </div>
+      </div>
+    </section>
 
-        <section class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-            <div class="carbon-card p-4 rounded-2xl flex items-center justify-between">
-                <div>
-                    <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Upcoming Events</p>
-                    <p id="statTotalEvents" class="text-2xl font-bold font-display text-white mt-0.5">0</p>
-                </div>
-                <div class="w-10 h-10 rounded-xl bg-red-950/60 border border-red-800/40 flex items-center justify-center text-brand-red text-lg">
-                    <i class="fa-solid fa-calendar-check"></i>
-                </div>
-            </div>
-
-            <div class="carbon-card p-4 rounded-2xl flex items-center justify-between">
-                <div>
-                    <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Active Cities</p>
-                    <p id="statTotalCities" class="text-2xl font-bold font-display text-white mt-0.5">0</p>
-                </div>
-                <div class="w-10 h-10 rounded-xl bg-blue-950/60 border border-blue-800/40 flex items-center justify-center text-blue-400 text-lg">
-                    <i class="fa-solid fa-map-location-dot"></i>
-                </div>
-            </div>
-
-            <div class="carbon-card p-4 rounded-2xl flex items-center justify-between gold-border-glow">
-                <div>
-                    <p class="text-[11px] font-bold text-amber-400 uppercase tracking-wider">Cars & Coffee Meets</p>
-                    <p id="statCarsCoffee" class="text-2xl font-bold font-display text-brand-gold mt-0.5">0</p>
-                </div>
-                <div class="w-10 h-10 rounded-xl bg-amber-950/60 border border-amber-800/40 flex items-center justify-center text-brand-gold text-lg">
-                    <i class="fa-solid fa-mug-hot"></i>
-                </div>
-            </div>
-
-            <div class="carbon-card p-4 rounded-2xl flex items-center justify-between">
-                <div>
-                    <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Track & Drag Events</p>
-                    <p id="statTracks" class="text-2xl font-bold font-display text-white mt-0.5">0</p>
-                </div>
-                <div class="w-10 h-10 rounded-xl bg-purple-950/60 border border-purple-800/40 flex items-center justify-center text-purple-400 text-lg">
-                    <i class="fa-solid fa-flag-checkered"></i>
-                </div>
-            </div>
-        </section>
-
-        <section class="carbon-card p-4 sm:p-5 rounded-2xl space-y-4">
-            
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-3">
-                
-                <!-- Search Input -->
-                <div class="md:col-span-4 relative">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
-                    <input type="text" id="searchInput" placeholder="Search events, tracks, cities (e.g. Redmond, Griot's, Pacific Raceways)..." 
-                           class="w-full bg-carbon-950 border border-gray-700 focus:border-brand-red rounded-xl pl-10 pr-10 py-2.5 text-xs sm:text-sm text-white placeholder-gray-500 outline-none transition">
-                    <button id="btnClearSearch" class="hidden absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white">
-                        <i class="fa-solid fa-circle-xmark"></i>
-                    </button>
-                </div>
-
-                <!-- State Selector (Nationwide ready) -->
-                <div class="md:col-span-2">
-                    <div class="relative">
-                        <i class="fa-solid fa-flag-usa absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-gold text-sm"></i>
-                        <select id="stateFilter" class="w-full bg-carbon-950 border border-gray-700 focus:border-brand-red rounded-xl pl-10 pr-8 py-2.5 text-xs sm:text-sm text-white appearance-none outline-none transition cursor-pointer">
-                            <option value="WA" selected>Washington (WA)</option>
-                            <option value="ALL">All States (USA)</option>
-                            <option value="OR">Oregon (OR)</option>
-                            <option value="CA">California (CA)</option>
-                            <option value="ID">Idaho (ID)</option>
-                        </select>
-                        <i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs"></i>
-                    </div>
-                </div>
-
-                <!-- City Dropdown -->
-                <div class="md:col-span-2">
-                    <div class="relative">
-                        <i class="fa-solid fa-location-dot absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-red text-sm"></i>
-                        <select id="cityFilter" class="w-full bg-carbon-950 border border-gray-700 focus:border-brand-red rounded-xl pl-10 pr-8 py-2.5 text-xs sm:text-sm text-white appearance-none outline-none transition cursor-pointer">
-                            <option value="">All Regions</option>
-                        </select>
-                        <i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs"></i>
-                    </div>
-                </div>
-
-                <!-- Date Range Picker: From Date -->
-                <div class="md:col-span-2">
-                    <div class="relative">
-                        <label class="block text-[10px] text-gray-400 font-bold uppercase mb-0.5">From Date</label>
-                        <input type="date" id="dateFromFilter" value="2026-10-11" min="2026-10-11"
-                               class="w-full bg-carbon-950 border border-gray-700 focus:border-brand-red rounded-xl px-3 py-1 text-xs text-white outline-none transition">
-                    </div>
-                </div>
-
-                <!-- Date Range Picker: To Date -->
-                <div class="md:col-span-2">
-                    <div class="relative">
-                        <label class="block text-[10px] text-gray-400 font-bold uppercase mb-0.5">To Date</label>
-                        <input type="date" id="dateToFilter"
-                               class="w-full bg-carbon-950 border border-gray-700 focus:border-brand-red rounded-xl px-3 py-1 text-xs text-white outline-none transition">
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Regional City Quick-Pills -->
-            <div class="pt-2 border-t border-gray-800">
-                <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Filter by City / Region:</p>
-                <div class="flex flex-wrap gap-2" id="cityPillsContainer">
-                    <!-- Dynamic city pills -->
-                </div>
-            </div>
-
-            <!-- Category Filter Pills & Options Toolbar -->
-            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-3 border-t border-gray-800">
-                
-                <div class="flex items-center gap-1.5 overflow-x-auto pb-1 custom-scrollbar" id="categoryPills">
-                    <button data-category="ALL" class="cat-pill active px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-brand-red text-white cursor-pointer">
-                        All Types
-                    </button>
-                    <button data-category="Cars & Coffee" class="cat-pill px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-carbon-700 hover:bg-carbon-600 text-amber-300 cursor-pointer">
-                        <i class="fa-solid fa-mug-hot text-brand-gold mr-1.5"></i>Cars & Coffee
-                    </button>
-                    <button data-category="Drag Racing" class="cat-pill px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-carbon-700 hover:bg-carbon-600 text-gray-300 cursor-pointer">
-                        <i class="fa-solid fa-gauge-high text-red-400 mr-1.5"></i>Drag Racing
-                    </button>
-                    <button data-category="Car Show" class="cat-pill px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-carbon-700 hover:bg-carbon-600 text-gray-300 cursor-pointer">
-                        <i class="fa-solid fa-car text-blue-400 mr-1.5"></i>Car Shows
-                    </button>
-                    <button data-category="Swap Meet" class="cat-pill px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-carbon-700 hover:bg-carbon-600 text-gray-300 cursor-pointer">
-                        <i class="fa-solid fa-boxes-packing text-emerald-400 mr-1.5"></i>Swap Meets
-                    </button>
-                    <button data-category="Track Day" class="cat-pill px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-carbon-700 hover:bg-carbon-600 text-gray-300 cursor-pointer">
-                        <i class="fa-solid fa-flag-checkered text-cyan-400 mr-1.5"></i>Track Days
-                    </button>
-                    <button data-category="Cruise Night" class="cat-pill px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-carbon-700 hover:bg-carbon-600 text-gray-300 cursor-pointer">
-                        <i class="fa-solid fa-route text-purple-400 mr-1.5"></i>Cruise Nights
-                    </button>
-                    <button data-category="Auto Show" class="cat-pill px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-carbon-700 hover:bg-carbon-600 text-gray-300 cursor-pointer">
-                        <i class="fa-solid fa-city text-pink-400 mr-1.5"></i>Auto Shows
-                    </button>
-                </div>
-
-                <div class="flex items-center gap-4">
-                    <label class="inline-flex items-center cursor-pointer text-xs font-semibold text-gray-300 select-none">
-                        <input type="checkbox" id="savedOnlyToggle" class="sr-only peer">
-                        <div class="relative w-9 h-5 bg-carbon-950 border border-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-red-600"></div>
-                        <span class="ml-2 text-rose-400 font-bold"><i class="fa-solid fa-heart mr-1"></i>Saved Bookmarks</span>
-                    </label>
-                </div>
-
-            </div>
-
-        </section>
-
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-1">
-            <div class="flex items-center gap-2">
-                <p id="resultsCount" class="text-xs sm:text-sm font-semibold text-gray-300">
-                    Showing <span class="text-brand-red font-bold">0</span> upcoming events
-                </p>
-            </div>
-
-            <div class="flex items-center gap-3 self-end sm:self-auto">
-                <div class="flex items-center bg-carbon-950 rounded-xl p-1 border border-gray-800">
-                    <span class="text-xs text-gray-400 mr-2 ml-1 hidden sm:inline">Sort:</span>
-                    <select id="sortSelect" class="bg-transparent text-xs text-gray-200 outline-none cursor-pointer pr-1 font-semibold">
-                        <option value="date-asc">Date (Soonest First)</option>
-                        <option value="date-desc">Date (Latest First)</option>
-                        <option value="title-asc">Event Name (A-Z)</option>
-                        <option value="city-asc">City (A-Z)</option>
-                    </select>
-                </div>
-
-                <div class="flex items-center bg-carbon-950 rounded-xl p-1 border border-gray-800">
-                    <button id="viewGridBtn" class="px-2.5 py-1 text-xs rounded-lg bg-carbon-700 text-white transition cursor-pointer" title="Grid View">
-                        <i class="fa-solid fa-grip"></i>
-                    </button>
-                    <button id="viewListBtn" class="px-2.5 py-1 text-xs rounded-lg text-gray-400 hover:text-white transition cursor-pointer" title="List View">
-                        <i class="fa-solid fa-list"></i>
-                    </button>
-                </div>
-            </div>
+    <!-- Filter Panel -->
+    <section class="filter-panel">
+      <div class="filter-grid">
+        <!-- Search Keyword -->
+        <div class="filter-group">
+          <label><i class="fa-solid fa-magnifying-glass"></i> Search</label>
+          <input type="text" id="searchInput" class="filter-control" placeholder="Search event title, track, or venue...">
         </div>
 
-        <!-- EVENTS CARD CONTAINER -->
-        <div id="eventsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            <!-- Dynamic Event Cards Injected Here -->
+        <!-- State Dropdown -->
+        <div class="filter-group">
+          <label><i class="fa-solid fa-flag-usa"></i> State</label>
+          <select id="stateFilter" class="filter-control" onchange="handleStateChange()">
+            <option value="ALL">All US States (50)</option>
+            <!-- Populated via JS -->
+          </select>
         </div>
 
-        <!-- EMPTY STATE -->
-        <div id="emptyState" class="hidden carbon-card p-12 text-center rounded-2xl max-w-md mx-auto my-8">
-            <div class="w-16 h-16 bg-red-950/40 border border-red-800/40 rounded-full flex items-center justify-center mx-auto text-brand-red text-2xl mb-4">
-                <i class="fa-solid fa-car-tunnel"></i>
-            </div>
-            <h3 class="text-lg font-bold text-white font-display">No Automotive Events Found</h3>
-            <p class="text-xs text-gray-400 mt-1">Try expanding your search query, city filters, or date range.</p>
-            <button id="btnResetFilters" class="mt-5 px-4 py-2 bg-brand-red text-white text-xs font-bold rounded-xl hover:bg-red-600 transition cursor-pointer">
-                Reset All Filters
-            </button>
+        <!-- City Dropdown (Dynamic based on State) -->
+        <div class="filter-group">
+          <label><i class="fa-solid fa-city"></i> City</label>
+          <select id="cityFilter" class="filter-control" onchange="renderEvents()">
+            <option value="ALL">All Cities</option>
+            <!-- Populated dynamically via JS -->
+          </select>
         </div>
 
-    </main>
-
-    <footer class="carbon-panel border-t border-gray-800 mt-12 py-8 text-xs text-gray-400">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-brand-red rounded-lg flex items-center justify-center text-white font-bold">
-                        <i class="fa-solid fa-flag-checkered"></i>
-                    </div>
-                    <div>
-                        <p class="text-sm font-bold text-white font-display">CAR CULTURE DIRECTORY</p>
-                        <p class="text-gray-500">Nationwide Automotive Event Network • Strictly Verified Upcoming Schedule</p>
-                    </div>
-                </div>
-
-                <div class="flex flex-wrap gap-2.5 text-gray-400 font-medium text-[11px]">
-                    <span class="text-gray-300 font-bold">Featured Hubs:</span>
-                    <span>Redmond</span> • <span>Seattle</span> • <span>Tacoma</span> • <span>Olympia</span> • <span>Centralia</span> • <span>Vancouver</span> • <span>Spokane</span> • <span>Tri-Cities</span> • <span>Bellingham</span> • <span>Everett</span> • <span>Bremerton</span> • <span>Gig Harbor</span> • <span>Portland</span>
-                </div>
-            </div>
-
-            <div class="border-t border-gray-800/80 pt-4 flex flex-col sm:flex-row items-center justify-between text-gray-500 text-[11px]">
-                <p>© 2026 Car Culture Directory. All rights reserved.</p>
-                <p>Reference Date: Oct 11, 2026. All past events suppressed.</p>
-            </div>
+        <!-- Event Category Dropdown -->
+        <div class="filter-group">
+          <label><i class="fa-solid fa-tags"></i> Category</label>
+          <select id="categoryFilter" class="filter-control" onchange="renderEvents()">
+            <option value="ALL">All Event Types</option>
+            <option value="Cars & Coffee">Cars & Coffee</option>
+            <option value="Track / Drag">Track / Drag Racing</option>
+            <option value="Car Show">Car Show</option>
+            <option value="Swap Meet">Swap Meet</option>
+            <option value="Cruise Night">Cruise Night</option>
+            <option value="Auto Show">Auto Show</option>
+          </select>
         </div>
-    </footer>
+      </div>
 
-    <div id="eventDetailModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-200">
-        <div class="carbon-panel max-w-2xl w-full max-h-[90vh] rounded-2xl border border-gray-700 flex flex-col overflow-hidden shadow-2xl relative">
-            
-            <div class="p-5 border-b border-gray-800 flex items-start justify-between bg-carbon-900/80">
-                <div class="space-y-1.5 pr-6">
-                    <div class="flex flex-wrap items-center gap-2">
-                        <span id="modalCategoryBadge" class="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold uppercase"></span>
-                        <span id="modalCityBadge" class="px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-blue-950 text-blue-300 border border-blue-800/60"></span>
-                        <span id="modalStateBadge" class="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold bg-amber-950 text-brand-gold border border-amber-800/60"></span>
-                    </div>
-                    <h2 id="modalTitle" class="text-xl sm:text-2xl font-bold font-display text-white mt-1"></h2>
-                    <p id="modalLocation" class="text-xs text-gray-300 flex items-center gap-1.5">
-                        <i class="fa-solid fa-location-dot text-brand-red"></i>
-                        <span></span>
-                    </p>
-                </div>
-                <button id="btnCloseDetailModal" class="w-8 h-8 rounded-full bg-carbon-700 text-gray-400 hover:text-white flex items-center justify-center transition cursor-pointer">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
+      <!-- Quick Category Pills -->
+      <div class="category-pills">
+        <button class="pill-btn active" data-cat="ALL" onclick="selectCategoryPill('ALL')">All Meets</button>
+        <button class="pill-btn" data-cat="Cars & Coffee" onclick="selectCategoryPill('Cars & Coffee')">☕ Cars & Coffee</button>
+        <button class="pill-btn" data-cat="Track / Drag" onclick="selectCategoryPill('Track / Drag')">🏁 Track & Drag</button>
+        <button class="pill-btn" data-cat="Car Show" onclick="selectCategoryPill('Car Show')">🏆 Car Shows</button>
+        <button class="pill-btn" data-cat="Swap Meet" onclick="selectCategoryPill('Swap Meet')">🛠️ Swap Meets</button>
+      </div>
+    </section>
 
-            <div class="p-6 overflow-y-auto custom-scrollbar space-y-5 text-xs sm:text-sm">
-                
-                <div class="bg-carbon-950/90 rounded-xl p-4 border border-gray-800 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Date & Time</p>
-                        <p id="modalDate" class="text-sm font-bold text-white mt-0.5 flex items-center gap-2">
-                            <i class="fa-regular fa-calendar text-brand-red"></i>
-                            <span></span>
-                        </p>
-                    </div>
-                    <div>
-                        <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Venue / Host</p>
-                        <p id="modalVenue" class="text-sm font-bold text-white mt-0.5 flex items-center gap-2">
-                            <i class="fa-solid fa-building text-blue-400"></i>
-                            <span></span>
-                        </p>
-                    </div>
-                </div>
-
-                <div>
-                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Event Overview & Highlights</h4>
-                    <p id="modalDescription" class="text-gray-300 leading-relaxed text-xs sm:text-sm bg-carbon-950/60 p-4 rounded-xl border border-gray-800"></p>
-                </div>
-
-                <div class="bg-carbon-950/60 p-4 rounded-xl border border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-3">
-                    <div>
-                        <p class="text-[11px] text-gray-400 font-semibold">Address / Location:</p>
-                        <p id="modalFullAddress" class="text-xs font-bold text-white"></p>
-                    </div>
-                    <a id="btnModalMap" target="_blank" class="w-full sm:w-auto px-4 py-2 bg-blue-900/60 hover:bg-blue-800 text-blue-200 border border-blue-700/50 text-xs font-bold rounded-xl transition text-center flex items-center justify-center gap-2 cursor-pointer">
-                        <i class="fa-solid fa-map-location-dot"></i>
-                        <span>Open in Google Maps</span>
-                    </a>
-                </div>
-
-            </div>
-
-            <div class="carbon-panel p-4 border-t border-gray-800 flex flex-wrap items-center justify-between gap-3">
-                <button id="btnBookmarkModal" class="flex items-center gap-2 px-4 py-2 bg-carbon-700 hover:bg-carbon-600 text-xs font-bold rounded-xl text-white transition cursor-pointer">
-                    <i class="fa-regular fa-heart text-brand-red"></i>
-                    <span>Save Bookmark</span>
-                </button>
-
-                <div class="flex items-center gap-2">
-                    <a id="btnGoogleCalendar" target="_blank" class="flex items-center gap-2 px-3.5 py-2 bg-gray-800 hover:bg-gray-700 text-xs font-bold rounded-xl text-gray-200 transition cursor-pointer">
-                        <i class="fa-brands fa-google text-amber-400"></i>
-                        <span>Google Cal</span>
-                    </a>
-
-                    <button id="btnDownloadIcs" class="flex items-center gap-2 px-4 py-2 bg-brand-red hover:bg-red-600 text-white text-xs font-bold rounded-xl transition shadow-md shadow-red-950/50 cursor-pointer">
-                        <i class="fa-solid fa-calendar-plus"></i>
-                        <span>Download .ICS</span>
-                    </button>
-                </div>
-            </div>
-
-        </div>
+    <!-- Results Count Bar -->
+    <div class="results-bar">
+      <div class="results-count">Showing <span id="eventCount">0</span> upcoming automotive events</div>
+      <button class="btn btn-outline" style="padding: 0.3rem 0.8rem; font-size: 0.75rem;" onclick="resetFilters()">Reset Filters</button>
     </div>
 
-    <div id="submitModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-200">
-        <div class="carbon-panel max-w-xl w-full max-h-[90vh] rounded-2xl border border-gray-700 flex flex-col overflow-hidden shadow-2xl">
-            
-            <div class="p-5 border-b border-gray-800 flex items-center justify-between bg-carbon-900/80">
-                <div>
-                    <h3 class="text-lg font-bold font-display text-white">Submit Future Automotive Event</h3>
-                    <p class="text-xs text-gray-400">Add upcoming car meets, track days, or swap meets (Oct 11, 2026 onwards)</p>
-                </div>
-                <button id="btnCloseSubmitModal" class="w-8 h-8 rounded-full bg-carbon-700 text-gray-400 hover:text-white flex items-center justify-center transition cursor-pointer">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-
-            <form id="submitEventForm" class="p-6 overflow-y-auto custom-scrollbar space-y-4 text-xs">
-                
-                <div>
-                    <label class="block font-semibold text-gray-300 mb-1">Event Name *</label>
-                    <input type="text" id="subTitle" required placeholder="e.g. Redmond Fall Sunset Cruise" class="w-full bg-carbon-950 border border-gray-700 rounded-xl p-2.5 text-white outline-none focus:border-brand-red">
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div>
-                        <label class="block font-semibold text-gray-300 mb-1">State *</label>
-                        <select id="subState" required class="w-full bg-carbon-950 border border-gray-700 rounded-xl p-2.5 text-white outline-none focus:border-brand-red">
-                            <option value="WA">Washington (WA)</option>
-                            <option value="OR">Oregon (OR)</option>
-                            <option value="CA">California (CA)</option>
-                            <option value="ID">Idaho (ID)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block font-semibold text-gray-300 mb-1">City / Region *</label>
-                        <input type="text" id="subCity" required placeholder="e.g. Redmond, Seattle..." class="w-full bg-carbon-950 border border-gray-700 rounded-xl p-2.5 text-white outline-none focus:border-brand-red">
-                    </div>
-                    <div>
-                        <label class="block font-semibold text-gray-300 mb-1">Venue Name *</label>
-                        <input type="text" id="subVenue" required placeholder="e.g. Town Center Plaza" class="w-full bg-carbon-950 border border-gray-700 rounded-xl p-2.5 text-white outline-none focus:border-brand-red">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block font-semibold text-gray-300 mb-1">Full Address *</label>
-                    <input type="text" id="subAddress" required placeholder="e.g. 7522 164th Ave NE, Redmond, WA" class="w-full bg-carbon-950 border border-gray-700 rounded-xl p-2.5 text-white outline-none focus:border-brand-red">
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                        <label class="block font-semibold text-gray-300 mb-1">Event Type *</label>
-                        <select id="subCategory" required class="w-full bg-carbon-950 border border-gray-700 rounded-xl p-2.5 text-white outline-none focus:border-brand-red">
-                            <option value="Cars & Coffee">Cars & Coffee</option>
-                            <option value="Drag Racing">Drag Racing</option>
-                            <option value="Car Show">Car Show</option>
-                            <option value="Swap Meet">Swap Meet</option>
-                            <option value="Track Day">Track Day</option>
-                            <option value="Cruise Night">Cruise Night</option>
-                            <option value="Auto Show">Auto Show</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block font-semibold text-gray-300 mb-1">Date (Oct 11, 2026+) *</label>
-                        <input type="date" id="subDate" min="2026-10-11" required class="w-full bg-carbon-950 border border-gray-700 rounded-xl p-2.5 text-white outline-none focus:border-brand-red">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block font-semibold text-gray-300 mb-1">Event Details & Highlights *</label>
-                    <textarea id="subDescription" rows="3" required placeholder="Provide event details, schedule, admission pricing, registration guidelines..." class="w-full bg-carbon-950 border border-gray-700 rounded-xl p-2.5 text-white outline-none focus:border-brand-red"></textarea>
-                </div>
-
-                <div class="pt-3 border-t border-gray-800 flex justify-end gap-3">
-                    <button type="button" id="btnCancelSubmit" class="px-4 py-2 bg-carbon-700 text-gray-300 font-semibold rounded-xl hover:bg-carbon-600 transition cursor-pointer">Cancel</button>
-                    <button type="submit" class="px-5 py-2 bg-brand-red text-white font-bold rounded-xl hover:bg-red-600 transition shadow-md shadow-red-950/50 cursor-pointer">Publish Event</button>
-                </div>
-
-            </form>
-        </div>
+    <!-- Events Grid -->
+    <div id="eventsContainer" class="events-grid">
+      <!-- Cards rendered via JavaScript -->
     </div>
+  </main>
 
-    <div id="exportModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-200">
-        <div class="carbon-panel max-w-md w-full rounded-2xl border border-gray-700 p-6 space-y-4 shadow-2xl">
-            <div class="flex items-center justify-between border-b border-gray-800 pb-3">
-                <h3 class="font-bold font-display text-white text-lg">Export Active Events</h3>
-                <button id="btnCloseExportModal" class="text-gray-400 hover:text-white cursor-pointer">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-            <p class="text-xs text-gray-300">Download the active filtered list of <span id="exportCountText" class="text-brand-red font-bold">0</span> events:</p>
-            
-            <div class="grid grid-cols-2 gap-3 pt-2">
-                <button id="btnExportCSV" class="p-4 bg-carbon-950 hover:bg-carbon-700 border border-gray-700 rounded-xl flex flex-col items-center justify-center gap-2 transition text-emerald-400 font-bold text-xs cursor-pointer">
-                    <i class="fa-solid fa-file-csv text-3xl"></i>
-                    <span>Export CSV</span>
-                </button>
-
-                <button id="btnExportJSON" class="p-4 bg-carbon-950 hover:bg-carbon-700 border border-gray-700 rounded-xl flex flex-col items-center justify-center gap-2 transition text-blue-400 font-bold text-xs cursor-pointer">
-                    <i class="fa-solid fa-file-code text-3xl"></i>
-                    <span>Export JSON</span>
-                </button>
-            </div>
+  <!-- Event Submission Modal -->
+  <div id="submitModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Submit New Car Event</h3>
+        <button class="close-btn" onclick="closeModal('submitModal')">&times;</button>
+      </div>
+      <form id="eventForm" onsubmit="handleFormSubmit(event)">
+        <div class="filter-group" style="margin-bottom: 1rem;">
+          <label>Event Name *</label>
+          <input type="text" id="newTitle" class="filter-control" required placeholder="e.g. Saturday Night Cruise-In">
         </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+          <div class="filter-group">
+            <label>State *</label>
+            <select id="newState" class="filter-control" required onchange="handleModalStateChange()">
+              <!-- Populated via JS -->
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>City *</label>
+            <input type="text" id="newCity" class="filter-control" required placeholder="e.g. Scottsdale">
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+          <div class="filter-group">
+            <label>Date *</label>
+            <input type="date" id="newDate" class="filter-control" required min="2026-10-11">
+          </div>
+          <div class="filter-group">
+            <label>Category *</label>
+            <select id="newCategory" class="filter-control" required>
+              <option value="Cars & Coffee">Cars & Coffee</option>
+              <option value="Track / Drag">Track / Drag</option>
+              <option value="Car Show">Car Show</option>
+              <option value="Swap Meet">Swap Meet</option>
+              <option value="Cruise Night">Cruise Night</option>
+              <option value="Auto Show">Auto Show</option>
+            </select>
+          </div>
+        </div>
+        <div class="filter-group" style="margin-bottom: 1rem;">
+          <label>Venue / Address *</label>
+          <input type="text" id="newVenue" class="filter-control" required placeholder="e.g. WestWorld of Scottsdale, 16601 N Pima Rd">
+        </div>
+        <div class="filter-group" style="margin-bottom: 1.5rem;">
+          <label>Description</label>
+          <textarea id="newDesc" class="filter-control" rows="3" placeholder="Entry fee, parking guidelines, car requirements..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Publish Event</button>
+      </form>
     </div>
+  </div>
 
-    <!-- TOAST CONTAINER -->
-    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">
+    <i class="fa-solid fa-circle-check" style="color: var(--red-primary);"></i>
+    <span id="toastMsg">Action completed successfully</span>
+  </div>
 
-    <script>
-        // REFERENCE DATE CONSTRAINT: OCTOBER 11, 2026
-        const REFERENCE_DATE = '2026-10-11';
+  <script>
+    // System reference date constraint: October 11, 2026
+    const MIN_DATE = '2026-10-11';
 
-        // MASTER VERIFIED EVENT DATASET (ALL DATED ON OR AFTER OCT 11, 2026)
-        const MASTER_EVENT_DATASET = [
-            // 1. REDMOND
-            {
-                id: 'wa-redmond-001',
-                title: 'Exotics at Redmond Town Center - Autumn Finale',
-                state: 'WA',
-                city: 'Redmond',
-                venue: 'Redmond Town Center Plaza',
-                address: '7522 164th Ave NE, Redmond, WA 98052',
-                category: 'Cars & Coffee',
-                date: '2026-10-17',
-                dateDisplay: 'October 17, 2026',
-                details: 'Premier exotic car gathering in the PNW featuring Ferraris, Lamborghinis, McLarens, Porsche GT models, and hypercars with morning espresso roasters.'
-            },
+    // All 50 US States + DC
+    const US_STATES = [
+      { code: 'AL', name: 'Alabama' }, { code: 'AK', name: 'Alaska' }, { code: 'AZ', name: 'Arizona' },
+      { code: 'AR', name: 'Arkansas' }, { code: 'CA', name: 'California' }, { code: 'CO', name: 'Colorado' },
+      { code: 'CT', name: 'Connecticut' }, { code: 'DE', name: 'Delaware' }, { code: 'FL', name: 'Florida' },
+      { code: 'GA', name: 'Georgia' }, { code: 'HI', name: 'Hawaii' }, { code: 'ID', name: 'Idaho' },
+      { code: 'IL', name: 'Illinois' }, { code: 'IN', name: 'Indiana' }, { code: 'IA', name: 'Iowa' },
+      { code: 'KS', name: 'Kansas' }, { code: 'KY', name: 'Kentucky' }, { code: 'LA', name: 'Louisiana' },
+      { code: 'ME', name: 'Maine' }, { code: 'MD', name: 'Maryland' }, { code: 'MA', name: 'Massachusetts' },
+      { code: 'MI', name: 'Michigan' }, { code: 'MN', name: 'Minnesota' }, { code: 'MS', name: 'Mississippi' },
+      { code: 'MO', name: 'Missouri' }, { code: 'MT', name: 'Montana' }, { code: 'NE', name: 'Nebraska' },
+      { code: 'NV', name: 'Nevada' }, { code: 'NH', name: 'New Hampshire' }, { code: 'NJ', name: 'New Jersey' },
+      { code: 'NM', name: 'New Mexico' }, { code: 'NY', name: 'New York' }, { code: 'NC', name: 'North Carolina' },
+      { code: 'ND', name: 'North Dakota' }, { code: 'OH', name: 'Ohio' }, { code: 'OK', name: 'Oklahoma' },
+      { code: 'OR', name: 'Oregon' }, { code: 'PA', name: 'Pennsylvania' }, { code: 'RI', name: 'Rhode Island' },
+      { code: 'SC', name: 'South Carolina' }, { code: 'SD', name: 'South Dakota' }, { code: 'TN', name: 'Tennessee' },
+      { code: 'TX', name: 'Texas' }, { code: 'UT', name: 'Utah' }, { code: 'VT', name: 'Vermont' },
+      { code: 'VA', name: 'Virginia' }, { code: 'WA', name: 'Washington' }, { code: 'WV', name: 'West Virginia' },
+      { code: 'WI', name: 'Wisconsin' }, { code: 'WY', name: 'Wyoming' }, { code: 'DC', name: 'District of Columbia' }
+    ];
 
-            // 2. SEATTLE
-            {
-                id: 'wa-seattle-001',
-                title: 'Lake Washington Cars & Coffee - Seward Park Shoreline',
-                state: 'WA',
-                city: 'Seattle',
-                venue: 'Seward Park Promenade Plaza',
-                address: '5900 Lake Washington Blvd S, Seattle, WA 98118',
-                category: 'Cars & Coffee',
-                date: '2026-10-18',
-                dateDisplay: 'October 18, 2026',
-                details: 'Scenic waterfront morning gather along Lake Washington featuring vintage European cars, JDM classics, muscle builds, and local coffee popups.'
-            },
-            {
-                id: 'wa-seattle-002',
-                title: 'Rigs & Coffee Seattle @ Tiki Motors',
-                state: 'WA',
-                city: 'Seattle',
-                venue: 'Tiki Motors Complex',
-                address: '5201 1st Ave S, Seattle, WA 98108',
-                category: 'Cars & Coffee',
-                date: '2026-10-24',
-                dateDisplay: 'October 24, 2026',
-                details: 'Overland 4x4s, expedition trucks, custom vans, and adventure rigs gathering with local coffee roasters and overland setup demos.'
-            },
-            {
-                id: 'wa-seattle-003',
-                title: 'Seattle International Auto Show 2026',
-                state: 'WA',
-                city: 'Seattle',
-                venue: 'Lumen Field Event Center',
-                address: '800 Occidental Ave S, Seattle, WA 98134',
-                category: 'Auto Show',
-                date: '2026-11-14',
-                dateDisplay: 'November 14-17, 2026',
-                details: 'Pacific Northwest’s flagship auto show featuring brand new 2027 model releases, indoor EV test tracks, exotic supercar galleries, and custom builds.'
-            },
+    // Comprehensive Major Cities Dictionary by State Code
+    const CITIES_BY_STATE = {
+      'AL': ['Birmingham', 'Huntsville', 'Mobile', 'Montgomery', 'Orange Beach'],
+      'AK': ['Anchorage', 'Fairbanks', 'Juneau'],
+      'AZ': ['Scottsdale', 'Phoenix', 'Tucson', 'Glendale', 'Yuma', 'Mesa'],
+      'AR': ['Little Rock', 'Fayetteville', 'Fort Smith', 'Bentonville'],
+      'CA': ['Los Angeles', 'San Diego', 'San Jose', 'San Francisco', 'Pomona', 'Pebble Beach', 'Huntington Beach', 'Del Mar', 'Pleasanton', 'Woodland Hills'],
+      'CO': ['Denver', 'Colorado Springs', 'Loveland', 'Pueblo', 'Telluride'],
+      'CT': ['Hartford', 'New Haven', 'Stamford', 'New Britain'],
+      'DE': ['Wilmington', 'Dover', 'Newark'],
+      'FL': ['Miami', 'Orlando', 'Tampa', 'Kissimmee', 'West Palm Beach', 'Daytona Beach', 'Amelia Island', 'Boca Raton'],
+      'GA': ['Atlanta', 'Savannah', 'Perry', 'Augusta'],
+      'HI': ['Honolulu', 'Maui', 'Hilo'],
+      'ID': ['Boise', 'Meridian', 'Coeur d\'Alene'],
+      'IL': ['Chicago', 'Rosemont', 'Rantoul', 'Peoria', 'Springfield'],
+      'IN': ['Indianapolis', 'Speedway', 'Evansville', 'Fort Wayne'],
+      'IA': ['Des Moines', 'Cedar Rapids', 'Davenport'],
+      'KS': ['Wichita', 'Overland Park', 'Sun City'],
+      'KY': ['Louisville', 'Lexington', 'Bowling Green'],
+      'LA': ['New Orleans', 'Baton Rouge', 'Shreveport', 'Henderson'],
+      'ME': ['Portland', 'Bangor', 'Augusta'],
+      'MD': ['Baltimore', 'Annapolis', 'Ocean City'],
+      'MA': ['Boston', 'Worcester', 'Springfield'],
+      'MI': ['Detroit', 'Pontiac', 'Grand Rapids', 'Woodward Ave'],
+      'MN': ['Minneapolis', 'St. Paul', 'Duluth'],
+      'MS': ['Biloxi', 'Gulfport', 'Jackson'],
+      'MO': ['Kansas City', 'St. Louis', 'Springfield'],
+      'MT': ['Billings', 'Bozeman', 'Missoula'],
+      'NE': ['Omaha', 'Lincoln'],
+      'NV': ['Las Vegas', 'Reno', 'Sparks'],
+      'NH': ['Manchester', 'Nashua', 'Concord'],
+      'NJ': ['Newark', 'Jersey City', 'Millville', 'Berlin'],
+      'NM': ['Albuquerque', 'Las Cruces', 'Santa Fe'],
+      'NY': ['New York City', 'Syracuse', 'Watkins Glen', 'Rochester'],
+      'NC': ['Charlotte', 'Raleigh', 'Concord', 'Denton'],
+      'ND': ['Fargo', 'Bismarck', 'Devils Lake'],
+      'OH': ['Columbus', 'Cincinnati', 'Cleveland', 'Norwalk', 'Lexington'],
+      'OK': ['Oklahoma City', 'Tulsa', 'Glenpool', 'Pryor'],
+      'OR': ['Portland', 'Eugene', 'Salem', 'Bend'],
+      'PA': ['Philadelphia', 'Pittsburgh', 'York', 'Harrisburg'],
+      'RI': ['Providence', 'Newport'],
+      'SC': ['Charleston', 'Columbia', 'Greenville', 'Gilbert'],
+      'SD': ['Sioux Falls', 'Sturgis', 'Rapid City'],
+      'TN': ['Nashville', 'Memphis', 'Knoxville', 'Lebanon', 'Sevierville'],
+      'TX': ['Houston', 'Dallas', 'Austin', 'San Antonio', 'Fort Worth', 'Galveston', 'McKinney'],
+      'UT': ['Salt Lake City', 'Provo', 'Sandy'],
+      'VT': ['Burlington', 'Rutland'],
+      'VA': ['Richmond', 'Virginia Beach', 'Sterling'],
+      'WA': ['Seattle', 'Kent', 'Bremerton', 'Tacoma', 'Lacey', 'Olympia', 'Centralia', 'Spokane', 'Vancouver', 'Richland', 'Kennewick', 'Bellingham', 'Everett', 'Puyallup'],
+      'WV': ['Charleston', 'Huntington', 'Barboursville'],
+      'WI': ['Milwaukee', 'Madison', 'Green Bay'],
+      'WY': ['Cheyenne', 'Casper'],
+      'DC': ['Washington D.C.']
+    };
 
-            // 3. TACOMA
-            {
-                id: 'wa-tacoma-001',
-                title: "Caffeine & Gasoline - Griot's Garage Flagship",
-                state: 'WA',
-                city: 'Tacoma',
-                venue: "Griot's Garage Flagship Store",
-                address: '3333 S 38th St, Tacoma, WA 98409',
-                category: 'Cars & Coffee',
-                date: '2026-11-07',
-                dateDisplay: 'November 7, 2026',
-                details: 'High-octane monthly gathering featuring live detailing tech demos, hundreds of custom vehicles, retail store access, and complimentary coffee.'
-            },
+    // Pre-populated Sample Nationwide Dataset (Starting Oct 11, 2026)
+    let eventsData = [
+      {
+        id: 'ev-1',
+        title: 'Los Angeles Auto Show 2026',
+        state: 'CA',
+        city: 'Los Angeles',
+        venue: 'Los Angeles Convention Center, 1201 S Figueroa St',
+        category: 'Auto Show',
+        date: '2026-11-20',
+        time: '09:00 AM - 08:00 PM',
+        description: 'Major international auto show featuring test rides, luxury vehicle debuts, electric vehicle tracks, and custom builds.'
+      },
+      {
+        id: 'ev-2',
+        title: 'SEMA Show Las Vegas 2026',
+        state: 'NV',
+        city: 'Las Vegas',
+        venue: 'Las Vegas Convention Center, 3150 Paradise Rd',
+        category: 'Auto Show',
+        date: '2026-11-03',
+        time: '08:00 AM - 05:00 PM',
+        description: 'The premier automotive specialty products trade event in the world. Displays, tuning reveals, and custom builds.'
+      },
+      {
+        id: 'ev-3',
+        title: 'Retromobile New York 2026',
+        state: 'NY',
+        city: 'New York City',
+        venue: 'Jacob Javits Convention Center, Manhattan',
+        category: 'Car Show',
+        date: '2026-11-19',
+        time: '10:00 AM - 06:00 PM',
+        description: 'U.S. debut of the world famous classic car convention. Showcasing legendary rare supercars and vintage collectibles.'
+      },
+      {
+        id: 'ev-4',
+        title: 'C-10 Nationals Nashville 2026',
+        state: 'TN',
+        city: 'Lebanon',
+        venue: 'Nashville Superspeedway',
+        category: 'Car Show',
+        date: '2026-10-16',
+        time: '08:00 AM - 04:00 PM',
+        description: 'The world\'s largest Chevy & GMC truck event featuring autocross, show & shine, and drag racing.'
+      },
+      {
+        id: 'ev-5',
+        title: 'Pacific Raceways Fall Swap Meet & Test & Tune',
+        state: 'WA',
+        city: 'Kent',
+        venue: 'Pacific Raceways, 31001 144th Ave SE',
+        category: 'Track / Drag',
+        date: '2026-10-17',
+        time: '08:00 AM - 04:00 PM',
+        description: 'Final fall drag racing test session and motorsports swap meet. Street cars, bracket racers, and performance vendors.'
+      },
+      {
+        id: 'ev-6',
+        title: 'Goodguys Autumn Get-Together',
+        state: 'CA',
+        city: 'Pleasanton',
+        venue: 'Alameda County Fairgrounds',
+        category: 'Car Show',
+        date: '2026-11-14',
+        time: '08:00 AM - 04:00 PM',
+        description: 'Over 2,500 American hot rods, customs, muscle cars, and trucks plus autocross competition and swap meet.'
+      },
+      {
+        id: 'ev-7',
+        title: 'Goodguys Southwest Nationals',
+        state: 'AZ',
+        city: 'Scottsdale',
+        venue: 'WestWorld of Scottsdale',
+        category: 'Car Show',
+        date: '2026-11-20',
+        time: '08:00 AM - 05:00 PM',
+        description: 'Season finale featuring over 3,000 custom rods, autocross championship, and vendor midways.'
+      },
+      {
+        id: 'ev-8',
+        title: 'Donut Derelicts Saturday Morning Meet',
+        state: 'CA',
+        city: 'Huntington Beach',
+        venue: 'Adams Ave Donuts, 9015 Adams Ave',
+        category: 'Cars & Coffee',
+        date: '2026-10-17',
+        time: '06:00 AM - 09:00 AM',
+        description: 'Iconic weekly hot rod and classic car gathering running strong since the 1980s.'
+      },
+      {
+        id: 'ev-9',
+        title: 'Griot\'s Garage Tacoma Cars & Coffee',
+        state: 'WA',
+        city: 'Tacoma',
+        venue: '3333 S 38th St, Tacoma WA',
+        category: 'Cars & Coffee',
+        date: '2026-10-18',
+        time: '08:00 AM - 10:00 AM',
+        description: 'Flagship store cars & coffee with free coffee, detailing product demos, and open car park.'
+      },
+      {
+        id: 'ev-10',
+        title: 'Inland Northwest Cars & Coffee Spokane',
+        state: 'WA',
+        city: 'Spokane',
+        venue: 'Spokane Valley Mall Lot',
+        category: 'Cars & Coffee',
+        date: '2026-10-18',
+        time: '09:00 AM - 11:30 AM',
+        description: 'Eastern Washington\'s premiere open vehicle meet welcoming exotics, muscle, and imports.'
+      }
+    ];
 
-            // 4. GIG HARBOR
-            {
-                id: 'wa-gigharbor-001',
-                title: 'Uptown Gig Harbor Cars & Coffee',
-                state: 'WA',
-                city: 'Gig Harbor',
-                venue: 'Uptown Shopping Center Plaza',
-                address: '4701 Point Fosdick Dr, Gig Harbor, WA 98335',
-                category: 'Cars & Coffee',
-                date: '2026-10-24',
-                dateDisplay: 'October 24, 2026',
-                details: 'Peninsula community car gathering bringing together classic sports cars, exotics, tuners, and muscle cars on autumn Saturday mornings.'
-            },
+    // Load custom localStorage events on launch
+    function loadSavedEvents() {
+      const saved = localStorage.getItem('usautomeets_custom');
+      if (saved) {
+        try {
+          const customList = JSON.parse(saved);
+          eventsData = [...eventsData, ...customList];
+        } catch(e) {
+          console.error(e);
+        }
+      }
+    }
 
-            // 5. OLYMPIA / LACEY
-            {
-                id: 'wa-lacey-001',
-                title: 'South Sound Cars & Coffee @ Capital Mall',
-                state: 'WA',
-                city: 'Lacey / Olympia',
-                venue: 'Capital Mall Promenade Plaza',
-                address: '625 Black Lake Blvd SW, Olympia/Lacey, WA 98502',
-                category: 'Cars & Coffee',
-                date: '2026-10-25',
-                dateDisplay: 'October 25, 2026',
-                details: 'Regional South Sound enthusiast gathering with classic muscle, sports coupes, custom trucks, and artisan coffee stands.'
-            },
-            {
-                id: 'wa-lacey-002',
-                title: 'Mustangs West Autumn Cars & Coffee',
-                state: 'WA',
-                city: 'Lacey / Olympia',
-                venue: 'Cutters Point Coffee',
-                address: '1340 Marvin Rd NE, Lacey, WA 98516',
-                category: 'Cars & Coffee',
-                date: '2026-10-25',
-                dateDisplay: 'October 25, 2026',
-                details: 'Monthly autumn gathering hosted by Mustangs West club, welcoming all makes, models, muscle cars, and Ford classics.'
-            },
-            {
-                id: 'wa-lacey-003',
-                title: 'Halloween Spooktacular Night Car Meet',
-                state: 'WA',
-                city: 'Lacey / Olympia',
-                venue: 'BeatDrop Event Center',
-                address: '651 Sleater Kinney Rd, Lacey, WA 98503',
-                category: 'Cruise Night',
-                date: '2026-10-31',
-                dateDisplay: 'October 31, 2026',
-                details: 'Halloween night car gathering featuring trunk-or-treat, custom LED underglow showcases, live DJ music, and local food trucks.'
-            },
+    // Initialize UI
+    window.addEventListener('DOMContentLoaded', () => {
+      loadSavedEvents();
+      populateStateDropdowns();
+      handleStateChange(); // Sync initial city options
+      renderEvents();
+      
+      // Real-time search listener
+      document.getElementById('searchInput').addEventListener('input', renderEvents);
+    });
 
-            // 6. CENTRALIA
-            {
-                id: 'wa-centralia-001',
-                title: 'Historic Tower Ave & Insert Coin Cars & Coffee',
-                state: 'WA',
-                city: 'Centralia',
-                venue: 'Historic Downtown Tower Ave & Insert Coin Arcade',
-                address: '309 N Tower Ave, Centralia, WA 98531',
-                category: 'Cars & Coffee',
-                date: '2026-10-31',
-                dateDisplay: 'October 31, 2026',
-                details: 'Historic downtown Centralia morning cruise-in with hot rods, classic trucks, retro arcade access, and local diner breakfast.'
-            },
+    // Populate State Selectors
+    function populateStateDropdowns() {
+      const stateFilter = document.getElementById('stateFilter');
+      const newState = document.getElementById('newState');
 
-            // 7. VANCOUVER WA
-            {
-                id: 'wa-vancouver-001',
-                title: 'Vancouver USA Cars & Coffee - Waterfront Edition',
-                state: 'WA',
-                city: 'Vancouver WA',
-                venue: 'Columbia River Waterfront Park',
-                address: '690 Waterfront Way, Vancouver, WA 98660',
-                category: 'Cars & Coffee',
-                date: '2026-10-18',
-                dateDisplay: 'October 18, 2026',
-                details: 'Southwest Washington’s premier riverfront car meet featuring exotics, classic hot rods, European tuners, and Columbia River views.'
-            },
+      stateFilter.innerHTML = '<option value="ALL">All US States (50)</option>';
+      newState.innerHTML = '<option value="">Select State</option>';
 
-            // 8. SPOKANE
-            {
-                id: 'wa-spokane-001',
-                title: 'Inland Northwest Cars & Coffee - Autumn Meet',
-                state: 'WA',
-                city: 'Spokane',
-                venue: 'Spokane Valley Mall Plaza',
-                address: '14700 E Indiana Ave, Spokane, WA 99216',
-                category: 'Cars & Coffee',
-                date: '2026-10-24',
-                dateDisplay: 'October 24, 2026',
-                details: 'Eastern Washington’s top morning car gathering featuring American muscle, stance builds, supercars, and local coffee vans.'
-            },
+      US_STATES.forEach(st => {
+        stateFilter.innerHTML += `<option value="${st.code}">${st.name} (${st.code})</option>`;
+        newState.innerHTML += `<option value="${st.code}">${st.name} (${st.code})</option>`;
+      });
+    }
 
-            // 9. TRI-CITIES (KENNEWICK & RICHLAND)
-            {
-                id: 'wa-tricities-001',
-                title: 'Tri-Cities Cars & Coffee - Columbia Park Meet',
-                state: 'WA',
-                city: 'Tri-Cities',
-                venue: 'Columbia Park Waterfront Plaza',
-                address: '5111 Columbia Park Trail, Kennewick/Richland, WA 99336',
-                category: 'Cars & Coffee',
-                date: '2026-10-25',
-                dateDisplay: 'October 25, 2026',
-                details: 'Regional Tri-Cities enthusiast gathering bringing together Kennewick, Richland, and Pasco car culture alongside the river.'
-            },
+    // Dynamic State -> City Change Handler
+    function handleStateChange() {
+      const selectedState = document.getElementById('stateFilter').value;
+      const cityFilter = document.getElementById('cityFilter');
+      cityFilter.innerHTML = '<option value="ALL">All Cities</option>';
 
-            // 10. BELLINGHAM
-            {
-                id: 'wa-bellingham-001',
-                title: 'Whatcom County Cars & Coffee',
-                state: 'WA',
-                city: 'Bellingham',
-                venue: 'Bellis Fair Mall Courtyard',
-                address: 'One Bellis Fair Pkwy, Bellingham, WA 98226',
-                category: 'Cars & Coffee',
-                date: '2026-10-18',
-                dateDisplay: 'October 18, 2026',
-                details: 'North Sound weekend car meet featuring local tuner clubs, Euro enthusiasts, classic restoration projects, and local roasters.'
-            },
+      let cityList = [];
 
-            // 11. EVERETT
-            {
-                id: 'wa-everett-001',
-                title: 'North Sound Cars & Coffee @ Everett Waterfront',
-                state: 'WA',
-                city: 'Everett',
-                venue: 'Port of Everett Waterfront Center',
-                address: '1205 Craftsman Way, Everett, WA 98201',
-                category: 'Cars & Coffee',
-                date: '2026-10-24',
-                dateDisplay: 'October 24, 2026',
-                details: 'Harbor-side weekend morning meet for Snohomish and Skagit County car enthusiasts with saltwater views and local coffee.'
-            },
+      if (selectedState === 'ALL') {
+        // Collect cities from all states that have events
+        const datasetCities = eventsData.map(e => e.city);
+        cityList = Array.from(new Set(datasetCities)).sort();
+      } else {
+        // Get preset major cities for the selected state + dataset cities for that state
+        const presetCities = CITIES_BY_STATE[selectedState] || [];
+        const stateEventsCities = eventsData.filter(e => e.state === selectedState).map(e => e.city);
+        cityList = Array.from(new Set([...presetCities, ...stateEventsCities])).sort();
+      }
 
-            // 12. BREMERTON
-            {
-                id: 'wa-bremerton-001',
-                title: 'Kitsap Peninsula Cars & Coffee - Bremerton Marina',
-                state: 'WA',
-                city: 'Bremerton',
-                venue: 'Bremerton Marina & Boardwalk Plaza',
-                address: '243 2nd St, Bremerton, WA 98337',
-                category: 'Cars & Coffee',
-                date: '2026-10-25',
-                dateDisplay: 'October 25, 2026',
-                details: 'Waterfront boardwalk morning meet bringing together Kitsap Peninsula car clubs, military car enthusiasts, and espresso popups.'
-            },
-            {
-                id: 'wa-bremerton-002',
-                title: 'October Blast Drag Racing Championship',
-                state: 'WA',
-                city: 'Bremerton',
-                venue: 'Bremerton Raceway',
-                address: '7500 SW Old Clifton Rd, Bremerton, WA 98312',
-                category: 'Drag Racing',
-                date: '2026-10-17',
-                dateDisplay: 'October 17-18, 2026',
-                details: 'Fall finale 1/8-mile drag racing event featuring Street Legal Shootout, Pro E.T., Sportsman brackets, and King of the Track showdowns.'
-            },
-            {
-                id: 'wa-bremerton-003',
-                title: 'Cool Cars of Autumn Meet',
-                state: 'WA',
-                city: 'Bremerton',
-                venue: 'McClouds Grill House',
-                address: '4111 Wheaton Way, Bremerton, WA 98310',
-                category: 'Car Show',
-                date: '2026-11-03',
-                dateDisplay: 'November 3, 2026',
-                details: 'Autumn custom car gathering with judged trophy categories, food specials, and local Kitsap car club participation.'
-            },
+      cityList.forEach(city => {
+        cityFilter.innerHTML += `<option value="${city}">${city}</option>`;
+      });
 
-            // 13. KENT / PACIFIC RACEWAYS
-            {
-                id: 'wa-kent-001',
-                title: 'All Motorsports Swap Meet @ Pacific Raceways',
-                state: 'WA',
-                city: 'Kent',
-                venue: 'Pacific Raceways Paddock',
-                address: '31001 144th Ave SE, Kent, WA 98042',
-                category: 'Swap Meet',
-                date: '2026-10-17',
-                dateDisplay: 'October 17, 2026',
-                details: 'Massive regional swap meet featuring drag racing performance parts, vintage components, tools, wheels, tires, and speed shop vendors.'
-            },
-            {
-                id: 'wa-kent-002',
-                title: 'Fall Drag Test & Tune & E.T. Bracket Finals',
-                state: 'WA',
-                city: 'Kent',
-                venue: 'Pacific Raceways Dragstrip',
-                address: '31001 144th Ave SE, Kent, WA 98042',
-                category: 'Drag Racing',
-                date: '2026-10-18',
-                dateDisplay: 'October 18, 2026',
-                details: 'End-of-season drag strip action with open test & tune lanes, E.T. bracket championship runs, and high-octane passes on the quarter-mile strip.'
-            },
-            {
-                id: 'wa-kent-003',
-                title: 'Pacific Raceways HPDE Track Day Session',
-                state: 'WA',
-                city: 'Kent',
-                venue: 'Pacific Raceways Road Course',
-                address: '31001 144th Ave SE, Kent, WA 98042',
-                category: 'Track Day',
-                date: '2026-10-23',
-                dateDisplay: 'October 23, 2026',
-                details: 'Full road course high-performance driver education with novice, intermediate, and advanced run groups under certified instruction.'
-            },
-            {
-                id: 'wa-kent-004',
-                title: 'Bad Santa Car Cruise-In & Charity Drive',
-                state: 'WA',
-                city: 'Kent',
-                venue: 'Pacific Raceways',
-                address: '31001 144th Ave SE, Kent, WA 98042',
-                category: 'Cruise Night',
-                date: '2026-12-06',
-                dateDisplay: 'December 6, 2026',
-                details: 'Annual holiday charity cruise-in with trackside parking, custom car display, hot cocoa, holiday music, and community toy drive.'
-            },
+      renderEvents();
+    }
 
-            // 14. OREGON EXPANSION PREVIEW
-            {
-                id: 'or-portland-001',
-                title: 'Portland World of Speed Cars & Coffee',
-                state: 'OR',
-                city: 'Portland',
-                venue: 'Portland International Raceway',
-                address: '1940 N Victory Blvd, Portland, OR 97217',
-                category: 'Cars & Coffee',
-                date: '2026-10-24',
-                dateDisplay: 'October 24, 2026',
-                details: 'Cross-border Pacific Northwest morning gather bringing together Portland and Vancouver automotive enthusiasts along the raceway paddock.'
-            }
-        ];
+    function handleModalStateChange() {
+      // Reserved for dynamic modal helpers if needed
+    }
 
-        let allEvents = [];
-        let filteredEvents = [];
-        let savedEventIds = new Set();
-        let selectedStateFilter = 'WA';
-        let selectedCityFilter = '';
-        let selectedCategoryFilter = 'ALL';
-        let currentViewMode = 'grid';
-        let activeModalEvent = null;
+    // Category Pill Selection
+    function selectCategoryPill(cat) {
+      document.querySelectorAll('.pill-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.querySelector(`.pill-btn[data-cat="${cat}"]`);
+      if (activeBtn) activeBtn.classList.add('active');
 
-        const LOCAL_STORAGE_SAVED = 'carculture_saved_ids_v2';
-        const LOCAL_STORAGE_SUBMITTED = 'carculture_submitted_events_v2';
+      document.getElementById('categoryFilter').value = cat;
+      renderEvents();
+    }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            loadSavedState();
-            buildCityFilters();
-            bindEventListeners();
-            applyFilters();
+    // Render Events Grid
+    function renderEvents() {
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const state = document.getElementById('stateFilter').value;
+      const city = document.getElementById('cityFilter').value;
+      const category = document.getElementById('categoryFilter').value;
+
+      const container = document.getElementById('eventsContainer');
+      container.innerHTML = '';
+
+      const filtered = eventsData.filter(ev => {
+        // Date restriction enforcement
+        if (ev.date < MIN_DATE) return false;
+
+        // Search match
+        const matchSearch = ev.title.toLowerCase().includes(search) || 
+                            ev.venue.toLowerCase().includes(search) || 
+                            ev.city.toLowerCase().includes(search) || 
+                            ev.description.toLowerCase().includes(search);
+
+        // State match
+        const matchState = (state === 'ALL') || (ev.state === state);
+
+        // City match
+        const matchCity = (city === 'ALL') || (ev.city.toLowerCase() === city.toLowerCase());
+
+        // Category match
+        const matchCat = (category === 'ALL') || (ev.category === category);
+
+        return matchSearch && matchState && matchCity && matchCat;
+      });
+
+      // Update counter UI
+      document.getElementById('eventCount').textContent = filtered.length;
+      document.getElementById('statEvents').textContent = filtered.length;
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="no-results">
+            <i class="fa-solid fa-car-tunnel"></i>
+            <h3>No Automotive Events Found</h3>
+            <p>Try adjusting your search terms, clearing city filters, or picking another state.</p>
+          </div>
+        `;
+        return;
+      }
+
+      // Render cards
+      filtered.forEach(ev => {
+        const card = document.createElement('div');
+        card.className = 'event-card';
+
+        const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ev.venue + ', ' + ev.city + ', ' + ev.state)}`;
+        const gCalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(ev.title)}&dates=${ev.date.replace(/-/g, '')}/${ev.date.replace(/-/g, '')}&details=${encodeURIComponent(ev.description)}&location=${encodeURIComponent(ev.venue + ', ' + ev.city + ', ' + ev.state)}`;
+
+        card.innerHTML = `
+          <div class="card-header-badge">${ev.category}</div>
+          <div class="card-body">
+            <div class="card-location-tag">
+              <i class="fa-solid fa-location-dot"></i> ${ev.city}, ${ev.state}
+            </div>
+            <h3 class="card-title">${ev.title}</h3>
+            <div class="card-meta">
+              <div class="meta-item"><i class="fa-regular fa-calendar"></i> ${formatDate(ev.date)}</div>
+              <div class="meta-item"><i class="fa-regular fa-clock"></i> ${ev.time || 'TBD'}</div>
+              <div class="meta-item"><i class="fa-solid fa-map-pin"></i> ${ev.venue}</div>
+            </div>
+            <p class="card-description">${ev.description}</p>
+            <div class="card-footer">
+              <a href="${mapsUrl}" target="_blank" class="btn btn-outline"><i class="fa-solid fa-directions"></i> Map</a>
+              <a href="${gCalUrl}" target="_blank" class="btn btn-primary"><i class="fa-solid fa-calendar-plus"></i> Cal</a>
+              <button onclick="downloadICS('${ev.id}')" class="btn btn-outline" title="Download .ics"><i class="fa-solid fa-download"></i></button>
+            </div>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    // Date Formatter
+    function formatDate(dateStr) {
+      const options = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
+      const d = new Date(dateStr + 'T00:00:00');
+      return d.toLocaleDateString('en-US', options);
+    }
+
+    // Reset Filters
+    function resetFilters() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('stateFilter').value = 'ALL';
+      document.getElementById('categoryFilter').value = 'ALL';
+      selectCategoryPill('ALL');
+      handleStateChange();
+    }
+
+    // Modal Control
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+
+    // Form Submission
+    function handleFormSubmit(e) {
+      e.preventDefault();
+
+      const newEv = {
+        id: 'custom-' + Date.now(),
+        title: document.getElementById('newTitle').value,
+        state: document.getElementById('newState').value,
+        city: document.getElementById('newCity').value,
+        venue: document.getElementById('newVenue').value,
+        category: document.getElementById('newCategory').value,
+        date: document.getElementById('newDate').value,
+        time: 'TBD',
+        description: document.getElementById('newDesc').value || 'User submitted community event.'
+      };
+
+      eventsData.unshift(newEv);
+
+      // Save user submission to local storage
+      const saved = JSON.parse(localStorage.getItem('usautomeets_custom') || '[]');
+      saved.unshift(newEv);
+      localStorage.setItem('usautomeets_custom', JSON.stringify(saved));
+
+      closeModal('submitModal');
+      document.getElementById('eventForm').reset();
+      showToast('Event published successfully!');
+      renderEvents();
+    }
+
+    // Download .ics Calendar File
+    function downloadICS(eventId) {
+      const ev = eventsData.find(e => e.id === eventId);
+      if (!ev) return;
+
+      const dateClean = ev.date.replace(/-/g, '');
+      const icsContent = 
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//USA Auto Meets//EN
+BEGIN:VEVENT
+SUMMARY:${ev.title}
+DESCRIPTION:${ev.description}
+LOCATION:${ev.venue}, ${ev.city}, ${ev.state}
+DTSTART;VALUE=DATE:${dateClean}
+DTEND;VALUE=DATE:${dateClean}
+END:VEVENT
+END:VCALENDAR`;
+
+      const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `${ev.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.ics`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast('Downloaded .ics calendar file');
+    }
+
+    // Export Data CSV
+    function exportData(format) {
+      if (format === 'csv') {
+        let csv = 'Title,State,City,Venue,Category,Date,Description\n';
+        eventsData.forEach(e => {
+          csv += `"${e.title}","${e.state}","${e.city}","${e.venue}","${e.category}","${e.date}","${e.description.replace(/"/g, '""')}"\n`;
         });
-
-        function loadSavedState() {
-            try {
-                const storedSaved = localStorage.getItem(LOCAL_STORAGE_SAVED);
-                if (storedSaved) {
-                    savedEventIds = new Set(JSON.parse(storedSaved));
-                }
-
-                const storedSubmitted = localStorage.getItem(LOCAL_STORAGE_SUBMITTED);
-                let customEvents = [];
-                if (storedSubmitted) {
-                    customEvents = JSON.parse(storedSubmitted);
-                }
-
-                allEvents = [...MASTER_EVENT_DATASET, ...customEvents];
-            } catch (err) {
-                console.error("Storage load error:", err);
-                allEvents = [...MASTER_EVENT_DATASET];
-            }
-        }
-
-        function persistSavedIds() {
-            try {
-                localStorage.setItem(LOCAL_STORAGE_SAVED, JSON.stringify([...savedEventIds]));
-            } catch (err) {
-                console.error(err);
-            }
-        }
-
-        function buildCityFilters() {
-            const citySelect = document.getElementById('cityFilter');
-            const cityPillsContainer = document.getElementById('cityPillsContainer');
-
-            // Strictly filter future events
-            const validFutureEvents = allEvents.filter(e => e.date >= REFERENCE_DATE && (selectedStateFilter === 'ALL' || e.state === selectedStateFilter));
-
-            const cityMap = {};
-            validFutureEvents.forEach(e => {
-                cityMap[e.city] = (cityMap[e.city] || 0) + 1;
-            });
-
-            citySelect.innerHTML = '<option value="">All Regions</option>';
-            Object.keys(cityMap).sort().forEach(city => {
-                const opt = document.createElement('option');
-                opt.value = city;
-                opt.textContent = `${city} (${cityMap[city]})`;
-                citySelect.appendChild(opt);
-            });
-
-            cityPillsContainer.innerHTML = '';
-            
-            // "All" Pill
-            const allPill = document.createElement('button');
-            allPill.className = `city-pill px-3 py-1 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${selectedCityFilter === '' ? 'bg-brand-red text-white' : 'bg-carbon-950 border border-gray-800 text-gray-300 hover:bg-carbon-700'}`;
-            allPill.innerHTML = `<span>All ${selectedStateFilter}</span> <span class="px-1.5 py-0.2 text-[10px] bg-black/40 rounded-full">${validFutureEvents.length}</span>`;
-            allPill.onclick = () => {
-                selectedCityFilter = '';
-                citySelect.value = '';
-                updateCityPillStyles();
-                applyFilters();
-            };
-            cityPillsContainer.appendChild(allPill);
-
-            Object.keys(cityMap).sort().forEach(city => {
-                const pill = document.createElement('button');
-                pill.className = `city-pill px-3 py-1 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${selectedCityFilter === city ? 'bg-brand-red text-white' : 'bg-carbon-950 border border-gray-800 text-gray-300 hover:bg-carbon-700'}`;
-                pill.dataset.city = city;
-                pill.innerHTML = `<span>${city}</span> <span class="px-1.5 py-0.2 text-[10px] bg-black/40 rounded-full">${cityMap[city]}</span>`;
-                pill.onclick = () => {
-                    selectedCityFilter = city;
-                    citySelect.value = city;
-                    updateCityPillStyles();
-                    applyFilters();
-                };
-                cityPillsContainer.appendChild(pill);
-            });
-        }
-
-        function updateCityPillStyles() {
-            document.querySelectorAll('.city-pill').forEach(pill => {
-                const city = pill.dataset.city || '';
-                if (city === selectedCityFilter) {
-                    pill.className = 'city-pill px-3 py-1 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer bg-brand-red text-white';
-                } else {
-                    pill.className = 'city-pill px-3 py-1 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer bg-carbon-950 border border-gray-800 text-gray-300 hover:bg-carbon-700';
-                }
-            });
-        }
-
-        function applyFilters() {
-            const query = document.getElementById('searchInput').value.trim().toLowerCase();
-            const dropdownState = document.getElementById('stateFilter').value;
-            const dropdownCity = document.getElementById('cityFilter').value;
-            const dropdownCategory = selectedCategoryFilter;
-            const savedOnly = document.getElementById('savedOnlyToggle').checked;
-            const sortMode = document.getElementById('sortSelect').value;
-            
-            const dateFrom = document.getElementById('dateFromFilter').value || REFERENCE_DATE;
-            const dateTo = document.getElementById('dateToFilter').value;
-
-            if (dropdownState !== selectedStateFilter) {
-                selectedStateFilter = dropdownState;
-                selectedCityFilter = '';
-                buildCityFilters();
-            } else if (dropdownCity !== selectedCityFilter) {
-                selectedCityFilter = dropdownCity;
-                updateCityPillStyles();
-            }
-
-            document.getElementById('btnClearSearch').classList.toggle('hidden', query === '');
-
-            filteredEvents = allEvents.filter(event => {
-                // RULE 1: STRICTLY HIDE PAST EVENTS (BEFORE OCT 11, 2026)
-                if (event.date < REFERENCE_DATE) return false;
-
-                // State Filter
-                if (selectedStateFilter !== 'ALL' && event.state !== selectedStateFilter) return false;
-
-                // Date From Filter
-                if (dateFrom && event.date < dateFrom) return false;
-
-                // Date To Filter
-                if (dateTo && event.date > dateTo) return false;
-
-                // Category Filter
-                if (dropdownCategory !== 'ALL' && event.category !== dropdownCategory) return false;
-
-                // City Filter
-                if (selectedCityFilter !== '' && event.city !== selectedCityFilter) return false;
-
-                // Saved Only Filter
-                if (savedOnly && !savedEventIds.has(event.id)) return false;
-
-                // Search Query Filter
-                if (query) {
-                    const text = `${event.title} ${event.city} ${event.state} ${event.venue} ${event.address} ${event.category} ${event.details}`.toLowerCase();
-                    if (!text.includes(query)) return false;
-                }
-
-                return true;
-            });
-
-            // Sort logic
-            filteredEvents.sort((a, b) => {
-                if (sortMode === 'date-asc') return new Date(a.date) - new Date(b.date);
-                if (sortMode === 'date-desc') return new Date(b.date) - new Date(a.date);
-                if (sortMode === 'title-asc') return a.title.localeCompare(b.title);
-                if (sortMode === 'city-asc') return a.city.localeCompare(b.city);
-                return 0;
-            });
-
-            updateStats();
-            renderEvents();
-        }
-
-        function updateCategoryPillStyles() {
-            document.querySelectorAll('.cat-pill').forEach(btn => {
-                if (btn.dataset.category === selectedCategoryFilter) {
-                    btn.className = 'cat-pill active px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-brand-red text-white cursor-pointer';
-                } else {
-                    btn.className = 'cat-pill px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-carbon-700 hover:bg-carbon-600 text-gray-300 cursor-pointer';
-                }
-            });
-        }
-
-        function updateStats() {
-            const validFuture = allEvents.filter(e => e.date >= REFERENCE_DATE && (selectedStateFilter === 'ALL' || e.state === selectedStateFilter));
-            
-            document.getElementById('statTotalEvents').textContent = validFuture.length;
-            document.getElementById('statTotalCities').textContent = new Set(validFuture.map(e => e.city)).size;
-            document.getElementById('statCarsCoffee').textContent = validFuture.filter(e => e.category === 'Cars & Coffee').length;
-            document.getElementById('statTracks').textContent = validFuture.filter(e => e.category === 'Drag Racing' || e.category === 'Track Day').length;
-
-            document.getElementById('resultsCount').innerHTML = `Showing <span class="text-brand-red font-bold">${filteredEvents.length}</span> of ${validFuture.length} upcoming events`;
-            document.getElementById('liveBadgeText').textContent = `${validFuture.length} Verified Upcoming Events`;
-        }
-
-        function renderEvents() {
-            const container = document.getElementById('eventsContainer');
-            const emptyState = document.getElementById('emptyState');
-
-            container.innerHTML = '';
-
-            if (filteredEvents.length === 0) {
-                emptyState.classList.remove('hidden');
-                return;
-            } else {
-                emptyState.classList.add('hidden');
-            }
-
-            if (currentViewMode === 'grid') {
-                container.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5";
-            } else {
-                container.className = "flex flex-col gap-3";
-            }
-
-            filteredEvents.forEach(event => {
-                const isSaved = savedEventIds.has(event.id);
-                const dateObj = new Date(event.date + 'T00:00:00');
-                const monthStr = dateObj.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
-                const dayStr = dateObj.getDate();
-
-                let categoryIcon = 'fa-car';
-                let categoryBg = 'bg-blue-950/80 text-blue-400 border-blue-800/60';
-                
-                if (event.category === 'Cars & Coffee') {
-                    categoryIcon = 'fa-mug-hot';
-                    categoryBg = 'bg-amber-950/90 text-brand-gold border-amber-800/80';
-                } else if (event.category === 'Drag Racing') {
-                    categoryIcon = 'fa-gauge-high';
-                    categoryBg = 'bg-red-950/80 text-red-400 border-red-800/60';
-                } else if (event.category === 'Swap Meet') {
-                    categoryIcon = 'fa-boxes-packing';
-                    categoryBg = 'bg-emerald-950/80 text-emerald-400 border-emerald-800/60';
-                } else if (event.category === 'Track Day') {
-                    categoryIcon = 'fa-flag-checkered';
-                    categoryBg = 'bg-cyan-950/80 text-cyan-400 border-cyan-800/60';
-                } else if (event.category === 'Cruise Night') {
-                    categoryIcon = 'fa-route';
-                    categoryBg = 'bg-purple-950/80 text-purple-400 border-purple-800/60';
-                } else if (event.category === 'Auto Show') {
-                    categoryIcon = 'fa-city';
-                    categoryBg = 'bg-pink-950/80 text-pink-400 border-pink-800/60';
-                }
-
-                if (currentViewMode === 'grid') {
-                    const card = document.createElement('div');
-                    card.className = `carbon-card rounded-2xl p-5 flex flex-col justify-between space-y-4 cursor-pointer group ${event.category === 'Cars & Coffee' ? 'gold-border-glow' : ''}`;
-                    card.onclick = (e) => {
-                        if (!e.target.closest('.bookmark-btn')) openDetailModal(event);
-                    };
-
-                    card.innerHTML = `
-                        <div class="space-y-3">
-                            <div class="flex items-start justify-between gap-3">
-                                <span class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold uppercase border ${categoryBg} flex items-center gap-1.5">
-                                    <i class="fa-solid ${categoryIcon}"></i>
-                                    ${event.category}
-                                </span>
-
-                                <button class="bookmark-btn w-8 h-8 rounded-full bg-carbon-950 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-brand-red transition ${isSaved ? 'text-brand-red' : ''}" data-id="${event.id}">
-                                    <i class="${isSaved ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
-                                </button>
-                            </div>
-
-                            <div class="flex gap-3.5 items-start">
-                                <div class="w-12 h-12 rounded-xl bg-carbon-950 border border-gray-800 flex flex-col items-center justify-center flex-shrink-0 text-center">
-                                    <span class="text-[10px] font-bold text-brand-red uppercase leading-tight">${monthStr}</span>
-                                    <span class="text-base font-extrabold text-white font-display leading-tight">${dayStr}</span>
-                                </div>
-                                <div>
-                                    <h3 class="font-bold font-display text-white text-base group-hover:text-brand-red transition line-clamp-2">${event.title}</h3>
-                                    <p class="text-xs text-gray-400 flex items-center gap-1 mt-1">
-                                        <i class="fa-solid fa-location-dot text-brand-red text-[11px]"></i>
-                                        <span class="font-bold text-gray-200">${event.city}, ${event.state}</span>
-                                    </p>
-                                </div>
-                            </div>
-
-                            <p class="text-xs text-gray-400 line-clamp-2 leading-relaxed">${event.details}</p>
-                        </div>
-
-                        <div class="pt-3 border-t border-gray-800/80 flex items-center justify-between text-xs text-gray-400">
-                            <span class="truncate max-w-[190px]"><i class="fa-solid fa-building mr-1 text-gray-500"></i>${event.venue}</span>
-                            <span class="text-brand-red font-bold hover:underline flex items-center gap-1">Details <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
-                        </div>
-                    `;
-                    container.appendChild(card);
-                } else {
-                    const card = document.createElement('div');
-                    card.className = "carbon-card rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 cursor-pointer group";
-                    card.onclick = (e) => {
-                        if (!e.target.closest('.bookmark-btn')) openDetailModal(event);
-                    };
-
-                    card.innerHTML = `
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-xl bg-carbon-950 border border-gray-800 flex flex-col items-center justify-center flex-shrink-0 text-center">
-                                <span class="text-[10px] font-bold text-brand-red uppercase leading-tight">${monthStr}</span>
-                                <span class="text-base font-extrabold text-white font-display leading-tight">${dayStr}</span>
-                            </div>
-                            <div class="space-y-1">
-                                <div class="flex items-center gap-2 flex-wrap">
-                                    <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase border ${categoryBg}">${event.category}</span>
-                                    <span class="text-xs font-bold text-gray-200">${event.city}, ${event.state}</span>
-                                    <span class="text-xs text-gray-500">• ${event.venue}</span>
-                                </div>
-                                <h3 class="font-bold font-display text-white text-base group-hover:text-brand-red transition">${event.title}</h3>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-between sm:justify-end gap-3 border-t sm:border-t-0 border-gray-800 pt-2 sm:pt-0">
-                            <button class="bookmark-btn w-8 h-8 rounded-full bg-carbon-950 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-brand-red transition ${isSaved ? 'text-brand-red' : ''}" data-id="${event.id}">
-                                <i class="${isSaved ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
-                            </button>
-
-                            <button class="px-3.5 py-1.5 bg-carbon-700 hover:bg-brand-red text-white text-xs font-bold rounded-lg transition">
-                                View
-                            </button>
-                        </div>
-                    `;
-                    container.appendChild(card);
-                }
-            });
-
-            document.querySelectorAll('.bookmark-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    toggleSaveEvent(btn.dataset.id);
-                });
-            });
-        }
-
-        function toggleSaveEvent(id) {
-            if (savedEventIds.has(id)) {
-                savedEventIds.delete(id);
-                showToast("Bookmark removed");
-            } else {
-                savedEventIds.add(id);
-                showToast("Event saved to bookmarks!");
-            }
-            persistSavedIds();
-            applyFilters();
-
-            if (activeModalEvent && activeModalEvent.id === id) {
-                updateModalBookmarkButton();
-            }
-        }
-
-        function openDetailModal(event) {
-            activeModalEvent = event;
-            document.getElementById('modalTitle').textContent = event.title;
-            
-            const badge = document.getElementById('modalCategoryBadge');
-            badge.textContent = event.category;
-            badge.className = `px-2.5 py-0.5 rounded-md text-[11px] font-extrabold uppercase ${
-                event.category === 'Cars & Coffee' ? 'bg-amber-950 text-brand-gold border border-amber-800' :
-                event.category === 'Drag Racing' ? 'bg-red-950 text-red-400 border border-red-800' :
-                'bg-blue-950 text-blue-300 border border-blue-800'
-            }`;
-
-            document.getElementById('modalCityBadge').textContent = event.city;
-            document.getElementById('modalStateBadge').textContent = event.state;
-            document.getElementById('modalLocation').querySelector('span').textContent = `${event.venue} — ${event.address}`;
-            document.getElementById('modalDate').querySelector('span').textContent = event.dateDisplay;
-            document.getElementById('modalVenue').querySelector('span').textContent = event.venue;
-            document.getElementById('modalDescription').textContent = event.details;
-            document.getElementById('modalFullAddress').textContent = event.address;
-
-            const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.address || (event.venue + ' ' + event.city + ' ' + event.state))}`;
-            document.getElementById('btnModalMap').href = mapsUrl;
-
-            const gCalUrl = createGoogleCalendarUrl(event);
-            document.getElementById('btnGoogleCalendar').href = gCalUrl;
-
-            updateModalBookmarkButton();
-
-            const modal = document.getElementById('eventDetailModal');
-            modal.classList.remove('hidden');
-            setTimeout(() => modal.classList.remove('opacity-0'), 10);
-        }
-
-        function createGoogleCalendarUrl(event) {
-            const startDateIso = event.date.replace(/-/g, '');
-            const titleEnc = encodeURIComponent(`Car Culture Event: ${event.title}`);
-            const detailsEnc = encodeURIComponent(`${event.details}\n\nVenue: ${event.venue}\nAddress: ${event.address}`);
-            const locEnc = encodeURIComponent(event.address);
-            return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${titleEnc}&dates=${startDateIso}/${startDateIso}&details=${detailsEnc}&location=${locEnc}`;
-        }
-
-        function updateModalBookmarkButton() {
-            if (!activeModalEvent) return;
-            const isSaved = savedEventIds.has(activeModalEvent.id);
-            const btn = document.getElementById('btnBookmarkModal');
-            btn.innerHTML = `
-                <i class="${isSaved ? 'fa-solid' : 'fa-regular'} fa-heart text-brand-red"></i>
-                <span>${isSaved ? 'Saved in Bookmarks' : 'Save Bookmark'}</span>
-            `;
-        }
-
-        function closeDetailModal() {
-            const modal = document.getElementById('eventDetailModal');
-            modal.classList.add('opacity-0');
-            setTimeout(() => modal.classList.add('hidden'), 200);
-            activeModalEvent = null;
-        }
-
-        function handleEventSubmit(e) {
-            e.preventDefault();
-
-            const title = document.getElementById('subTitle').value.trim();
-            const state = document.getElementById('subState').value;
-            const city = document.getElementById('subCity').value.trim();
-            const venue = document.getElementById('subVenue').value.trim();
-            const address = document.getElementById('subAddress').value.trim();
-            const category = document.getElementById('subCategory').value;
-            const date = document.getElementById('subDate').value;
-            const details = document.getElementById('subDescription').value.trim();
-
-            if (date < REFERENCE_DATE) {
-                showToast("Event date must be on or after October 11, 2026!");
-                return;
-            }
-
-            const dateObj = new Date(date + 'T00:00:00');
-            const dateDisplay = dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-
-            const newEvent = {
-                id: 'custom-' + Date.now(),
-                title,
-                state,
-                city,
-                venue,
-                address,
-                category,
-                date,
-                dateDisplay,
-                details
-            };
-
-            try {
-                const storedSubmitted = localStorage.getItem(LOCAL_STORAGE_SUBMITTED);
-                const customEvents = storedSubmitted ? JSON.parse(storedSubmitted) : [];
-                customEvents.push(newEvent);
-                localStorage.setItem(LOCAL_STORAGE_SUBMITTED, JSON.stringify(customEvents));
-            } catch (err) {
-                console.error(err);
-            }
-
-            allEvents.unshift(newEvent);
-            buildCityFilters();
-            applyFilters();
-
-            closeSubmitModal();
-            document.getElementById('submitEventForm').reset();
-            showToast("Your event has been published to the directory!");
-        }
-
-        function openSubmitModal() {
-            const modal = document.getElementById('submitModal');
-            modal.classList.remove('hidden');
-            setTimeout(() => modal.classList.remove('opacity-0'), 10);
-        }
-
-        function closeSubmitModal() {
-            const modal = document.getElementById('submitModal');
-            modal.classList.add('opacity-0');
-            setTimeout(() => modal.classList.add('hidden'), 200);
-        }
-
-        function downloadIcsCalendar(event) {
-            if (!event) return;
-
-            const startDateStr = event.date.replace(/-/g, '');
-            const icsContent = [
-                'BEGIN:VCALENDAR',
-                'VERSION:2.0',
-                'PRODID:-//Car Culture Directory//Nationwide Events//EN',
-                'BEGIN:VEVENT',
-                `UID:${event.id}@carculturedirectory.com`,
-                `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z`,
-                `DTSTART;VALUE=DATE:${startDateStr}`,
-                `SUMMARY:${event.title}`,
-                `DESCRIPTION:${event.details.replace(/\n/g, ' ')}`,
-                `LOCATION:${event.venue}, ${event.address}`,
-                'END:VEVENT',
-                'END:VCALENDAR'
-            ].join('\r\n');
-
-            const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-            const link = document.createElement('a');
-            link.href = window.URL.createObjectURL(blob);
-            link.setAttribute('download', `${event.title.replace(/[^a-z0-9]/gi, '_')}.ics`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            showToast("Calendar (.ics) downloaded!");
-        }
-
-        function openExportModal() {
-            document.getElementById('exportCountText').textContent = filteredEvents.length;
-            const modal = document.getElementById('exportModal');
-            modal.classList.remove('hidden');
-            setTimeout(() => modal.classList.remove('opacity-0'), 10);
-        }
-
-        function closeExportModal() {
-            const modal = document.getElementById('exportModal');
-            modal.classList.add('opacity-0');
-            setTimeout(() => modal.classList.add('hidden'), 200);
-        }
-
-        function downloadCSV() {
-            if (filteredEvents.length === 0) return;
-
-            const headers = ['Title', 'State', 'City', 'Venue', 'Address', 'Category', 'Date', 'Date Display', 'Details'];
-            const rows = filteredEvents.map(e => [
-                `"${(e.title || '').replace(/"/g, '""')}"`,
-                `"${(e.state || '').replace(/"/g, '""')}"`,
-                `"${(e.city || '').replace(/"/g, '""')}"`,
-                `"${(e.venue || '').replace(/"/g, '""')}"`,
-                `"${(e.address || '').replace(/"/g, '""')}"`,
-                `"${(e.category || '').replace(/"/g, '""')}"`,
-                `"${e.date}"`,
-                `"${(e.dateDisplay || '').replace(/"/g, '""')}"`,
-                `"${(e.details || '').replace(/"/g, '""')}"`
-            ]);
-
-            const csvContent = "data:text/csv;charset=utf-8," + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement('a');
-            link.setAttribute('href', encodedUri);
-            link.setAttribute('download', `car_culture_events_upcoming.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            closeExportModal();
-            showToast("CSV file exported!");
-        }
-
-        function downloadJSON() {
-            if (filteredEvents.length === 0) return;
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(filteredEvents, null, 2));
-            const link = document.createElement('a');
-            link.setAttribute('href', dataStr);
-            link.setAttribute('download', `car_culture_events_upcoming.json`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            closeExportModal();
-            showToast("JSON file exported!");
-        }
-
-        function showToast(message) {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = 'bg-carbon-800 border border-brand-red text-white text-xs px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2 pointer-events-auto transition-all duration-300 transform translate-y-2 opacity-0';
-            toast.innerHTML = `<i class="fa-solid fa-circle-check text-brand-red"></i> <span>${message}</span>`;
-            container.appendChild(toast);
-
-            setTimeout(() => {
-                toast.classList.remove('translate-y-2', 'opacity-0');
-            }, 10);
-
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-2');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
-
-        function bindEventListeners() {
-            document.getElementById('searchInput').addEventListener('input', applyFilters);
-            document.getElementById('stateFilter').addEventListener('change', applyFilters);
-            document.getElementById('cityFilter').addEventListener('change', applyFilters);
-            document.getElementById('dateFromFilter').addEventListener('change', applyFilters);
-            document.getElementById('dateToFilter').addEventListener('change', applyFilters);
-            document.getElementById('savedOnlyToggle').addEventListener('change', applyFilters);
-            document.getElementById('sortSelect').addEventListener('change', applyFilters);
-
-            document.getElementById('btnClearSearch').addEventListener('click', () => {
-                document.getElementById('searchInput').value = '';
-                applyFilters();
-            });
-
-            document.getElementById('btnResetFilters').addEventListener('click', () => {
-                document.getElementById('searchInput').value = '';
-                document.getElementById('stateFilter').value = 'WA';
-                document.getElementById('cityFilter').value = '';
-                document.getElementById('dateFromFilter').value = REFERENCE_DATE;
-                document.getElementById('dateToFilter').value = '';
-                document.getElementById('savedOnlyToggle').checked = false;
-                selectedStateFilter = 'WA';
-                selectedCityFilter = '';
-                selectedCategoryFilter = 'ALL';
-
-                buildCityFilters();
-                updateCategoryPillStyles();
-                applyFilters();
-            });
-
-            document.querySelectorAll('.cat-pill').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    selectedCategoryFilter = btn.dataset.category;
-                    updateCategoryPillStyles();
-                    applyFilters();
-                });
-            });
-
-            document.getElementById('viewGridBtn').addEventListener('click', () => {
-                currentViewMode = 'grid';
-                document.getElementById('viewGridBtn').className = 'px-2.5 py-1 text-xs rounded-lg bg-carbon-700 text-white transition cursor-pointer';
-                document.getElementById('viewListBtn').className = 'px-2.5 py-1 text-xs rounded-lg text-gray-400 hover:text-white transition cursor-pointer';
-                renderEvents();
-            });
-
-            document.getElementById('viewListBtn').addEventListener('click', () => {
-                currentViewMode = 'list';
-                document.getElementById('viewListBtn').className = 'px-2.5 py-1 text-xs rounded-lg bg-carbon-700 text-white transition cursor-pointer';
-                document.getElementById('viewGridBtn').className = 'px-2.5 py-1 text-xs rounded-lg text-gray-400 hover:text-white transition cursor-pointer';
-                renderEvents();
-            });
-
-            document.getElementById('btnCloseDetailModal').addEventListener('click', closeDetailModal);
-            document.getElementById('btnCloseSubmitModal').addEventListener('click', closeSubmitModal);
-            document.getElementById('btnCancelSubmit').addEventListener('click', closeSubmitModal);
-            document.getElementById('btnCloseExportModal').addEventListener('click', closeExportModal);
-
-            document.getElementById('btnOpenSubmitModal').addEventListener('click', openSubmitModal);
-            document.getElementById('btnExportData').addEventListener('click', openExportModal);
-
-            document.getElementById('btnBookmarkModal').addEventListener('click', () => {
-                if (activeModalEvent) toggleSaveEvent(activeModalEvent.id);
-            });
-
-            document.getElementById('btnDownloadIcs').addEventListener('click', () => {
-                if (activeModalEvent) downloadIcsCalendar(activeModalEvent);
-            });
-
-            document.getElementById('submitEventForm').addEventListener('submit', handleEventSubmit);
-            document.getElementById('btnExportCSV').addEventListener('click', downloadCSV);
-            document.getElementById('btnExportJSON').addEventListener('click', downloadJSON);
-
-            window.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    closeDetailModal();
-                    closeSubmitModal();
-                    closeExportModal();
-                }
-            });
-
-            [document.getElementById('eventDetailModal'), document.getElementById('submitModal'), document.getElementById('exportModal')].forEach(modal => {
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        closeDetailModal();
-                        closeSubmitModal();
-                        closeExportModal();
-                    }
-                });
-            });
-        }
-    </script>
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'us_car_events_2026.csv');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        showToast('Exported dataset to CSV');
+      }
+    }
+
+    // Toast Notification Helper
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').textContent = msg;
+      toast.classList.add('active');
+      setTimeout(() => toast.classList.remove('active'), 3000);
+    }
+  </script>
 </body>
 </html>
