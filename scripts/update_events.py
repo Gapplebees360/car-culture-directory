@@ -18,6 +18,7 @@ HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) USAAutoMeets
 def days_ahead(n):
     return (today + datetime.timedelta(days=n)).strftime('%Y-%m-%d')
 
+# FULL 50-STATE GUARANTEED RECURRING SCHEDULE
 BASE_50_STATE_SCHEDULE = [
     {"title": "Alabama International Dragway Street Legal Night", "state": "AL", "city": "Steele", "venue": "1245 Dragstrip Rd", "category": "Track / Drag", "date": days_ahead(4), "time": "05:00 PM - 10:00 PM", "description": "Friday night street legal drag racing test & tune."},
     {"title": "Hoover Met Cars & Coffee", "state": "AL", "city": "Hoover", "venue": "Hoover Metropolitan Complex", "category": "Cars & Coffee", "date": days_ahead(6), "time": "08:00 AM - 11:00 AM", "description": "Monthly community gathering of muscle cars, hot rods, and exotics."},
@@ -65,7 +66,7 @@ BASE_50_STATE_SCHEDULE = [
     {"title": "Bremerton Raceway Sportsman Drags", "state": "WA", "city": "Bremerton", "venue": "8800 SW Imperial Way", "category": "Track / Drag", "date": days_ahead(5), "time": "08:00 AM - 05:00 PM", "description": "Bracket drag racing at Bremerton Airport."},
     {"title": "Griot's Garage Tacoma Caffeine & Gasoline", "state": "WA", "city": "Tacoma", "venue": "3333 S 38th St", "category": "Cars & Coffee", "date": days_ahead(6), "time": "08:00 AM - 10:00 AM", "description": "Flagship store cars & coffee with free coffee."},
     {"title": "Great Lakes Dragaway Street Drag Night", "state": "WI", "city": "Union Grove", "venue": "18411 1st St", "category": "Track / Drag", "date": days_ahead(4), "time": "04:00 PM - 10:00 PM", "description": "Union Grove drag racing test and tune."},
-    {"title": "District Cars & Coffee Capitol Meet", "state": "DC", "city": "Washington", "venue": "RFK Stadium Lot 8", "category": "Cars & Coffee", "date": days_ahead(6), "time": "08:30 AM - 11:30 AM", "description": "D.C. metro automotive gathering."
+    {"title": "District Cars & Coffee Capitol Meet", "state": "DC", "city": "Washington", "venue": "RFK Stadium Lot 8", "category": "Cars & Coffee", "date": days_ahead(6), "time": "08:30 AM - 11:30 AM", "description": "D.C. metro automotive gathering."}
 ]
 
 def fetch_msr_events_direct():
