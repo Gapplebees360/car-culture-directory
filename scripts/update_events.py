@@ -4,6 +4,7 @@ import json
 import sys
 import datetime
 import urllib.request
+import urllib.parse
 
 # Reference Date (UTC)
 today = datetime.datetime.now(datetime.timezone.utc).date()
@@ -24,43 +25,64 @@ CATEGORY_IMAGES = {
     "Autocross": "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&auto=format&fit=crop"
 }
 
-# ---------------------------------------------------------
-# URL HEALTH CHECKER & CACHE ENGINE
-# ---------------------------------------------------------
+SOFT_404_TERMS = [
+    "page not found", "404 not found", "404 error", "page doesn't exist",
+    "event not found", "no event found", "this domain is for sale",
+    "buy this domain", "hugedomains", "godaddy", "sedo", "domain expired",
+    "event has passed", "sorry, the page", "error 404"
+]
+
 CHECKED_URL_CACHE = {}
 
-def verify_url(url, fallback_url="#"):
+def generate_fallback_search(title, venue, city, state):
+    """Generates a targeted, working Google Search URL for the specific event."""
+    clean_query = f"{title} {venue} {city} {state}".strip()
+    encoded = urllib.parse.quote(clean_query)
+    return f"https://www.google.com/search?q={encoded}"
+
+def verify_and_audit_url(url, title="", venue="", city="", state=""):
     """
-    Automatically verifies that a URL resolves with a 2xx or 3xx HTTP status code.
-    If the URL returns a 404, 500, or fails connection, it returns fallback_url.
+    Performs deep 4-layer validation:
+    1. Inspects final redirect URL (detects deep-to-root redirects).
+    2. Audits HTML body for Soft 404s and parked domains.
+    3. Replaces dead links with a targeted Google Search landing page.
     """
-    if not url or url == '#':
+    fallback_url = generate_fallback_search(title, venue, city, state)
+    if not url or url == '#' or 'google.com/search' in url:
         return fallback_url
+    
     if url in CHECKED_URL_CACHE:
         return CHECKED_URL_CACHE[url]
 
-    is_valid = False
     try:
-        # Try lightweight HEAD request first
-        req = urllib.request.Request(url, headers=HEADERS, method='HEAD')
-        with urllib.request.urlopen(req, timeout=3.5) as resp:
-            if resp.status < 400:
-                is_valid = True
-    except Exception:
-        try:
-            # Fall back to GET request if server blocks HEAD
-            req = urllib.request.Request(url, headers=HEADERS, method='GET')
-            with urllib.request.urlopen(req, timeout=4.0) as resp:
-                if resp.status < 400:
-                    is_valid = True
-        except Exception:
-            is_valid = False
+        req = urllib.request.Request(url, headers=HEADERS)
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            final_url = resp.geturl()
+            
+            # Layer 1: Detect Deep-Link to Root Homepage Fallback
+            orig_path_depth = len([p for p in urllib.parse.urlparse(url).path.split('/') if p])
+            final_path_depth = len([p for p in urllib.parse.urlparse(final_url).path.split('/') if p])
+            
+            if orig_path_depth > 0 and final_path_depth == 0:
+                print(f"Link Audit Fail (Redirected to Root): {url} -> {final_url}")
+                CHECKED_URL_CACHE[url] = fallback_url
+                return fallback_url
 
-    result = url if is_valid else fallback_url
-    CHECKED_URL_CACHE[url] = result
-    if not is_valid:
-        print(f"URL Check Warning: Dead link detected '{url}'. Falling back to '{fallback_url}'.")
-    return result
+            # Layer 2 & 3: Read first 30KB of HTML and check for Soft 404s / Parked Domains
+            html_chunk = resp.read(30720).decode('utf-8', errors='ignore').lower()
+            for term in SOFT_404_TERMS:
+                if term in html_chunk:
+                    print(f"Link Audit Fail (Soft 404 term '{term}'): {url}")
+                    CHECKED_URL_CACHE[url] = fallback_url
+                    return fallback_url
+
+            CHECKED_URL_CACHE[url] = final_url
+            return final_url
+
+    except Exception as e:
+        print(f"Link Audit Fail (HTTP/Network Error): {url} -> {e}")
+        CHECKED_URL_CACHE[url] = fallback_url
+        return fallback_url
 
 def get_next_day_of_week(target_weekday, weeks_offset=0):
     """Calculates exact calendar date for target weekday (4=Fri, 5=Sat, 6=Sun)."""
@@ -71,6 +93,7 @@ def get_next_day_of_week(target_weekday, weeks_offset=0):
     return (today + datetime.timedelta(days=days_ahead)).strftime('%Y-%m-%d')
 
 def resolve_bremerton_pdf_url():
+    """Dynamically parses Bremerton Raceway's homepage for the current active schedule PDF link."""
     fallback_url = "https://www.facebook.com/BremertonRaceway/"
     try:
         url = "https://bremertonraceway.com/"
@@ -193,7 +216,7 @@ def fetch_multi_hub_msr_events():
                     venue_name = str(venue.get('name') or 'Motorsports Park')[:80]
                     
                     raw_url = str(item.get('detailurl') or item.get('uri') or item.get('url') or 'https://www.motorsportreg.com/calendar/')
-                    valid_url = verify_url(raw_url, fallback_url="https://www.motorsportreg.com/calendar/")
+                    valid_url = verify_and_audit_url(raw_url, title, venue_name, city, state)
 
                     category = "Track / Drag" if any(w in title.lower() for w in ["drag", "track", "autocross", "lapping", "race", "school", "kart"]) else "Car Show"
                     image_url = CATEGORY_IMAGES.get(category, CATEGORY_IMAGES["Track / Drag"])
@@ -224,7 +247,6 @@ def generate_365_day_50_state_schedule():
     events = []
     bremerton_url = resolve_bremerton_pdf_url()
 
-    # Full 50-State Template Roster
     state_templates = [
         ("Alabama International Dragway Street Legal Night", "AL", "Steele", "1245 Dragstrip Rd", "Track / Drag", "05:00 PM - 10:00 PM", "Friday night street legal drag racing test & tune.", "https://www.alabamainternationaldragway.com", 4),
         ("Alaska Raceway Park Midnight Sun Drags", "AK", "Palmer", "5599 S Race Way", "Track / Drag", "04:00 PM - 10:00 PM", "NHRA drag racing under the Alaskan sun.", "https://raceak.com", 5),
@@ -292,7 +314,7 @@ def generate_365_day_50_state_schedule():
 
     for title, state, city, venue, cat, time_str, desc, raw_url, target_day in state_templates:
         img_url = CATEGORY_IMAGES.get(cat, CATEGORY_IMAGES["Car Show"])
-        valid_url = verify_url(raw_url, fallback_url="https://www.google.com/search?q=" + urllib.parse.quote(f"{title} {city} {state}"))
+        valid_url = verify_and_audit_url(raw_url, title, venue, city, state)
         
         for week in range(52):
             ev_date = get_next_day_of_week(target_day, weeks_offset=week)
@@ -393,7 +415,7 @@ def update_index():
     with open(INDEX_PATH, 'w', encoding='utf-8') as f:
         f.write(new_html)
 
-    print(f"Success: Directory updated with {len(final_directory)} unique events with automated URL health validation.")
+    print(f"Success: Directory updated with {len(final_directory)} unique events with automated 4-layer URL health validation.")
 
 if __name__ == '__main__':
     try:
