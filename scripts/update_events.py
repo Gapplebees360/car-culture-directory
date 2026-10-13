@@ -34,19 +34,49 @@ SOFT_404_TERMS = [
 
 CHECKED_URL_CACHE = {}
 
+# ---------------------------------------------------------
+# 1. STRICT DATE PARSER & NORMALIZER
+# ---------------------------------------------------------
+def normalize_date(date_input):
+    """
+    Parses any date format (ISO, MM/DD/YYYY, YYYY/MM/DD) and returns a clean YYYY-MM-DD ISO string.
+    Returns None if the date cannot be parsed.
+    """
+    if not date_input:
+        return None
+    
+    clean_str = str(date_input).strip()[:10]
+    
+    for fmt in ('%Y-%m-%d', '%m/%d/%Y', '%Y/%m/%d', '%d-%m-%Y'):
+        try:
+            dt = datetime.datetime.strptime(clean_str, fmt).date()
+            return dt.strftime('%Y-%m-%d')
+        except ValueError:
+            continue
+            
+    return None
+
+# ---------------------------------------------------------
+# 2. DOMAIN HIJACK & LINK VALIDATION ENGINE
+# ---------------------------------------------------------
+def get_root_domain(url):
+    """Extracts second-level domain name (e.g. spokanecountyraceway from www.spokanecountyraceway.com)."""
+    try:
+        netloc = urllib.parse.urlparse(url).netloc.lower()
+        netloc = re.sub(r'^www\.', '', netloc)
+        parts = netloc.split('.')
+        if len(parts) >= 2:
+            return parts[-2]
+        return netloc
+    except Exception:
+        return ""
+
 def generate_fallback_search(title, venue, city, state):
-    """Generates a targeted, working Google Search URL for the specific event."""
     clean_query = f"{title} {venue} {city} {state}".strip()
     encoded = urllib.parse.quote(clean_query)
     return f"https://www.google.com/search?q={encoded}"
 
 def verify_and_audit_url(url, title="", venue="", city="", state=""):
-    """
-    Performs deep 4-layer validation:
-    1. Inspects final redirect URL (detects deep-to-root redirects).
-    2. Audits HTML body for Soft 404s and parked domains.
-    3. Replaces dead links with a targeted Google Search landing page.
-    """
     fallback_url = generate_fallback_search(title, venue, city, state)
     if not url or url == '#' or 'google.com/search' in url:
         return fallback_url
@@ -54,23 +84,33 @@ def verify_and_audit_url(url, title="", venue="", city="", state=""):
     if url in CHECKED_URL_CACHE:
         return CHECKED_URL_CACHE[url]
 
+    orig_domain = get_root_domain(url)
+
     try:
         req = urllib.request.Request(url, headers=HEADERS)
         with urllib.request.urlopen(req, timeout=5) as resp:
             final_url = resp.geturl()
+            final_domain = get_root_domain(final_url)
             
+            # Detect Unrelated Domain Hijack / Expired Domain Redirects
+            allowed_social = {'facebook', 'instagram', 'linktr', 'youtube', 'google'}
+            if orig_domain and final_domain and orig_domain != final_domain:
+                if final_domain not in allowed_social and orig_domain not in allowed_social:
+                    print(f"Domain Hijack Caught: '{url}' ({orig_domain}) redirected to '{final_url}' ({final_domain}).")
+                    CHECKED_URL_CACHE[url] = fallback_url
+                    return fallback_url
+
+            # Detect Deep-Link to Root Homepage Fallback
             orig_path_depth = len([p for p in urllib.parse.urlparse(url).path.split('/') if p])
             final_path_depth = len([p for p in urllib.parse.urlparse(final_url).path.split('/') if p])
-            
             if orig_path_depth > 0 and final_path_depth == 0:
-                print(f"Link Audit Fail (Redirected to Root): {url} -> {final_url}")
                 CHECKED_URL_CACHE[url] = fallback_url
                 return fallback_url
 
+            # Audit HTML for Soft 404s and Parked Domains
             html_chunk = resp.read(30720).decode('utf-8', errors='ignore').lower()
             for term in SOFT_404_TERMS:
                 if term in html_chunk:
-                    print(f"Link Audit Fail (Soft 404 term '{term}'): {url}")
                     CHECKED_URL_CACHE[url] = fallback_url
                     return fallback_url
 
@@ -78,12 +118,10 @@ def verify_and_audit_url(url, title="", venue="", city="", state=""):
             return final_url
 
     except Exception as e:
-        print(f"Link Audit Fail (HTTP/Network Error): {url} -> {e}")
         CHECKED_URL_CACHE[url] = fallback_url
         return fallback_url
 
 def resolve_bremerton_pdf_url():
-    """Dynamically parses Bremerton Raceway's homepage for the current active schedule PDF link."""
     fallback_url = "https://www.facebook.com/BremertonRaceway/"
     try:
         url = "https://bremertonraceway.com/"
@@ -99,7 +137,7 @@ def resolve_bremerton_pdf_url():
     return fallback_url
 
 # ---------------------------------------------------------
-# FUZZY DEDUPLICATION ENGINE
+# 3. FUZZY DEDUPLICATION ENGINE
 # ---------------------------------------------------------
 NOISE_WORDS = {'and', 'the', 'at', 'in', 'of', 'for', '2026', '2027', 'annual', 'weekly', 'monthly', 'show', 'meet', 'car', 'cars', 'meetup'}
 
@@ -109,7 +147,9 @@ def tokenize_title(title):
     return tokens - NOISE_WORDS
 
 def is_fuzzy_duplicate(ev1, ev2):
-    d1, d2 = str(ev1.get('date') or ''), str(ev2.get('date') or '')
+    d1 = normalize_date(ev1.get('date'))
+    d2 = normalize_date(ev2.get('date'))
+    
     if not d1 or not d2 or d1 != d2:
         return False
 
@@ -119,7 +159,6 @@ def is_fuzzy_duplicate(ev1, ev2):
 
     t1 = tokenize_title(ev1.get('title'))
     t2 = tokenize_title(ev2.get('title'))
-    
     if not t1 or not t2:
         return False
 
@@ -152,7 +191,7 @@ def deduplicate_events(event_list):
     return unique_list
 
 # ---------------------------------------------------------
-# MOTORSPORTREG LIVE API (25 NATIONAL HUBS)
+# 4. MOTORSPORTREG LIVE API INGESTION
 # ---------------------------------------------------------
 NATIONAL_GRID_HUBS = [
     {"name": "Seattle / PNW North", "lat": "47.6062", "lon": "-122.3321"},
@@ -160,26 +199,16 @@ NATIONAL_GRID_HUBS = [
     {"name": "Spokane / Inland NW", "lat": "47.6588", "lon": "-117.4260"},
     {"name": "San Francisco / NorCal", "lat": "37.7749", "lon": "-122.4194"},
     {"name": "Los Angeles / SoCal", "lat": "34.0522", "lon": "-118.2437"},
-    {"name": "San Diego / Border", "lat": "32.7157", "lon": "-117.1611"},
     {"name": "Phoenix / Southwest", "lat": "33.4484", "lon": "-112.0740"},
-    {"name": "Salt Lake City / Intermountain", "lat": "40.7608", "lon": "-111.8910"},
     {"name": "Denver / Rockies", "lat": "39.7392", "lon": "-104.9903"},
     {"name": "Dallas / North Texas", "lat": "32.7767", "lon": "-96.7970"},
     {"name": "Houston / Gulf Coast", "lat": "29.7604", "lon": "-95.3698"},
-    {"name": "Kansas City / Plains", "lat": "39.0997", "lon": "-94.5786"},
-    {"name": "Minneapolis / Upper Midwest", "lat": "44.9778", "lon": "-93.2650"},
     {"name": "Chicago / Great Lakes", "lat": "41.8781", "lon": "-87.6298"},
     {"name": "Indianapolis / Heartland", "lat": "39.7684", "lon": "-86.1581"},
     {"name": "Detroit / Motor City", "lat": "42.3314", "lon": "-83.0458"},
-    {"name": "Nashville / Mid-South", "lat": "36.1627", "lon": "-86.7816"},
     {"name": "Atlanta / Deep South", "lat": "33.7490", "lon": "-84.3880"},
     {"name": "Orlando / Central Florida", "lat": "28.5383", "lon": "-81.3792"},
-    {"name": "Charlotte / Carolinas", "lat": "35.2271", "lon": "-80.8431"},
-    {"name": "Washington DC / Mid-Atlantic", "lat": "38.9072", "lon": "-77.0369"},
-    {"name": "Philadelphia / Tri-State", "lat": "39.9526", "lon": "-75.1652"},
-    {"name": "New York / Northeast Hub", "lat": "40.7128", "lon": "-74.0060"},
-    {"name": "Boston / New England", "lat": "42.3601", "lon": "-71.0589"},
-    {"name": "Billings / Northern Plains", "lat": "45.7833", "lon": "-108.5007"}
+    {"name": "New York / Northeast Hub", "lat": "40.7128", "lon": "-74.0060"}
 ]
 
 def fetch_multi_hub_msr_events():
@@ -199,7 +228,13 @@ def fetch_multi_hub_msr_events():
                     seen_ids.add(item_id)
 
                     title = str(item.get('name') or 'Motorsports Event')[:80]
-                    start_date = str(item.get('start') or '')[:10]
+                    raw_start = str(item.get('start') or '')[:10]
+                    start_date = normalize_date(raw_start)
+                    
+                    # Strict Date Filter: Discard anything prior to today
+                    if not start_date or start_date < today_str:
+                        continue
+
                     venue = item.get('venue') or {}
                     state = str(venue.get('state') or 'WA')[:2].upper()
                     city = str(venue.get('city') or 'Regional')
@@ -211,48 +246,39 @@ def fetch_multi_hub_msr_events():
                     category = "Track / Drag" if any(w in title.lower() for w in ["drag", "track", "autocross", "lapping", "race", "school", "kart"]) else "Car Show"
                     image_url = CATEGORY_IMAGES.get(category, CATEGORY_IMAGES["Track / Drag"])
 
-                    if start_date and start_date >= today_str:
-                        events.append({
-                            "title": title,
-                            "state": state,
-                            "city": city,
-                            "venue": venue_name,
-                            "category": category,
-                            "date": start_date,
-                            "time": "08:00 AM - 05:00 PM",
-                            "description": str(item.get('type') or 'Official Motorsports & Track gathering via MotorsportReg.'),
-                            "url": valid_url,
-                            "image": image_url
-                        })
+                    events.append({
+                        "title": title,
+                        "state": state,
+                        "city": city,
+                        "venue": venue_name,
+                        "category": category,
+                        "date": start_date,
+                        "time": "08:00 AM - 05:00 PM",
+                        "description": str(item.get('type') or 'Official Motorsports & Track gathering via MotorsportReg.'),
+                        "url": valid_url,
+                        "image": image_url
+                    })
         except Exception as e:
             print(f"Notice: Grid fetch note ({hub['name']}): {e}")
 
-    print(f"Success: Extracted {len(events)} MotorsportReg web events across 25 national grid hubs.")
+    print(f"Success: Extracted {len(events)} MotorsportReg web events.")
     return events
 
 # ---------------------------------------------------------
-# SEASONALLY BOUNDED & RECURRENCE-AWARE SCHEDULE ENGINE
+# 5. RECURRENCE & SEASONALITY ROLLING SCHEDULE
 # ---------------------------------------------------------
 def is_date_valid_for_recurrence(dt, target_weekday, recurrence, active_months):
-    """
-    Validates whether a candidate date falls within the track's operating season
-    and matches its specific recurrence frequency rule.
-    """
-    # 1. Operating Season Validation
     start_m, end_m = active_months
     if start_m <= end_m:
         if not (start_m <= dt.month <= end_m):
             return False
     else:
-        # Crosses calendar year (e.g. Winter season Nov-Mar: 11 to 3)
         if not (dt.month >= start_m or dt.month <= end_m):
             return False
 
-    # 2. Weekday Validation (0=Mon, 4=Fri, 5=Sat, 6=Sun)
     if dt.weekday() != target_weekday:
         return False
 
-    # 3. Recurrence Frequency Rule Validation
     day_of_month = dt.day
     if recurrence == "weekly":
         return True
@@ -265,8 +291,7 @@ def is_date_valid_for_recurrence(dt, target_weekday, recurrence, active_months):
     elif recurrence == "4th_week":
         return 22 <= day_of_month <= 28
     elif recurrence == "biweekly":
-        week_num = dt.isocalendar()[1]
-        return week_num % 2 == 0
+        return dt.isocalendar()[1] % 2 == 0
 
     return True
 
@@ -274,55 +299,45 @@ def generate_365_day_50_state_schedule():
     events = []
     bremerton_url = resolve_bremerton_pdf_url()
 
-    # Template tuple structure:
-    # (Title, State, City, Venue, Category, Time, Description, URL, TargetWeekday, RecurrenceRule, ActiveMonths)
-    # TargetWeekday: 4=Friday, 5=Saturday, 6=Sunday
-    # RecurrenceRule: "weekly", "1st_week", "2nd_week", "3rd_week", "4th_week", "biweekly"
-    # ActiveMonths: (StartMonth, EndMonth) e.g., (4, 10) = April through October operating season
+    # Formatted Template Array with Corrected Links
     state_templates = [
         # --- WASHINGTON STATE ---
         ("Pacific Raceways Friday Night Drag & Tune", "WA", "Kent", "Pacific Raceways", "Track / Drag", "04:00 PM - 10:00 PM", "Quarter-mile street legal drag test & tune session.", "https://pacificraceways.com/drag-racing/", 4, "weekly", (4, 10)),
-        ("ProFormance Racing School Track Day", "WA", "Kent", "Pacific Raceways", "Track / Drag", "08:00 AM - 05:00 PM", "High Performance Driving Course and open lapping day at Pacific Raceways.", "https://proformanceracingschool.com", 4, "weekly", (4, 10)),
+        ("ProFormance Racing School Track Day", "WA", "Kent", "Pacific Raceways", "Track / Drag", "08:00 AM - 05:00 PM", "High Performance Driving Course and open lapping day.", "https://proformanceracingschool.com", 4, "weekly", (4, 10)),
         ("Bremerton Raceway Sportsman Drags", "WA", "Bremerton", "8800 SW Imperial Way", "Track / Drag", "08:00 AM - 05:00 PM", "Bracket drag racing at Bremerton Airport.", bremerton_url, 5, "weekly", (4, 10)),
-        ("The Ridge Motorsports Park Open Lapping & Track Day", "WA", "Shelton", "1051 SE Ridge World Way", "Track / Drag", "08:00 AM - 05:00 PM", "High performance sports car open track lapping on the road course.", "https://ridgemotorsportspark.com", 5, "weekly", (4, 10)),
-        ("Evergreen Speedway Saturday Championship Racing", "WA", "Monroe", "14405 179th Ave SE", "Track / Drag", "04:00 PM - 10:00 PM", "NASCAR regional oval racing, drift events, and figure 8s.", "https://evergreenspeedway.com", 5, "weekly", (4, 10)),
-        ("Toutle Riverdale Raceway Off-Road & MX Practice", "WA", "Toutle", "Riverdale Raceway", "Track / Drag", "09:00 AM - 04:00 PM", "Motocross, dirt track, and off-road practice day.", "https://www.facebook.com/RiverdaleRacewayToutle/", 5, "weekly", (4, 10)),
-        ("Spokane County Raceway Drag & Drift Night", "WA", "Airway Heights", "750 N Hayford Rd", "Track / Drag", "06:00 PM - 11:00 PM", "Open quarter-mile drag testing and drift pad.", "https://spokanecountyraceway.com", 4, "weekly", (5, 9)),
+        ("The Ridge Motorsports Park Open Lapping & Track Day", "WA", "Shelton", "1051 SE Ridge World Way", "Track / Drag", "08:00 AM - 05:00 PM", "High performance sports car open track lapping.", "https://ridgemotorsportspark.com", 5, "weekly", (4, 10)),
+        ("Evergreen Speedway Saturday Championship Racing", "WA", "Monroe", "14405 179th Ave SE", "Track / Drag", "04:00 PM - 10:00 PM", "NASCAR regional oval racing and drift events.", "https://evergreenspeedway.com", 5, "weekly", (4, 10)),
+        ("Toutle Riverdale Raceway Off-Road & MX Practice", "WA", "Toutle", "Riverdale Raceway", "Track / Drag", "09:00 AM - 04:00 PM", "Motocross and off-road practice day.", "https://www.facebook.com/RiverdaleRacewayToutle/", 5, "weekly", (4, 10)),
+        ("Spokane County Raceway Drag & Drift Night", "WA", "Airway Heights", "750 N Hayford Rd", "Track / Drag", "06:00 PM - 11:00 PM", "Open quarter-mile drag testing and drift pad.", "https://www.facebook.com/SpokaneCountyRaceway/", 4, "weekly", (5, 9)),
         ("Griot's Garage Tacoma Caffeine & Gasoline", "WA", "Tacoma", "3333 S 38th St", "Cars & Coffee", "08:00 AM - 10:00 AM", "Flagship store cars & coffee with free coffee.", "https://griotsgarage.com", 5, "1st_week", (4, 10)),
         ("Centralia Historic Downtown Cruise-In", "WA", "Centralia", "Tower Ave & Main St", "Cruise Night", "05:00 PM - 08:00 PM", "Classic muscle cars, hot rods, and local street cruisers.", "https://www.facebook.com/CentraliaMainStreet/", 5, "3rd_week", (5, 9)),
         ("Lacey Capital Mall Saturday Pop-Up", "WA", "Lacey", "600 Sleater Kinney Rd SE", "Pop-Up Meet", "06:00 PM - 09:00 PM", "Late night weekend car community pop-up.", "https://capitalmall-wa.com", 5, "biweekly", (4, 10)),
 
-        # --- OREGON ---
+        # --- OTHER US STATES ---
         ("Portland International Raceway Late Night Drags", "OR", "Portland", "1940 N Victory Blvd", "Track / Drag", "06:00 PM - 11:00 PM", "Street legal drag racing under the lights at PIR.", "https://portlandraceway.com", 4, "weekly", (4, 10)),
         ("Woodburn Dragstrip Friday Night Late Night", "OR", "Woodburn", "7730 HWY 219", "Track / Drag", "04:00 PM - 09:30 PM", "Pacific Northwest street legal drag testing.", "https://woodburndragstrip.com", 4, "weekly", (4, 10)),
-
-        # --- CALIFORNIA (YEAR-ROUND ACTIVE) ---
         ("In-N-Out Pomona Dragstrip Street Legal Night", "CA", "Pomona", "2780 E Fairplex Dr", "Track / Drag", "05:00 PM - 10:00 PM", "SoCal street legal drag racing under the lights.", "https://www.nhra.com/in-n-out-pomona-dragstrip", 4, "biweekly", (1, 12)),
         ("Sonoma Raceway Wednesday Night Drags", "CA", "Pleasanton", "29355 Arnold Dr", "Track / Drag", "04:00 PM - 09:30 PM", "NorCal quarter-mile street car drag racing.", "https://sonomaraceway.com", 4, "weekly", (3, 11)),
-        ("Huntington Beach Donut Derelicts", "CA", "Huntington Beach", "9015 Adams Ave", "Cars & Coffee", "06:00 AM - 09:00 AM", "Historic Saturday morning hot rod assembly.", "https://www.donutderelicts.com", 5, "weekly", (1, 12)),
-
-        # --- ARIZONA & NEVADA ---
         ("Firebird Motorsports Park Friday Night Drag", "AZ", "Chandler", "20000 S Maricopa Rd", "Track / Drag", "06:00 PM - 11:00 PM", "Open test & tune for street cars and slicks.", "https://racefirebird.com", 4, "weekly", (1, 12)),
-        ("Scottsdale Pavilion Rock 'N' Roll Car Show", "AZ", "Scottsdale", "9120 E Talking Stick Way", "Car Show", "04:00 PM - 08:00 PM", "Longest-running weekly car show in the U.S.", "https://thepaviilionsattalkingstick.com", 5, "weekly", (1, 12)),
         ("Las Vegas Motor Speedway Midnight Mayhem", "NV", "Las Vegas", "7000 N Las Vegas Blvd", "Track / Drag", "08:00 PM - 01:00 AM", "Street-legal drag racing alternative on the Strip.", "https://lvms.com", 4, "biweekly", (1, 12)),
-
-        # --- TEXAS & MIDWEST ---
         ("Circuit of the Americas COTA Cars & Coffee", "TX", "Austin", "9201 Circuit of the Americas Blvd", "Cars & Coffee", "08:00 AM - 12:00 PM", "Central Texas monthly automotive showcase.", "https://circuitoftheamericas.com", 6, "3rd_week", (1, 12)),
         ("Lucas Oil Indianapolis Raceway Park Drags", "IN", "Indianapolis", "10267 E US HWY 136", "Track / Drag", "05:00 PM - 10:00 PM", "Wild Wednesday / Friday street drag testing.", "https://raceirp.com", 4, "weekly", (4, 10)),
         ("Milan Dragway Friday Test & Tune", "MI", "Milan", "10860 Plank Rd", "Track / Drag", "04:00 PM - 10:00 PM", "Michigan quarter-mile drag racing test session.", "https://milandragway.com", 4, "weekly", (4, 10)),
         ("Summit Motorsports Park Friday Test & Tune", "OH", "Norwalk", "1300 St Rte 18", "Track / Drag", "04:00 PM - 09:30 PM", "Quarter-mile drag racing under full lights.", "https://summitmotorsportspark.com", 4, "weekly", (4, 10)),
-
-        # --- EAST COAST & SOUTH ---
         ("Orlando Speed World Midnight Drag & Drift", "FL", "Orlando", "19164 E Colonial Dr", "Track / Drag", "07:00 PM - 01:00 AM", "Late-night drag strip testing and drift pad.", "https://raceosw.com", 4, "weekly", (1, 12)),
         ("Caffeine & Octane Atlanta", "GA", "Atlanta", "Town Center at Cobb", "Cars & Coffee", "08:00 AM - 12:00 PM", "North America's largest monthly car show.", "https://www.caffeineandoctane.com", 6, "1st_week", (1, 12)),
         ("Maryland International Raceway Midnight Madness", "MD", "Budds Creek", "27861 Budds Creek Rd", "Track / Drag", "06:00 PM - 12:00 AM", "Quarter-mile drag racing and street fights.", "https://mirdrag.com", 4, "biweekly", (4, 11)),
         ("Alabama International Dragway Street Legal Night", "AL", "Steele", "1245 Dragstrip Rd", "Track / Drag", "05:00 PM - 10:00 PM", "Friday night street legal drag racing test & tune.", "https://www.alabamainternationaldragway.com", 4, "weekly", (3, 11))
     ]
 
-    # Generate dates 365 days out, strictly applying seasonality & recurrence frequency rules
     for day_offset in range(365):
         eval_date = today + datetime.timedelta(days=day_offset)
+        eval_date_str = eval_date.strftime('%Y-%m-%d')
         
+        # Discard anything in the past
+        if eval_date_str < today_str:
+            continue
+
         for title, state, city, venue, cat, time_str, desc, raw_url, target_day, recurrence, active_months in state_templates:
             if is_date_valid_for_recurrence(eval_date, target_day, recurrence, active_months):
                 img_url = CATEGORY_IMAGES.get(cat, CATEGORY_IMAGES["Car Show"])
@@ -334,7 +349,7 @@ def generate_365_day_50_state_schedule():
                     "city": city,
                     "venue": venue,
                     "category": cat,
-                    "date": eval_date.strftime('%Y-%m-%d'),
+                    "date": eval_date_str,
                     "time": time_str,
                     "description": desc,
                     "url": valid_url,
@@ -344,7 +359,7 @@ def generate_365_day_50_state_schedule():
     return events
 
 # ---------------------------------------------------------
-# SUPABASE SYNC & INDEX.HTML BUILDER
+# 6. SUPABASE SYNC & INDEX.HTML BUILDER
 # ---------------------------------------------------------
 def purge_old_supabase_events():
     try:
@@ -411,11 +426,15 @@ def update_index():
 
     push_to_supabase(unique_events)
 
-    valid_existing = [
-        e for e in existing 
-        if isinstance(e, dict) and str(e.get('date') or '') >= today_str
-    ]
-    
+    # Strictly purge any legacy 2024/2025/past events from index.html
+    valid_existing = []
+    for e in existing:
+        if isinstance(e, dict):
+            norm_dt = normalize_date(e.get('date'))
+            if norm_dt and norm_dt >= today_str:
+                e['date'] = norm_dt
+                valid_existing.append(e)
+
     final_directory = deduplicate_events(valid_existing + unique_events)
     final_directory.sort(key=lambda x: str(x.get('date') or ''))
 
@@ -425,7 +444,7 @@ def update_index():
     with open(INDEX_PATH, 'w', encoding='utf-8') as f:
         f.write(new_html)
 
-    print(f"Success: Directory updated with {len(final_directory)} unique verified events with seasonal bounds & recurrence validation.")
+    print(f"Success: Directory updated with {len(final_directory)} unique events. All past dates purged & links audited.")
 
 if __name__ == '__main__':
     try:
