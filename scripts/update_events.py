@@ -15,7 +15,6 @@ SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) USAAutoMeets/1.0'}
 
-# Curated High-Res Category Imagery
 CATEGORY_IMAGES = {
     "Track / Drag": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800&auto=format&fit=crop",
     "Cars & Coffee": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&auto=format&fit=crop",
@@ -25,8 +24,46 @@ CATEGORY_IMAGES = {
     "Autocross": "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&auto=format&fit=crop"
 }
 
+# ---------------------------------------------------------
+# URL HEALTH CHECKER & CACHE ENGINE
+# ---------------------------------------------------------
+CHECKED_URL_CACHE = {}
+
+def verify_url(url, fallback_url="#"):
+    """
+    Automatically verifies that a URL resolves with a 2xx or 3xx HTTP status code.
+    If the URL returns a 404, 500, or fails connection, it returns fallback_url.
+    """
+    if not url or url == '#':
+        return fallback_url
+    if url in CHECKED_URL_CACHE:
+        return CHECKED_URL_CACHE[url]
+
+    is_valid = False
+    try:
+        # Try lightweight HEAD request first
+        req = urllib.request.Request(url, headers=HEADERS, method='HEAD')
+        with urllib.request.urlopen(req, timeout=3.5) as resp:
+            if resp.status < 400:
+                is_valid = True
+    except Exception:
+        try:
+            # Fall back to GET request if server blocks HEAD
+            req = urllib.request.Request(url, headers=HEADERS, method='GET')
+            with urllib.request.urlopen(req, timeout=4.0) as resp:
+                if resp.status < 400:
+                    is_valid = True
+        except Exception:
+            is_valid = False
+
+    result = url if is_valid else fallback_url
+    CHECKED_URL_CACHE[url] = result
+    if not is_valid:
+        print(f"URL Check Warning: Dead link detected '{url}'. Falling back to '{fallback_url}'.")
+    return result
+
 def get_next_day_of_week(target_weekday, weeks_offset=0):
-    """Calculates exact upcoming calendar date for a specific day of week (4=Fri, 5=Sat, 6=Sun)."""
+    """Calculates exact calendar date for target weekday (4=Fri, 5=Sat, 6=Sun)."""
     days_ahead = target_weekday - today.weekday()
     if days_ahead <= 0:
         days_ahead += 7
@@ -34,26 +71,22 @@ def get_next_day_of_week(target_weekday, weeks_offset=0):
     return (today + datetime.timedelta(days=days_ahead)).strftime('%Y-%m-%d')
 
 def resolve_bremerton_pdf_url():
-    """Dynamically parses Bremerton Raceway's homepage for the current active schedule PDF link."""
     fallback_url = "https://www.facebook.com/BremertonRaceway/"
     try:
         url = "https://bremertonraceway.com/"
         req = urllib.request.Request(url, headers=HEADERS)
-        with urllib.request.urlopen(req, timeout=6) as resp:
+        with urllib.request.urlopen(req, timeout=5) as resp:
             html = resp.read().decode('utf-8', errors='ignore')
-            # Match any PDF link in /files/ or with 'schedule' in the filename
             match = re.search(r'href=["\'](/files/[^"\']+\.pdf|https?://[^"\']+\.pdf)["\']', html, re.IGNORECASE)
             if match:
                 pdf_path = match.group(1)
-                if pdf_path.startswith('/'):
-                    return f"https://bremertonraceway.com{pdf_path}"
-                return pdf_path
+                return f"https://bremertonraceway.com{pdf_path}" if pdf_path.startswith('/') else pdf_path
     except Exception as e:
-        print(f"Notice: Dynamic PDF resolution note for Bremerton: {e}")
+        print(f"Notice: Bremerton PDF lookup note: {e}")
     return fallback_url
 
 # ---------------------------------------------------------
-# 1. INTELLIGENT FUZZY DEDUPLICATION ENGINE
+# FUZZY DEDUPLICATION
 # ---------------------------------------------------------
 NOISE_WORDS = {'and', 'the', 'at', 'in', 'of', 'for', '2026', '2027', 'annual', 'weekly', 'monthly', 'show', 'meet', 'car', 'cars', 'meetup'}
 
@@ -106,7 +139,7 @@ def deduplicate_events(event_list):
     return unique_list
 
 # ---------------------------------------------------------
-# 2. 25-HUB NATIONAL MOTORSPORTREG API GRID
+# MOTORSPORTREG API (25 NATIONAL HUBS)
 # ---------------------------------------------------------
 NATIONAL_GRID_HUBS = [
     {"name": "Seattle / PNW North", "lat": "47.6062", "lon": "-122.3321"},
@@ -159,7 +192,9 @@ def fetch_multi_hub_msr_events():
                     city = str(venue.get('city') or 'Regional')
                     venue_name = str(venue.get('name') or 'Motorsports Park')[:80]
                     
-                    event_url = str(item.get('detailurl') or item.get('uri') or item.get('url') or 'https://www.motorsportreg.com/calendar/')
+                    raw_url = str(item.get('detailurl') or item.get('uri') or item.get('url') or 'https://www.motorsportreg.com/calendar/')
+                    valid_url = verify_url(raw_url, fallback_url="https://www.motorsportreg.com/calendar/")
+
                     category = "Track / Drag" if any(w in title.lower() for w in ["drag", "track", "autocross", "lapping", "race", "school", "kart"]) else "Car Show"
                     image_url = CATEGORY_IMAGES.get(category, CATEGORY_IMAGES["Track / Drag"])
 
@@ -173,7 +208,7 @@ def fetch_multi_hub_msr_events():
                             "date": start_date,
                             "time": "08:00 AM - 05:00 PM",
                             "description": str(item.get('type') or 'Official Motorsports & Track gathering via MotorsportReg.'),
-                            "url": event_url,
+                            "url": valid_url,
                             "image": image_url
                         })
         except Exception as e:
@@ -183,56 +218,82 @@ def fetch_multi_hub_msr_events():
     return events
 
 # ---------------------------------------------------------
-# 3. EXPANDED NATIONAL TRACK & VENUE MASTER REGISTRY
+# 50-STATE ROLLING SCHEDULE ENGINE
 # ---------------------------------------------------------
 def generate_365_day_50_state_schedule():
     events = []
-    
-    # Resolve dynamic links at execution time
     bremerton_url = resolve_bremerton_pdf_url()
 
-    # Format: (Title, State, City, Venue, Category, Time, Description, URL, TargetWeekday [4=Fri, 5=Sat, 6=Sun])
+    # Full 50-State Template Roster
     state_templates = [
+        ("Alabama International Dragway Street Legal Night", "AL", "Steele", "1245 Dragstrip Rd", "Track / Drag", "05:00 PM - 10:00 PM", "Friday night street legal drag racing test & tune.", "https://www.alabamainternationaldragway.com", 4),
+        ("Alaska Raceway Park Midnight Sun Drags", "AK", "Palmer", "5599 S Race Way", "Track / Drag", "04:00 PM - 10:00 PM", "NHRA drag racing under the Alaskan sun.", "https://raceak.com", 5),
+        ("Firebird Motorsports Park Friday Night Drag", "AZ", "Chandler", "20000 S Maricopa Rd", "Track / Drag", "06:00 PM - 11:00 PM", "Open test & tune for street cars and slicks.", "https://racefirebird.com", 4),
+        ("Centerville Dragway Saturday Night Shootout", "AR", "Centerville", "1441 Dragstrip Ln", "Track / Drag", "05:00 PM - 10:30 PM", "1/8th mile bracket drag racing.", "https://www.centervilledragway.com", 5),
+        ("In-N-Out Pomona Dragstrip Street Legal Night", "CA", "Pomona", "2780 E Fairplex Dr", "Track / Drag", "05:00 PM - 10:00 PM", "SoCal street legal drag racing under the lights.", "https://www.nhra.com/in-n-out-pomona-dragstrip", 4),
+        ("High Plains Raceway Open Lapping Day", "CO", "Byers", "High Plains Raceway", "Track / Drag", "08:00 AM - 05:00 PM", "Open track lapping day for cars.", "https://highplainsraceway.com", 5),
+        ("Lime Rock Park Autocross & Track Day", "CT", "Lakeville", "60 White Hollow Rd", "Track / Drag", "08:30 AM - 04:30 PM", "Historic road course autocross and open track day.", "https://limerock.com", 5),
+        ("US 13 Dragway Friday Night Grudge Racing", "DE", "Delmar", "33599 Sussex Hwy", "Track / Drag", "05:30 PM - 10:30 PM", "Delmarva quarter-mile drag racing.", "https://www.delawareracing.com", 4),
+        ("Orlando Speed World Midnight Drag & Drift", "FL", "Orlando", "19164 E Colonial Dr", "Track / Drag", "07:00 PM - 01:00 AM", "Late-night drag strip testing and drift pad.", "https://raceosw.com", 4),
+        ("Caffeine & Octane Atlanta", "GA", "Atlanta", "Town Center at Cobb", "Cars & Coffee", "08:00 AM - 12:00 PM", "North America's largest monthly car show.", "https://www.caffeineandoctane.com", 6),
+        ("Oahu Friday Night Pop-Up Cruise", "HI", "Honolulu", "Aloha Stadium Lot", "Pop-Up Meet", "06:30 PM - 09:30 PM", "Island car culture cruise and meet.", "https://www.facebook.com", 4),
+        ("Firebird Raceway Friday Night Midnight Drags", "ID", "Boise", "13511 HWY 16", "Track / Drag", "07:00 PM - 12:00 AM", "Street legal drag racing and tune-up.", "https://firebirdonline.com", 4),
+        ("Byron Dragway Test & Tune", "IL", "Byron", "2525 HWY 72", "Track / Drag", "09:00 AM - 04:00 PM", "Quarter-mile test and tune for all classes.", "https://byrondragway.com", 5),
+        ("Lucas Oil Indianapolis Raceway Park Drags", "IN", "Indianapolis", "10267 E US HWY 136", "Track / Drag", "05:00 PM - 10:00 PM", "Wild Wednesday / Friday street drag testing.", "https://raceirp.com", 4),
+        ("Eddyville Raceway Park Bracket Night", "IA", "Eddyville", "3260 330th St", "Track / Drag", "04:00 PM - 09:30 PM", "1/8th mile bracket racing and test & tune.", "https://eddyvilleraceway.com", 5),
+        ("Kansas International Dragway Street Night", "KS", "Wichita", "7800 N Ridge Rd", "Track / Drag", "06:00 PM - 10:30 PM", "Street car drag racing and roll races.", "https://kansasdragway.com", 5),
+        ("Beech Bend Raceway Friday Night Drags", "KY", "Bowling Green", "798 Beech Bend Rd", "Track / Drag", "05:00 PM - 10:00 PM", "Historic quarter-mile drag strip night.", "https://beechbend.com", 4),
+        ("No Problem Raceway Test & Tune", "LA", "Belle Rose", "1986 HWY 308", "Track / Drag", "06:00 PM - 11:00 PM", "Quarter-mile drag strip and road course lapping.", "https://noproblemraceway.com", 5),
+        ("Oxford Plains Dragway Friday Night Drags", "ME", "Oxford", "877 Main St", "Track / Drag", "05:00 PM - 09:30 PM", "Maine 1/8th mile drag racing night.", "https://oxfordplainsdragway.com", 4),
+        ("Maryland International Raceway Midnight Madness", "MD", "Budds Creek", "27861 Budds Creek Rd", "Track / Drag", "06:00 PM - 12:00 AM", "Quarter-mile drag racing and street fights.", "https://mirdrag.com", 4),
+        ("New England Dragway Street Night", "MA", "Boston", "280 Exeter Rd", "Track / Drag", "05:00 PM - 10:00 PM", "Northeast street car drag racing and testing.", "https://nedragway.com", 4),
+        ("Milan Dragway Friday Test & Tune", "MI", "Milan", "10860 Plank Rd", "Track / Drag", "04:00 PM - 10:00 PM", "Michigan quarter-mile drag racing test session.", "https://milandragway.com", 4),
+        ("Brainerd International Raceway Street Legal Drags", "MN", "Brainerd", "5523 HWY 371", "Track / Drag", "05:00 PM - 10:00 PM", "Quarter-mile street legal testing in Minnesota.", "https://brainerdraceway.com", 5),
+        ("Gulfport Dragway Friday Night Street Wars", "MS", "Gulfport", "17000 Racetrack Rd", "Track / Drag", "06:00 PM - 11:00 PM", "Gulf Coast quarter-mile drag racing.", "https://gulfportdragway.com", 4),
+        ("World Wide Technology Raceway Midnight Madness", "MO", "St. Louis", "700 Raceway Blvd", "Track / Drag", "06:00 PM - 12:00 AM", "Street drag racing and drift showcase.", "https://wwtraceway.com", 4),
+        ("Yellowstone Drag Strip Friday Night Test", "MT", "Acton", "8511 HWY 3", "Track / Drag", "05:00 PM - 09:30 PM", "Montana quarter-mile drag racing night.", "https://yellowstonedragstrip.com", 4),
+        ("Kearney Raceway Park Street Legal Night", "NE", "Kearney", "5815 HWY 10", "Track / Drag", "05:00 PM - 10:00 PM", "Nebraska quarter-mile drag strip testing.", "https://kearneyraceway.com", 5),
+        ("Las Vegas Motor Speedway Midnight Mayhem", "NV", "Las Vegas", "7000 N Las Vegas Blvd", "Track / Drag", "08:00 PM - 01:00 AM", "Street-legal drag racing alternative on the Strip.", "https://lvms.com", 4),
+        ("New England Dragway Regional Meet", "NH", "Epping", "280 Exeter Rd", "Track / Drag", "05:00 PM - 10:00 PM", "New Hampshire street car test & tune.", "https://nedragway.com", 5),
+        ("Island Dragway Friday Night Test & Tune", "NJ", "Great Meadows", "214 Red Schoolhouse Rd", "Track / Drag", "06:00 PM - 10:00 PM", "Historic New Jersey quarter-mile drag strip.", "https://islanddragway.com", 4),
+        ("Albuquerque Dragway Friday Street Fights", "NM", "Albuquerque", "10500 HWY 337", "Track / Drag", "06:00 PM - 10:30 PM", "High-altitude drag strip testing.", "https://abqdragway.com", 4),
+        ("Lebanon Valley Dragway Friday Night Street Legal", "NY", "West Lebanon", "1740 US-20", "Track / Drag", "05:00 PM - 10:00 PM", "New York quarter-mile drag racing night.", "https://dragway.com", 4),
+        ("Rockingham Dragway Street Night", "NC", "Rockingham", "2153 US-1", "Track / Drag", "05:00 PM - 10:00 PM", "Carolinas street car drag test & tune.", "https://rockinghamdragway.com", 4),
+        ("Magic City International Dragway Test & Tune", "ND", "Minot", "Magic City Dragway", "Track / Drag", "05:00 PM - 10:00 PM", "North Dakota drag strip test night.", "https://magiccitydragway.com", 5),
+        ("Summit Motorsports Park Friday Test & Tune", "OH", "Norwalk", "1300 St Rte 18", "Track / Drag", "04:00 PM - 09:30 PM", "Quarter-mile drag racing under full lights.", "https://summitmotorsportspark.com", 4),
+        ("Thunder Valley Raceway Park Street Night", "OK", "Noble", "10586 120th St", "Track / Drag", "06:00 PM - 11:00 PM", "Oklahoma quarter-mile drag racing.", "https://okthunder.com", 4),
+        ("Woodburn Dragstrip Friday Night Late Night", "OR", "Woodburn", "7730 HWY 219", "Track / Drag", "04:00 PM - 09:30 PM", "Pacific Northwest street legal drag testing.", "https://woodburndragstrip.com", 4),
+        ("Maple Grove Raceway Street Legal Night", "PA", "Reading", "30 Stauffer Park Ln", "Track / Drag", "05:00 PM - 10:00 PM", "Pennsylvania quarter-mile drag racing.", "https://maplegroveraceway.com", 4),
+        ("Providence Cars & Coffee Showcase", "RI", "Providence", "1 Park Row", "Cars & Coffee", "08:00 AM - 11:00 AM", "Rhode Island waterfront car gathering.", "https://www.facebook.com", 5),
+        ("Darlington Dragway Friday Test & Tune", "SC", "Hartsville", "2056 E Bobo Newsome HWY", "Track / Drag", "05:00 PM - 10:00 PM", "South Carolina 1/4th mile drag strip.", "https://darlingtondragway.com", 4),
+        ("Thunder Valley Dragways SD Bracket Night", "SD", "Marion", "27533 446th Ave", "Track / Drag", "05:00 PM - 10:00 PM", "South Dakota 1/4th mile drag racing.", "https://thundervalleydragways.com", 5),
+        ("Music City Raceway Friday Night Drags", "TN", "Nashville", "3305 Music City Rd", "Track / Drag", "05:00 PM - 10:30 PM", "1/8th mile Nashville drag racing.", "https://musiccityraceway.com", 4),
+        ("Circuit of the Americas COTA Cars & Coffee", "TX", "Austin", "9201 Circuit of the Americas Blvd", "Cars & Coffee", "08:00 AM - 12:00 PM", "Central Texas monthly automotive showcase.", "https://circuitoftheamericas.com", 6),
+        ("Utah Motorsports Campus Open Track Day", "UT", "Erda", "5125 HWY 112", "Track / Drag", "08:00 AM - 05:00 PM", "Road course open lapping and autocross.", "https://utahmotorsportscampus.com", 5),
+        ("Devil's Bowl Speedway Saturday Racing", "VT", "West Haven", "2743 Route 22A", "Track / Drag", "06:00 PM - 10:00 PM", "Vermont stock car and dirt oval racing.", "https://devilsbowlspeedwayvt.com", 5),
+        ("Virginia International Raceway Track Day", "VA", "Alton", "1245 Pine Tree Rd", "Track / Drag", "08:00 AM - 05:00 PM", "Historic Virginia road course open lapping.", "https://virnow.com", 5),
+        
         # --- WASHINGTON STATE ---
         ("Toutle Riverdale Raceway Off-Road & MX Practice", "WA", "Toutle", "Riverdale Raceway", "Track / Drag", "09:00 AM - 04:00 PM", "Motocross, dirt track, and off-road practice day.", "https://www.facebook.com/RiverdaleRacewayToutle/", 5),
-        ("The Ridge Motorsports Park Open Lapping & Track Day", "WA", "Shelton", "1051 SE Ridge World Way", "Track / Drag", "08:00 AM - 05:00 PM", "High performance sports car open track lapping on the road course.", "https://www.ridgemotorsportspark.com", 5),
+        ("The Ridge Motorsports Park Open Lapping & Track Day", "WA", "Shelton", "1051 SE Ridge World Way", "Track / Drag", "08:00 AM - 05:00 PM", "High performance sports car open track lapping on the road course.", "https://ridgemotorsportspark.com", 5),
         ("Evergreen Speedway Saturday Championship Racing", "WA", "Monroe", "14405 179th Ave SE", "Track / Drag", "04:00 PM - 10:00 PM", "NASCAR regional oval racing, drift events, and figure 8s.", "https://evergreenspeedway.com", 5),
         ("Pacific Raceways Friday Night Drag & Tune", "WA", "Kent", "Pacific Raceways", "Track / Drag", "04:00 PM - 10:00 PM", "Quarter-mile street legal drag test & tune session.", "https://pacificraceways.com/drag-racing/", 4),
         ("ProFormance Racing School Track Day", "WA", "Kent", "Pacific Raceways", "Track / Drag", "08:00 AM - 05:00 PM", "High Performance Driving Course and open lapping day at Pacific Raceways.", "https://proformanceracingschool.com", 4),
         ("Bremerton Raceway Sportsman Drags", "WA", "Bremerton", "8800 SW Imperial Way", "Track / Drag", "08:00 AM - 05:00 PM", "Bracket drag racing at Bremerton Airport.", bremerton_url, 5),
-        ("Spokane County Raceway Drag & Drift Night", "WA", "Airway Heights", "750 N Hayford Rd", "Track / Drag", "06:00 PM - 11:00 PM", "Open quarter-mile drag testing and drift pad.", "https://www.spokanecountyraceway.com", 4),
-        ("Griot's Garage Tacoma Caffeine & Gasoline", "WA", "Tacoma", "3333 S 38th St", "Cars & Coffee", "08:00 AM - 10:00 AM", "Flagship store cars & coffee with free coffee.", "https://www.griotsgarage.com", 5),
-        ("Centralia Historic Downtown Cruise-In", "WA", "Centralia", "Tower Ave & Main St", "Cruise Night", "05:00 PM - 08:00 PM", "Classic muscle cars, hot rods, and local street cruisers.", "https://www.centraliamainstreet.org", 5),
-        ("Lacey Capital Mall Saturday Pop-Up", "WA", "Lacey", "600 Sleater Kinney Rd SE", "Pop-Up Meet", "06:00 PM - 09:00 PM", "Late night weekend car community pop-up.", "https://www.capitalmall-wa.com", 5),
+        ("Spokane County Raceway Drag & Drift Night", "WA", "Airway Heights", "750 N Hayford Rd", "Track / Drag", "06:00 PM - 11:00 PM", "Open quarter-mile drag testing and drift pad.", "https://spokanecountyraceway.com", 4),
+        ("Griot's Garage Tacoma Caffeine & Gasoline", "WA", "Tacoma", "3333 S 38th St", "Cars & Coffee", "08:00 AM - 10:00 AM", "Flagship store cars & coffee with free coffee.", "https://griotsgarage.com", 5),
+        ("Centralia Historic Downtown Cruise-In", "WA", "Centralia", "Tower Ave & Main St", "Cruise Night", "05:00 PM - 08:00 PM", "Classic muscle cars, hot rods, and local street cruisers.", "https://www.facebook.com/CentraliaMainStreet/", 5),
+        ("Lacey Capital Mall Saturday Pop-Up", "WA", "Lacey", "600 Sleater Kinney Rd SE", "Pop-Up Meet", "06:00 PM - 09:00 PM", "Late night weekend car community pop-up.", "https://capitalmall-wa.com", 5),
 
-        # --- OREGON ---
-        ("Portland International Raceway Late Night Drags", "OR", "Portland", "1940 N Victory Blvd", "Track / Drag", "06:00 PM - 11:00 PM", "Street legal drag racing under the lights at PIR.", "https://www.portlandraceway.com", 4),
-        ("Woodburn Dragstrip Friday Night Late Night", "OR", "Woodburn", "7730 HWY 219", "Track / Drag", "04:00 PM - 09:30 PM", "Pacific Northwest street legal drag testing.", "https://www.woodburndragstrip.com", 4),
-
-        # --- CALIFORNIA ---
-        ("In-N-Out Pomona Dragstrip Street Legal Night", "CA", "Pomona", "2780 E Fairplex Dr", "Track / Drag", "05:00 PM - 10:00 PM", "SoCal street legal drag racing under the lights.", "https://www.nhra.com/in-n-out-pomona-dragstrip", 4),
-        ("Sonoma Raceway Wednesday Night Drags", "CA", "Pleasanton", "29355 Arnold Dr", "Track / Drag", "04:00 PM - 09:30 PM", "NorCal quarter-mile street car drag racing.", "https://www.sonomaraceway.com", 4),
-        ("Huntington Beach Donut Derelicts", "CA", "Huntington Beach", "9015 Adams Ave", "Cars & Coffee", "06:00 AM - 09:00 AM", "Historic Saturday morning hot rod assembly.", "https://www.donutderelicts.com", 5),
-
-        # --- ARIZONA & NEVADA ---
-        ("Firebird Motorsports Park Friday Night Drag", "AZ", "Chandler", "20000 S Maricopa Rd", "Track / Drag", "06:00 PM - 11:00 PM", "Open test & tune for street cars and slicks.", "https://racefirebird.com", 4),
-        ("Scottsdale Pavilion Rock 'N' Roll Car Show", "AZ", "Scottsdale", "9120 E Talking Stick Way", "Car Show", "04:00 PM - 08:00 PM", "Longest-running weekly car show in the U.S.", "https://thepaviilionsattalkingstick.com", 5),
-        ("Las Vegas Motor Speedway Midnight Mayhem", "NV", "Las Vegas", "7000 N Las Vegas Blvd", "Track / Drag", "08:00 PM - 01:00 AM", "Street-legal drag racing alternative on the Strip.", "https://www.lvms.com", 4),
-
-        # --- TEXAS & MIDWEST ---
-        ("Circuit of the Americas COTA Cars & Coffee", "TX", "Austin", "9201 Circuit of the Americas Blvd", "Cars & Coffee", "08:00 AM - 12:00 PM", "Central Texas monthly automotive showcase.", "https://circuitoftheamericas.com", 6),
-        ("Lucas Oil Indianapolis Raceway Park Drags", "IN", "Indianapolis", "10267 E US HWY 136", "Track / Drag", "05:00 PM - 10:00 PM", "Wild Wednesday / Friday street drag testing.", "https://raceirp.com", 4),
-        ("Milan Dragway Friday Test & Tune", "MI", "Milan", "10860 Plank Rd", "Track / Drag", "04:00 PM - 10:00 PM", "Michigan quarter-mile drag racing test session.", "https://www.milandragway.com", 4),
-
-        # --- EAST COAST & SOUTH ---
-        ("Orlando Speed World Midnight Drag & Drift", "FL", "Orlando", "19164 E Colonial Dr", "Track / Drag", "07:00 PM - 01:00 AM", "Late-night drag strip testing and drift pad.", "https://raceosw.com", 4),
-        ("Caffeine & Octane Atlanta", "GA", "Atlanta", "Town Center at Cobb", "Cars & Coffee", "08:00 AM - 12:00 PM", "North America's largest monthly car show.", "https://www.caffeineandoctane.com", 6),
-        ("Maryland International Raceway Midnight Madness", "MD", "Budds Creek", "27861 Budds Creek Rd", "Track / Drag", "06:00 PM - 12:00 AM", "Quarter-mile drag racing and street fights.", "https://www.mirdrag.com", 4),
-        ("Alabama International Dragway Street Legal Night", "AL", "Steele", "1245 Dragstrip Rd", "Track / Drag", "05:00 PM - 10:00 PM", "Friday night street legal drag racing test & tune.", "https://www.alabamainternationaldragway.com", 4)
+        ("Kanawha Valley Dragway Friday Street Fights", "WV", "Point Pleasant", "Kanawha Valley Dragway", "Track / Drag", "06:00 PM - 11:00 PM", "West Virginia 1/4th mile drag strip testing.", "https://kanawhavalleydragway.com", 4),
+        ("Great Lakes Dragaway Street Drag Night", "WI", "Union Grove", "18411 1st St", "Track / Drag", "04:00 PM - 10:00 PM", "Union Grove drag racing test and tune.", "https://greatlakesdragaway.com", 4),
+        ("Wyoming Dragway Street Legal Night", "WY", "Saratoga", "Wyoming Dragway", "Track / Drag", "05:00 PM - 10:00 PM", "High-altitude drag strip racing.", "https://wyomingdragway.com", 5)
     ]
 
-    for title, state, city, venue, cat, time_str, desc, ev_url, target_day in state_templates:
+    for title, state, city, venue, cat, time_str, desc, raw_url, target_day in state_templates:
         img_url = CATEGORY_IMAGES.get(cat, CATEGORY_IMAGES["Car Show"])
+        valid_url = verify_url(raw_url, fallback_url="https://www.google.com/search?q=" + urllib.parse.quote(f"{title} {city} {state}"))
+        
         for week in range(52):
             ev_date = get_next_day_of_week(target_day, weeks_offset=week)
             events.append({
@@ -244,14 +305,14 @@ def generate_365_day_50_state_schedule():
                 "date": ev_date,
                 "time": time_str,
                 "description": desc,
-                "url": ev_url,
+                "url": valid_url,
                 "image": img_url
             })
 
     return events
 
 # ---------------------------------------------------------
-# 4. SUPABASE SYNC & INDEX.HTML BUILDER
+# SUPABASE SYNC & INDEX.HTML BUILDER
 # ---------------------------------------------------------
 def purge_old_supabase_events():
     try:
@@ -332,7 +393,7 @@ def update_index():
     with open(INDEX_PATH, 'w', encoding='utf-8') as f:
         f.write(new_html)
 
-    print(f"Success: Directory updated with {len(final_directory)} unique events with dynamic PDF resolution and 25-hub grid.")
+    print(f"Success: Directory updated with {len(final_directory)} unique events with automated URL health validation.")
 
 if __name__ == '__main__':
     try:
