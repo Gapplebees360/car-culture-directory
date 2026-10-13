@@ -26,15 +26,31 @@ CATEGORY_IMAGES = {
 }
 
 def get_next_day_of_week(target_weekday, weeks_offset=0):
-    """
-    Calculates exact upcoming calendar date for a specific day of week.
-    target_weekday: 4 = Friday, 5 = Saturday, 6 = Sunday
-    """
+    """Calculates exact upcoming calendar date for a specific day of week (4=Fri, 5=Sat, 6=Sun)."""
     days_ahead = target_weekday - today.weekday()
     if days_ahead <= 0:
         days_ahead += 7
     days_ahead += (weeks_offset * 7)
     return (today + datetime.timedelta(days=days_ahead)).strftime('%Y-%m-%d')
+
+def resolve_bremerton_pdf_url():
+    """Dynamically parses Bremerton Raceway's homepage for the current active schedule PDF link."""
+    fallback_url = "https://www.facebook.com/BremertonRaceway/"
+    try:
+        url = "https://bremertonraceway.com/"
+        req = urllib.request.Request(url, headers=HEADERS)
+        with urllib.request.urlopen(req, timeout=6) as resp:
+            html = resp.read().decode('utf-8', errors='ignore')
+            # Match any PDF link in /files/ or with 'schedule' in the filename
+            match = re.search(r'href=["\'](/files/[^"\']+\.pdf|https?://[^"\']+\.pdf)["\']', html, re.IGNORECASE)
+            if match:
+                pdf_path = match.group(1)
+                if pdf_path.startswith('/'):
+                    return f"https://bremertonraceway.com{pdf_path}"
+                return pdf_path
+    except Exception as e:
+        print(f"Notice: Dynamic PDF resolution note for Bremerton: {e}")
+    return fallback_url
 
 # ---------------------------------------------------------
 # 1. INTELLIGENT FUZZY DEDUPLICATION ENGINE
@@ -92,7 +108,6 @@ def deduplicate_events(event_list):
 # ---------------------------------------------------------
 # 2. 25-HUB NATIONAL MOTORSPORTREG API GRID
 # ---------------------------------------------------------
-# Complete geographic grid covering all 50 US States within a 350-mile radius per hub
 NATIONAL_GRID_HUBS = [
     {"name": "Seattle / PNW North", "lat": "47.6062", "lon": "-122.3321"},
     {"name": "Portland / PNW South", "lat": "45.5152", "lon": "-122.6784"},
@@ -172,6 +187,10 @@ def fetch_multi_hub_msr_events():
 # ---------------------------------------------------------
 def generate_365_day_50_state_schedule():
     events = []
+    
+    # Resolve dynamic links at execution time
+    bremerton_url = resolve_bremerton_pdf_url()
+
     # Format: (Title, State, City, Venue, Category, Time, Description, URL, TargetWeekday [4=Fri, 5=Sat, 6=Sun])
     state_templates = [
         # --- WASHINGTON STATE ---
@@ -180,7 +199,7 @@ def generate_365_day_50_state_schedule():
         ("Evergreen Speedway Saturday Championship Racing", "WA", "Monroe", "14405 179th Ave SE", "Track / Drag", "04:00 PM - 10:00 PM", "NASCAR regional oval racing, drift events, and figure 8s.", "https://evergreenspeedway.com", 5),
         ("Pacific Raceways Friday Night Drag & Tune", "WA", "Kent", "Pacific Raceways", "Track / Drag", "04:00 PM - 10:00 PM", "Quarter-mile street legal drag test & tune session.", "https://pacificraceways.com/drag-racing/", 4),
         ("ProFormance Racing School Track Day", "WA", "Kent", "Pacific Raceways", "Track / Drag", "08:00 AM - 05:00 PM", "High Performance Driving Course and open lapping day at Pacific Raceways.", "https://proformanceracingschool.com", 4),
-        ("Bremerton Raceway Sportsman Drags", "WA", "Bremerton", "8800 SW Imperial Way", "Track / Drag", "08:00 AM - 05:00 PM", "Bracket drag racing at Bremerton Airport.", "https://www.facebook.com/BremertonRaceway/", 5),
+        ("Bremerton Raceway Sportsman Drags", "WA", "Bremerton", "8800 SW Imperial Way", "Track / Drag", "08:00 AM - 05:00 PM", "Bracket drag racing at Bremerton Airport.", bremerton_url, 5),
         ("Spokane County Raceway Drag & Drift Night", "WA", "Airway Heights", "750 N Hayford Rd", "Track / Drag", "06:00 PM - 11:00 PM", "Open quarter-mile drag testing and drift pad.", "https://www.spokanecountyraceway.com", 4),
         ("Griot's Garage Tacoma Caffeine & Gasoline", "WA", "Tacoma", "3333 S 38th St", "Cars & Coffee", "08:00 AM - 10:00 AM", "Flagship store cars & coffee with free coffee.", "https://www.griotsgarage.com", 5),
         ("Centralia Historic Downtown Cruise-In", "WA", "Centralia", "Tower Ave & Main St", "Cruise Night", "05:00 PM - 08:00 PM", "Classic muscle cars, hot rods, and local street cruisers.", "https://www.centraliamainstreet.org", 5),
@@ -313,7 +332,7 @@ def update_index():
     with open(INDEX_PATH, 'w', encoding='utf-8') as f:
         f.write(new_html)
 
-    print(f"Success: Directory updated with {len(final_directory)} unique events with verified links across 25 national grid hubs.")
+    print(f"Success: Directory updated with {len(final_directory)} unique events with dynamic PDF resolution and 25-hub grid.")
 
 if __name__ == '__main__':
     try:
