@@ -1,0 +1,37 @@
+name: Daily Automotive Event Refresh
+
+on:
+  schedule:
+    # Runs daily at 14:00 UTC (7:00 AM PST)
+    - cron: '0 14 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh-events:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Run event refresh script
+        run: python scripts/update_events.py
+
+      - name: Commit and push updated index.html
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add index.html
+          git commit -m "Auto-update: Daily 50-state event refresh [skip ci]" || exit 0
+          git pull --rebase origin main
+          git push origin main
