@@ -173,7 +173,7 @@ def is_valid_future_event(event_dict):
     desc = event_dict.get('description', '')
     date_str = normalize_date(event_dict.get('date'))
 
-    # Must fall within the 365-day active window
+    # Must fall strictly within today -> 365 days in the future
     if not date_str or date_str < today_str or date_str > max_future_str:
         return False
 
@@ -308,7 +308,7 @@ def deduplicate_events(event_list):
     return unique_list
 
 # ---------------------------------------------------------
-# 100% REAL MOTORSPORTREG API INGESTION (UP TO 365 DAYS OUT)
+# 100% REAL MOTORSPORTREG API INGESTION
 # ---------------------------------------------------------
 def extract_live_msr_image(item, category, title):
     candidate_urls = [
@@ -351,7 +351,6 @@ def fetch_multi_hub_msr_events():
                         "date": start_date
                     }
 
-                    # Filter out non-event announcements, past dates, and dates > 365 days out
                     if not is_valid_future_event(candidate):
                         continue
 
@@ -381,7 +380,7 @@ def fetch_multi_hub_msr_events():
         except Exception as e:
             print(f"Notice: Grid fetch note ({hub['name']}): {e}")
 
-    print(f"Success: Extracted {len(events)} real posted MotorsportReg web events across 50 states up to 365 days out.")
+    print(f"Success: Extracted {len(events)} real published MotorsportReg web events.")
     return events
 
 # ---------------------------------------------------------
@@ -420,14 +419,6 @@ def push_to_supabase(event_list):
             print(f"Notice: Supabase push batch note: {e}")
     print(f"Pushed {len(event_list)} records to Supabase.")
 
-def parse_json_safely(raw_js):
-    cleaned = re.sub(r',\s*([}\]])', r'\1', raw_js)
-    try:
-        return json.loads(cleaned)
-    except Exception as e:
-        print(f"Notice: JSON parse notice on index.html: {e}")
-        return []
-
 def update_index():
     if not os.path.exists(INDEX_PATH):
         print(f"File {INDEX_PATH} not found.")
@@ -441,23 +432,13 @@ def update_index():
         print("Could not match 'let eventsData = [...]' in index.html.")
         sys.exit(0)
 
-    raw_js = match.group(1)
-    existing = parse_json_safely(raw_js)
-
+    # Scrape strictly real live events across 52 hubs
     msr_events = fetch_multi_hub_msr_events()
-    unique_events = deduplicate_events(msr_events)
-
-    push_to_supabase(unique_events)
-
-    # Filter out any non-event announcements or dates outside today -> 365 days
-    valid_existing = []
-    for e in existing:
-        if is_valid_future_event(e):
-            e['date'] = normalize_date(e.get('date'))
-            valid_existing.append(e)
-
-    final_directory = deduplicate_events(valid_existing + unique_events)
+    final_directory = deduplicate_events(msr_events)
     final_directory.sort(key=lambda x: str(x.get('date') or ''))
+
+    # Overwrite Supabase & index.html cleanly (zero recycled synthetic entries)
+    push_to_supabase(final_directory)
 
     updated_json = json.dumps(final_directory, indent=6)
     new_html = html[:match.start(1)] + updated_json + html[match.end(1):]
@@ -465,7 +446,7 @@ def update_index():
     with open(INDEX_PATH, 'w', encoding='utf-8') as f:
         f.write(new_html)
 
-    print(f"Success: Directory updated with {len(final_directory)} 100% real published events.")
+    print(f"Success: Directory rebuilt with {len(final_directory)} 100% real published events.")
 
 if __name__ == '__main__':
     try:
