@@ -65,16 +65,30 @@ SOFT_404_TERMS = [
     "event has passed", "sorry, the page", "error 404"
 ]
 
+NON_EVENT_KEYWORDS = [
+    "announced", "announcement", "dates", "schedule", "membership",
+    "season pass", "banquet", "meeting", "officials", "board",
+    "rules", "points", "registration open", "info only", "placeholder",
+    "tbd", "postponed", "cancelled", "canceled"
+]
+
 CHECKED_URL_CACHE = {}
 
 # ---------------------------------------------------------
-# 1. STRICT DATE & STALE TITLE FILTERS
+# 1. STRICT ANNOUNCEMENT & DATE AUDIT FILTERS
 # ---------------------------------------------------------
+def is_non_event_listing(title, description=""):
+    """
+    Identifies MotorsportReg news posts and announcements (e.g. 'Drag Racing Dates Announced')
+    that are not actual car meets or track days.
+    """
+    text = f"{title} {description}".lower()
+    for kw in NON_EVENT_KEYWORDS:
+        if re.search(r'\b' + re.escape(kw) + r'\b', text):
+            return True
+    return False
+
 def is_stale_year_title(title):
-    """
-    Returns True if the title explicitly references a past year (e.g. 2020-2025).
-    Guarantees legacy MSR entries like '2024 Drag Racing Dates' are rejected.
-    """
     if not title:
         return False
     title_str = str(title)
@@ -94,6 +108,39 @@ def normalize_date(date_input):
         except ValueError:
             continue
     return None
+
+def is_valid_future_event(event_dict):
+    """
+    Comprehensive verification:
+    1. Valid YYYY-MM-DD date >= today (2026-10-13)
+    2. Event year >= 2026
+    3. Title contains no legacy years (2015-2025)
+    4. Rejects news announcements & placeholders
+    """
+    if not isinstance(event_dict, dict):
+        return False
+
+    title = event_dict.get('title', '')
+    desc = event_dict.get('description', '')
+    date_str = normalize_date(event_dict.get('date'))
+
+    if not date_str or date_str < today_str:
+        return False
+
+    try:
+        yr = int(date_str[:4])
+        if yr < current_year:
+            return False
+    except ValueError:
+        return False
+
+    if is_stale_year_title(title):
+        return False
+
+    if is_non_event_listing(title, desc):
+        return False
+
+    return True
 
 def get_varied_category_image(category, title_seed):
     pool = CATEGORY_IMAGE_POOLS.get(category, [DEFAULT_FALLBACK])
@@ -226,7 +273,7 @@ def deduplicate_events(event_list):
     return unique_list
 
 # ---------------------------------------------------------
-# MOTORSPORTREG LIVE API WITH DYNAMIC IMAGE EXTRACTION
+# MOTORSPORTREG LIVE API WITH ANNOUNCEMENT FILTER
 # ---------------------------------------------------------
 NATIONAL_GRID_HUBS = [
     {"name": "Seattle / PNW North", "lat": "47.6062", "lon": "-122.3321"},
@@ -277,16 +324,18 @@ def fetch_multi_hub_msr_events():
                     seen_ids.add(item_id)
 
                     title = str(item.get('name') or 'Motorsports Event')[:80]
-                    
-                    # Reject titles referencing past years (e.g. 2024, 2025)
-                    if is_stale_year_title(title):
-                        continue
-
+                    desc = str(item.get('type') or '')
                     raw_start = str(item.get('start') or '')[:10]
                     start_date = normalize_date(raw_start)
-                    
-                    # Discard anything in the past
-                    if not start_date or start_date < today_str:
+
+                    candidate = {
+                        "title": title,
+                        "description": desc,
+                        "date": start_date
+                    }
+
+                    # Filter out non-event announcements and past dates
+                    if not is_valid_future_event(candidate):
                         continue
 
                     venue = item.get('venue') or {}
@@ -308,14 +357,14 @@ def fetch_multi_hub_msr_events():
                         "category": category,
                         "date": start_date,
                         "time": "08:00 AM - 05:00 PM",
-                        "description": str(item.get('type') or 'Official Motorsports & Track gathering via MotorsportReg.'),
+                        "description": desc or 'Official Motorsports & Track gathering via MotorsportReg.',
                         "url": valid_url,
                         "image": image_url
                     })
         except Exception as e:
             print(f"Notice: Grid fetch note ({hub['name']}): {e}")
 
-    print(f"Success: Extracted {len(events)} MotorsportReg web events with strict year filtering.")
+    print(f"Success: Extracted {len(events)} MotorsportReg web events.")
     return events
 
 # ---------------------------------------------------------
@@ -478,16 +527,12 @@ def update_index():
 
     push_to_supabase(unique_events)
 
-    # Strictly purge any past dates AND stale year titles (e.g. 2024, 2025)
+    # Strictly filter out any legacy announcements or past dates from index.html
     valid_existing = []
     for e in existing:
-        if isinstance(e, dict):
-            title = e.get('title', '')
-            norm_dt = normalize_date(e.get('date'))
-            
-            if norm_dt and norm_dt >= today_str and not is_stale_year_title(title):
-                e['date'] = norm_dt
-                valid_existing.append(e)
+        if is_valid_future_event(e):
+            e['date'] = normalize_date(e.get('date'))
+            valid_existing.append(e)
 
     final_directory = deduplicate_events(valid_existing + unique_events)
     final_directory.sort(key=lambda x: str(x.get('date') or ''))
@@ -498,7 +543,7 @@ def update_index():
     with open(INDEX_PATH, 'w', encoding='utf-8') as f:
         f.write(new_html)
 
-    print(f"Success: Directory updated with {len(final_directory)} unique events. All past dates & legacy 2024/2025 titles purged.")
+    print(f"Success: Directory updated with {len(final_directory)} unique events. Non-event news listings purged.")
 
 if __name__ == '__main__':
     try:
