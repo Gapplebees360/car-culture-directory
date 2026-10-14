@@ -10,6 +10,7 @@ import hashlib
 # Reference Date (UTC)
 today = datetime.datetime.now(datetime.timezone.utc).date()
 today_str = today.strftime('%Y-%m-%d')
+current_year = today.year
 INDEX_PATH = 'index.html'
 
 SUPABASE_URL = "https://lswnpxeiagureogrlopy.supabase.co"
@@ -18,7 +19,7 @@ SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) USAAutoMeets/1.0'}
 
 # ---------------------------------------------------------
-# DIVERSE CATEGORY IMAGE POOLS (4-5 HIGH-RES PHOTOS PER CATEGORY)
+# DIVERSE CATEGORY IMAGE POOLS
 # ---------------------------------------------------------
 CATEGORY_IMAGE_POOLS = {
     "Track / Drag": [
@@ -66,14 +67,21 @@ SOFT_404_TERMS = [
 
 CHECKED_URL_CACHE = {}
 
-def get_varied_category_image(category, title_seed):
+# ---------------------------------------------------------
+# 1. STRICT DATE & STALE TITLE FILTERS
+# ---------------------------------------------------------
+def is_stale_year_title(title):
     """
-    Selects a deterministic image from the pool using an MD5 hash of the title.
-    Ensures card-to-card visual variety while keeping the image stable across refreshes.
+    Returns True if the title explicitly references a past year (e.g. 2020-2025).
+    Guarantees legacy MSR entries like '2024 Drag Racing Dates' are rejected.
     """
-    pool = CATEGORY_IMAGE_POOLS.get(category, [DEFAULT_FALLBACK])
-    hash_val = int(hashlib.md5(title_seed.encode('utf-8')).hexdigest(), 16)
-    return pool[hash_val % len(pool)]
+    if not title:
+        return False
+    title_str = str(title)
+    for yr in range(2015, current_year):
+        if re.search(r'\b' + str(yr) + r'\b', title_str):
+            return True
+    return False
 
 def normalize_date(date_input):
     if not date_input:
@@ -86,6 +94,11 @@ def normalize_date(date_input):
         except ValueError:
             continue
     return None
+
+def get_varied_category_image(category, title_seed):
+    pool = CATEGORY_IMAGE_POOLS.get(category, [DEFAULT_FALLBACK])
+    hash_val = int(hashlib.md5(title_seed.encode('utf-8')).hexdigest(), 16)
+    return pool[hash_val % len(pool)]
 
 def get_root_domain(url):
     try:
@@ -140,7 +153,7 @@ def verify_and_audit_url(url, title="", venue="", city="", state=""):
             CHECKED_URL_CACHE[url] = final_url
             return final_url
 
-    except Exception as e:
+    except Exception:
         CHECKED_URL_CACHE[url] = fallback_url
         return fallback_url
 
@@ -160,7 +173,7 @@ def resolve_bremerton_pdf_url():
     return fallback_url
 
 # ---------------------------------------------------------
-# FUZZY DEDUPLICATION
+# FUZZY DEDUPLICATION ENGINE
 # ---------------------------------------------------------
 NOISE_WORDS = {'and', 'the', 'at', 'in', 'of', 'for', '2026', '2027', 'annual', 'weekly', 'monthly', 'show', 'meet', 'car', 'cars', 'meetup'}
 
@@ -213,7 +226,7 @@ def deduplicate_events(event_list):
     return unique_list
 
 # ---------------------------------------------------------
-# MOTORSPORTREG API WITH DYNAMIC IMAGE EXTRACTION
+# MOTORSPORTREG LIVE API WITH DYNAMIC IMAGE EXTRACTION
 # ---------------------------------------------------------
 NATIONAL_GRID_HUBS = [
     {"name": "Seattle / PNW North", "lat": "47.6062", "lon": "-122.3321"},
@@ -234,15 +247,10 @@ NATIONAL_GRID_HUBS = [
 ]
 
 def extract_live_msr_image(item, category, title):
-    """
-    Attempts to extract live event artwork / logo from MotorsportReg record.
-    Falls back to varied category image pool if live artwork is absent.
-    """
     candidate_urls = [
         item.get('imageUrl'), item.get('image'), item.get('photo'),
         item.get('avatarUrl'), item.get('logoUrl')
     ]
-    
     venue = item.get('venue') or {}
     candidate_urls.extend([venue.get('imageUrl'), venue.get('logoUrl')])
 
@@ -269,9 +277,15 @@ def fetch_multi_hub_msr_events():
                     seen_ids.add(item_id)
 
                     title = str(item.get('name') or 'Motorsports Event')[:80]
+                    
+                    # Reject titles referencing past years (e.g. 2024, 2025)
+                    if is_stale_year_title(title):
+                        continue
+
                     raw_start = str(item.get('start') or '')[:10]
                     start_date = normalize_date(raw_start)
                     
+                    # Discard anything in the past
                     if not start_date or start_date < today_str:
                         continue
 
@@ -301,7 +315,7 @@ def fetch_multi_hub_msr_events():
         except Exception as e:
             print(f"Notice: Grid fetch note ({hub['name']}): {e}")
 
-    print(f"Success: Extracted {len(events)} MotorsportReg web events with live artwork resolution.")
+    print(f"Success: Extracted {len(events)} MotorsportReg web events with strict year filtering.")
     return events
 
 # ---------------------------------------------------------
@@ -397,7 +411,7 @@ def generate_365_day_50_state_schedule():
     return events
 
 # ---------------------------------------------------------
-# SUPABASE SYNC & INDEX.HTML BUILDER
+# 6. SUPABASE SYNC & INDEX.HTML BUILDER
 # ---------------------------------------------------------
 def purge_old_supabase_events():
     try:
@@ -464,11 +478,14 @@ def update_index():
 
     push_to_supabase(unique_events)
 
+    # Strictly purge any past dates AND stale year titles (e.g. 2024, 2025)
     valid_existing = []
     for e in existing:
         if isinstance(e, dict):
+            title = e.get('title', '')
             norm_dt = normalize_date(e.get('date'))
-            if norm_dt and norm_dt >= today_str:
+            
+            if norm_dt and norm_dt >= today_str and not is_stale_year_title(title):
                 e['date'] = norm_dt
                 valid_existing.append(e)
 
@@ -481,7 +498,7 @@ def update_index():
     with open(INDEX_PATH, 'w', encoding='utf-8') as f:
         f.write(new_html)
 
-    print(f"Success: Directory updated with {len(final_directory)} unique events with dynamic photo resolution and image pool hashing.")
+    print(f"Success: Directory updated with {len(final_directory)} unique events. All past dates & legacy 2024/2025 titles purged.")
 
 if __name__ == '__main__':
     try:
