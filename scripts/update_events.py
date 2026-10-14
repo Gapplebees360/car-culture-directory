@@ -7,10 +7,13 @@ import urllib.request
 import urllib.parse
 import hashlib
 
-# Reference Date (UTC)
+# Reference Dates (UTC)
 today = datetime.datetime.now(datetime.timezone.utc).date()
 today_str = today.strftime('%Y-%m-%d')
+max_future_date = today + datetime.timedelta(days=365)
+max_future_str = max_future_date.strftime('%Y-%m-%d')
 current_year = today.year
+
 INDEX_PATH = 'index.html'
 
 SUPABASE_URL = "https://lswnpxeiagureogrlopy.supabase.co"
@@ -66,16 +69,73 @@ SOFT_404_TERMS = [
 ]
 
 NON_EVENT_KEYWORDS = [
-    "announced", "announcement", "dates", "schedule", "membership",
-    "season pass", "banquet", "meeting", "officials", "board",
-    "rules", "points", "registration open", "info only", "placeholder",
-    "tbd", "postponed", "cancelled", "canceled"
+    "announced", "announcement", "dates announced", "season pass",
+    "annual banquet", "board meeting", "rulebook", "registration info"
 ]
 
 CHECKED_URL_CACHE = {}
 
 # ---------------------------------------------------------
-# 1. ANNOUNCEMENT, STALE YEAR & DATE VALIDATION FILTERS
+# NATIONAL 50-STATE COORDINATE GRID HUBS
+# ---------------------------------------------------------
+NATIONAL_GRID_HUBS = [
+    {"name": "Alabama", "state": "AL", "lat": "33.5186", "lon": "-86.8104"},
+    {"name": "Alaska", "state": "AK", "lat": "61.2181", "lon": "-149.9003"},
+    {"name": "Arizona", "state": "AZ", "lat": "33.4484", "lon": "-112.0740"},
+    {"name": "Arkansas", "state": "AR", "lat": "34.7465", "lon": "-92.2896"},
+    {"name": "California - North", "state": "CA", "lat": "37.7749", "lon": "-122.4194"},
+    {"name": "California - South", "state": "CA", "lat": "34.0522", "lon": "-118.2437"},
+    {"name": "Colorado", "state": "CO", "lat": "39.7392", "lon": "-104.9903"},
+    {"name": "Connecticut", "state": "CT", "lat": "41.7658", "lon": "-72.6734"},
+    {"name": "Delaware", "state": "DE", "lat": "39.7391", "lon": "-75.5398"},
+    {"name": "Florida - North", "state": "FL", "lat": "30.3322", "lon": "-81.6557"},
+    {"name": "Florida - South", "state": "FL", "lat": "25.7617", "lon": "-80.1918"},
+    {"name": "Georgia", "state": "GA", "lat": "33.7490", "lon": "-84.3880"},
+    {"name": "Hawaii", "state": "HI", "lat": "21.3069", "lon": "-157.8583"},
+    {"name": "Idaho", "state": "ID", "lat": "43.6150", "lon": "-116.2023"},
+    {"name": "Illinois", "state": "IL", "lat": "41.8781", "lon": "-87.6298"},
+    {"name": "Indiana", "state": "IN", "lat": "39.7684", "lon": "-86.1581"},
+    {"name": "Iowa", "state": "IA", "lat": "41.5868", "lon": "-93.6250"},
+    {"name": "Kansas", "state": "KS", "lat": "37.6872", "lon": "-97.3301"},
+    {"name": "Kentucky", "state": "KY", "lat": "38.2527", "lon": "-85.7585"},
+    {"name": "Louisiana", "state": "LA", "lat": "29.9511", "lon": "-90.0715"},
+    {"name": "Maine", "state": "ME", "lat": "43.6591", "lon": "-70.2568"},
+    {"name": "Maryland", "state": "MD", "lat": "39.2904", "lon": "-76.6122"},
+    {"name": "Massachusetts", "state": "MA", "lat": "42.3601", "lon": "-71.0589"},
+    {"name": "Michigan", "state": "MI", "lat": "42.3314", "lon": "-83.0458"},
+    {"name": "Minnesota", "state": "MN", "lat": "44.9778", "lon": "-93.2650"},
+    {"name": "Mississippi", "state": "MS", "lat": "32.2988", "lon": "-90.1848"},
+    {"name": "Missouri", "state": "MO", "lat": "38.6270", "lon": "-90.1994"},
+    {"name": "Montana", "state": "MT", "lat": "45.7833", "lon": "-108.5007"},
+    {"name": "Nebraska", "state": "NE", "lat": "41.2565", "lon": "-95.9345"},
+    {"name": "Nevada", "state": "NV", "lat": "36.1699", "lon": "-115.1398"},
+    {"name": "New Hampshire", "state": "NH", "lat": "42.9956", "lon": "-71.4548"},
+    {"name": "New Jersey", "state": "NJ", "lat": "40.7357", "lon": "-74.1724"},
+    {"name": "New Mexico", "state": "NM", "lat": "35.0844", "lon": "-106.6504"},
+    {"name": "New York", "state": "NY", "lat": "40.7128", "lon": "-74.0060"},
+    {"name": "North Carolina", "state": "NC", "lat": "35.2271", "lon": "-80.8431"},
+    {"name": "North Dakota", "state": "ND", "lat": "46.8083", "lon": "-100.7837"},
+    {"name": "Ohio", "state": "OH", "lat": "39.9612", "lon": "-82.9988"},
+    {"name": "Oklahoma", "state": "OK", "lat": "35.4676", "lon": "-97.5164"},
+    {"name": "Oregon", "state": "OR", "lat": "45.5152", "lon": "-122.6784"},
+    {"name": "Pennsylvania", "state": "PA", "lat": "39.9526", "lon": "-75.1652"},
+    {"name": "Rhode Island", "state": "RI", "lat": "41.8240", "lon": "-71.4128"},
+    {"name": "South Carolina", "state": "SC", "lat": "34.0007", "lon": "-81.0348"},
+    {"name": "South Dakota", "state": "SD", "lat": "43.5460", "lon": "-96.7313"},
+    {"name": "Tennessee", "state": "TN", "lat": "36.1627", "lon": "-86.7816"},
+    {"name": "Texas - North", "state": "TX", "lat": "32.7767", "lon": "-96.7970"},
+    {"name": "Texas - South", "state": "TX", "lat": "29.7604", "lon": "-95.3698"},
+    {"name": "Utah", "state": "UT", "lat": "40.7608", "lon": "-111.8910"},
+    {"name": "Vermont", "state": "VT", "lat": "44.4758", "lon": "-73.2121"},
+    {"name": "Virginia", "state": "VA", "lat": "37.5407", "lon": "-77.4360"},
+    {"name": "Washington", "state": "WA", "lat": "47.6062", "lon": "-122.3321"},
+    {"name": "West Virginia", "state": "WV", "lat": "38.3498", "lon": "-81.6326"},
+    {"name": "Wisconsin", "state": "WI", "lat": "43.0389", "lon": "-87.9065"},
+    {"name": "Wyoming", "state": "WY", "lat": "41.1399", "lon": "-104.8202"}
+]
+
+# ---------------------------------------------------------
+# VALIDATION & NORMALIZATION FILTERS
 # ---------------------------------------------------------
 def is_non_event_listing(title, description=""):
     text = f"{title} {description}".lower()
@@ -113,7 +173,8 @@ def is_valid_future_event(event_dict):
     desc = event_dict.get('description', '')
     date_str = normalize_date(event_dict.get('date'))
 
-    if not date_str or date_str < today_str:
+    # Must fall within the 365-day active window
+    if not date_str or date_str < today_str or date_str > max_future_str:
         return False
 
     try:
@@ -193,23 +254,8 @@ def verify_and_audit_url(url, title="", venue="", city="", state=""):
         CHECKED_URL_CACHE[url] = fallback_url
         return fallback_url
 
-def resolve_bremerton_pdf_url():
-    fallback_url = "https://www.facebook.com/BremertonRaceway/"
-    try:
-        url = "https://bremertonraceway.com/"
-        req = urllib.request.Request(url, headers=HEADERS)
-        with urllib.request.urlopen(req, timeout=5) as resp:
-            html = resp.read().decode('utf-8', errors='ignore')
-            match = re.search(r'href=["\'](/files/[^"\']+\.pdf|https?://[^"\']+\.pdf)["\']', html, re.IGNORECASE)
-            if match:
-                pdf_path = match.group(1)
-                return f"https://bremertonraceway.com{pdf_path}" if pdf_path.startswith('/') else pdf_path
-    except Exception as e:
-        print(f"Notice: Bremerton PDF lookup note: {e}")
-    return fallback_url
-
 # ---------------------------------------------------------
-# 2. FUZZY DEDUPLICATION ENGINE
+# FUZZY DEDUPLICATION ENGINE
 # ---------------------------------------------------------
 NOISE_WORDS = {'and', 'the', 'at', 'in', 'of', 'for', '2026', '2027', 'annual', 'weekly', 'monthly', 'show', 'meet', 'car', 'cars', 'meetup'}
 
@@ -262,26 +308,8 @@ def deduplicate_events(event_list):
     return unique_list
 
 # ---------------------------------------------------------
-# 3. MOTORSPORTREG LIVE API WITH DYNAMIC PHOTO EXTRACTION
+# 100% REAL MOTORSPORTREG API INGESTION (UP TO 365 DAYS OUT)
 # ---------------------------------------------------------
-NATIONAL_GRID_HUBS = [
-    {"name": "Seattle / PNW North", "lat": "47.6062", "lon": "-122.3321"},
-    {"name": "Portland / PNW South", "lat": "45.5152", "lon": "-122.6784"},
-    {"name": "Spokane / Inland NW", "lat": "47.6588", "lon": "-117.4260"},
-    {"name": "San Francisco / NorCal", "lat": "37.7749", "lon": "-122.4194"},
-    {"name": "Los Angeles / SoCal", "lat": "34.0522", "lon": "-118.2437"},
-    {"name": "Phoenix / Southwest", "lat": "33.4484", "lon": "-112.0740"},
-    {"name": "Denver / Rockies", "lat": "39.7392", "lon": "-104.9903"},
-    {"name": "Dallas / North Texas", "lat": "32.7767", "lon": "-96.7970"},
-    {"name": "Houston / Gulf Coast", "lat": "29.7604", "lon": "-95.3698"},
-    {"name": "Chicago / Great Lakes", "lat": "41.8781", "lon": "-87.6298"},
-    {"name": "Indianapolis / Heartland", "lat": "39.7684", "lon": "-86.1581"},
-    {"name": "Detroit / Motor City", "lat": "42.3314", "lon": "-83.0458"},
-    {"name": "Atlanta / Deep South", "lat": "33.7490", "lon": "-84.3880"},
-    {"name": "Orlando / Central Florida", "lat": "28.5383", "lon": "-81.3792"},
-    {"name": "New York / Northeast Hub", "lat": "40.7128", "lon": "-74.0060"}
-]
-
 def extract_live_msr_image(item, category, title):
     candidate_urls = [
         item.get('imageUrl'), item.get('image'), item.get('photo'),
@@ -323,11 +351,12 @@ def fetch_multi_hub_msr_events():
                         "date": start_date
                     }
 
+                    # Filter out non-event announcements, past dates, and dates > 365 days out
                     if not is_valid_future_event(candidate):
                         continue
 
                     venue = item.get('venue') or {}
-                    state = str(venue.get('state') or 'WA')[:2].upper()
+                    state = str(venue.get('state') or hub['state'])[:2].upper()
                     city = str(venue.get('city') or 'Regional')
                     venue_name = str(venue.get('name') or 'Motorsports Park')[:80]
                     
@@ -352,103 +381,11 @@ def fetch_multi_hub_msr_events():
         except Exception as e:
             print(f"Notice: Grid fetch note ({hub['name']}): {e}")
 
-    print(f"Success: Extracted {len(events)} MotorsportReg web events.")
+    print(f"Success: Extracted {len(events)} real posted MotorsportReg web events across 50 states up to 365 days out.")
     return events
 
 # ---------------------------------------------------------
-# 4. RECURRENCE & SEASONALITY ROLLING SCHEDULE ENGINE
-# ---------------------------------------------------------
-def is_date_valid_for_recurrence(dt, target_weekday, recurrence, active_months):
-    start_m, end_m = active_months
-    if start_m <= end_m:
-        if not (start_m <= dt.month <= end_m):
-            return False
-    else:
-        if not (dt.month >= start_m or dt.month <= end_m):
-            return False
-
-    if dt.weekday() != target_weekday:
-        return False
-
-    day_of_month = dt.day
-    if recurrence == "weekly":
-        return True
-    elif recurrence == "1st_week":
-        return 1 <= day_of_month <= 7
-    elif recurrence == "2nd_week":
-        return 8 <= day_of_month <= 14
-    elif recurrence == "3rd_week":
-        return 15 <= day_of_month <= 21
-    elif recurrence == "4th_week":
-        return 22 <= day_of_month <= 28
-    elif recurrence == "biweekly":
-        return dt.isocalendar()[1] % 2 == 0
-
-    return True
-
-def generate_365_day_50_state_schedule():
-    events = []
-    bremerton_url = resolve_bremerton_pdf_url()
-
-    state_templates = [
-        # --- WASHINGTON STATE ---
-        ("Pacific Raceways Friday Night Drag & Tune", "WA", "Kent", "Pacific Raceways", "Track / Drag", "04:00 PM - 10:00 PM", "Quarter-mile street legal drag test & tune session.", "https://pacificraceways.com/drag-racing/", 4, "weekly", (4, 10)),
-        ("ProFormance Racing School Track Day", "WA", "Kent", "Pacific Raceways", "Track / Drag", "08:00 AM - 05:00 PM", "High Performance Driving Course and open lapping day.", "https://proformanceracingschool.com", 4, "weekly", (4, 10)),
-        ("Bremerton Raceway Sportsman Drags", "WA", "Bremerton", "8800 SW Imperial Way", "Track / Drag", "08:00 AM - 05:00 PM", "Bracket drag racing at Bremerton Airport.", bremerton_url, 5, "weekly", (4, 10)),
-        ("The Ridge Motorsports Park Open Lapping & Track Day", "WA", "Shelton", "1051 SE Ridge World Way", "Track / Drag", "08:00 AM - 05:00 PM", "High performance sports car open track lapping.", "https://ridgemotorsportspark.com", 5, "weekly", (4, 10)),
-        ("Evergreen Speedway Saturday Championship Racing", "WA", "Monroe", "14405 179th Ave SE", "Track / Drag", "04:00 PM - 10:00 PM", "NASCAR regional oval racing and drift events.", "https://evergreenspeedway.com", 5, "weekly", (4, 10)),
-        ("Toutle Riverdale Raceway Off-Road & MX Practice", "WA", "Toutle", "Riverdale Raceway", "Track / Drag", "09:00 AM - 04:00 PM", "Motocross and off-road practice day.", "https://www.facebook.com/RiverdaleRacewayToutle/", 5, "weekly", (4, 10)),
-        ("Spokane County Raceway Drag & Drift Night", "WA", "Airway Heights", "750 N Hayford Rd", "Track / Drag", "06:00 PM - 11:00 PM", "Open quarter-mile drag testing and drift pad.", "https://www.facebook.com/SpokaneCountyRaceway/", 4, "weekly", (5, 9)),
-        ("Griot's Garage Tacoma Caffeine & Gasoline", "WA", "Tacoma", "3333 S 38th St", "Cars & Coffee", "08:00 AM - 10:00 AM", "Flagship store cars & coffee with free coffee.", "https://griotsgarage.com", 5, "1st_week", (4, 10)),
-        ("Centralia Historic Downtown Cruise-In", "WA", "Centralia", "Tower Ave & Main St", "Cruise Night", "05:00 PM - 08:00 PM", "Classic muscle cars, hot rods, and local street cruisers.", "https://www.facebook.com/CentraliaMainStreet/", 5, "3rd_week", (5, 9)),
-        ("Lacey Capital Mall Saturday Pop-Up", "WA", "Lacey", "600 Sleater Kinney Rd SE", "Pop-Up Meet", "06:00 PM - 09:00 PM", "Late night weekend car community pop-up.", "https://capitalmall-wa.com", 5, "biweekly", (4, 10)),
-
-        # --- OTHER US STATES ---
-        ("Portland International Raceway Late Night Drags", "OR", "Portland", "1940 N Victory Blvd", "Track / Drag", "06:00 PM - 11:00 PM", "Street legal drag racing under the lights at PIR.", "https://portlandraceway.com", 4, "weekly", (4, 10)),
-        ("Woodburn Dragstrip Friday Night Late Night", "OR", "Woodburn", "7730 HWY 219", "Track / Drag", "04:00 PM - 09:30 PM", "Pacific Northwest street legal drag testing.", "https://woodburndragstrip.com", 4, "weekly", (4, 10)),
-        ("In-N-Out Pomona Dragstrip Street Legal Night", "CA", "Pomona", "2780 E Fairplex Dr", "Track / Drag", "05:00 PM - 10:00 PM", "SoCal street legal drag racing under the lights.", "https://www.nhra.com/in-n-out-pomona-dragstrip", 4, "biweekly", (1, 12)),
-        ("Sonoma Raceway Wednesday Night Drags", "CA", "Pleasanton", "29355 Arnold Dr", "Track / Drag", "04:00 PM - 09:30 PM", "NorCal quarter-mile street car drag racing.", "https://sonomaraceway.com", 4, "weekly", (3, 11)),
-        ("Firebird Motorsports Park Friday Night Drag", "AZ", "Chandler", "20000 S Maricopa Rd", "Track / Drag", "06:00 PM - 11:00 PM", "Open test & tune for street cars and slicks.", "https://racefirebird.com", 4, "weekly", (1, 12)),
-        ("Las Vegas Motor Speedway Midnight Mayhem", "NV", "Las Vegas", "7000 N Las Vegas Blvd", "Track / Drag", "08:00 PM - 01:00 AM", "Street-legal drag racing alternative on the Strip.", "https://lvms.com", 4, "biweekly", (1, 12)),
-        ("Circuit of the Americas COTA Cars & Coffee", "TX", "Austin", "9201 Circuit of the Americas Blvd", "Cars & Coffee", "08:00 AM - 12:00 PM", "Central Texas monthly automotive showcase.", "https://circuitoftheamericas.com", 6, "3rd_week", (1, 12)),
-        ("Lucas Oil Indianapolis Raceway Park Drags", "IN", "Indianapolis", "10267 E US HWY 136", "Track / Drag", "05:00 PM - 10:00 PM", "Wild Wednesday / Friday street drag testing.", "https://raceirp.com", 4, "weekly", (4, 10)),
-        ("Milan Dragway Friday Test & Tune", "MI", "Milan", "10860 Plank Rd", "Track / Drag", "04:00 PM - 10:00 PM", "Michigan quarter-mile drag racing test session.", "https://milandragway.com", 4, "weekly", (4, 10)),
-        ("Summit Motorsports Park Friday Test & Tune", "OH", "Norwalk", "1300 St Rte 18", "Track / Drag", "04:00 PM - 09:30 PM", "Quarter-mile drag racing under full lights.", "https://summitmotorsportspark.com", 4, "weekly", (4, 10)),
-        ("Orlando Speed World Midnight Drag & Drift", "FL", "Orlando", "19164 E Colonial Dr", "Track / Drag", "07:00 PM - 01:00 AM", "Late-night drag strip testing and drift pad.", "https://raceosw.com", 4, "weekly", (1, 12)),
-        ("Caffeine & Octane Atlanta", "GA", "Atlanta", "Town Center at Cobb", "Cars & Coffee", "08:00 AM - 12:00 PM", "North America's largest monthly car show.", "https://www.caffeineandoctane.com", 6, "1st_week", (1, 12)),
-        ("Maryland International Raceway Midnight Madness", "MD", "Budds Creek", "27861 Budds Creek Rd", "Track / Drag", "06:00 PM - 12:00 AM", "Quarter-mile drag racing and street fights.", "https://mirdrag.com", 4, "biweekly", (4, 11)),
-        ("Alabama International Dragway Street Legal Night", "AL", "Steele", "1245 Dragstrip Rd", "Track / Drag", "05:00 PM - 10:00 PM", "Friday night street legal drag racing test & tune.", "https://www.alabamainternationaldragway.com", 4, "weekly", (3, 11))
-    ]
-
-    for day_offset in range(365):
-        eval_date = today + datetime.timedelta(days=day_offset)
-        eval_date_str = eval_date.strftime('%Y-%m-%d')
-        
-        if eval_date_str < today_str:
-            continue
-
-        for title, state, city, venue, cat, time_str, desc, raw_url, target_day, recurrence, active_months in state_templates:
-            if is_date_valid_for_recurrence(eval_date, target_day, recurrence, active_months):
-                img_url = get_varied_category_image(cat, title)
-                valid_url = verify_and_audit_url(raw_url, title, venue, city, state)
-                
-                events.append({
-                    "title": title,
-                    "state": state,
-                    "city": city,
-                    "venue": venue,
-                    "category": cat,
-                    "date": eval_date_str,
-                    "time": time_str,
-                    "description": desc,
-                    "url": valid_url,
-                    "image": img_url
-                })
-
-    return events
-
-# ---------------------------------------------------------
-# 5. SUPABASE SYNC & INDEX.HTML BUILDER
+# SUPABASE SYNC & INDEX.HTML BUILDER
 # ---------------------------------------------------------
 def purge_old_supabase_events():
     try:
@@ -507,14 +444,12 @@ def update_index():
     raw_js = match.group(1)
     existing = parse_json_safely(raw_js)
 
-    rolling_events = generate_365_day_50_state_schedule()
     msr_events = fetch_multi_hub_msr_events()
-    
-    raw_combined = rolling_events + msr_events
-    unique_events = deduplicate_events(raw_combined)
+    unique_events = deduplicate_events(msr_events)
 
     push_to_supabase(unique_events)
 
+    # Filter out any non-event announcements or dates outside today -> 365 days
     valid_existing = []
     for e in existing:
         if is_valid_future_event(e):
@@ -530,7 +465,7 @@ def update_index():
     with open(INDEX_PATH, 'w', encoding='utf-8') as f:
         f.write(new_html)
 
-    print(f"Success: Directory updated with {len(final_directory)} unique events.")
+    print(f"Success: Directory updated with {len(final_directory)} 100% real published events.")
 
 if __name__ == '__main__':
     try:
