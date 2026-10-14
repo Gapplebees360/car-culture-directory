@@ -21,137 +21,21 @@ SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) USAAutoMeets/1.0'}
 
-# ---------------------------------------------------------
-# DIVERSE CATEGORY IMAGE POOLS
-# ---------------------------------------------------------
 CATEGORY_IMAGE_POOLS = {
     "Track / Drag": [
         "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1541348263662-e082662d82da?w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?w=800&auto=format&fit=crop"
+        "https://images.unsplash.com/photo-1541348263662-e082662d82da?w=800&auto=format&fit=crop"
     ],
     "Cars & Coffee": [
-        "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&auto=format&fit=crop"
+        "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&auto=format&fit=crop"
     ],
     "Car Show": [
-        "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1563720223185-11003d516935?w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1514316454349-750a7fd3da3a?w=800&auto=format&fit=crop"
-    ],
-    "Cruise Night": [
-        "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1508974239320-0a029497e820?w=800&auto=format&fit=crop"
-    ],
-    "Pop-Up Meet": [
-        "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800&auto=format&fit=crop"
-    ],
-    "Autocross": [
-        "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1541348263662-e082662d82da?w=800&auto=format&fit=crop"
+        "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=800&auto=format&fit=crop"
     ]
 }
 
 DEFAULT_FALLBACK = "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=800&auto=format&fit=crop"
-
-SOFT_404_TERMS = [
-    "page not found", "404 not found", "404 error", "page doesn't exist",
-    "event not found", "no event found", "this domain is for sale",
-    "buy this domain", "hugedomains", "godaddy", "sedo", "domain expired",
-    "event has passed", "sorry, the page", "error 404"
-]
-
-NON_EVENT_KEYWORDS = [
-    "announced", "announcement", "dates announced", "season pass",
-    "annual banquet", "board meeting", "rulebook", "registration info"
-]
-
-CHECKED_URL_CACHE = {}
-
-# ---------------------------------------------------------
-# NATIONAL 50-STATE COORDINATE GRID HUBS
-# ---------------------------------------------------------
-NATIONAL_GRID_HUBS = [
-    {"name": "Alabama", "state": "AL", "lat": "33.5186", "lon": "-86.8104"},
-    {"name": "Alaska", "state": "AK", "lat": "61.2181", "lon": "-149.9003"},
-    {"name": "Arizona", "state": "AZ", "lat": "33.4484", "lon": "-112.0740"},
-    {"name": "Arkansas", "state": "AR", "lat": "34.7465", "lon": "-92.2896"},
-    {"name": "California - North", "state": "CA", "lat": "37.7749", "lon": "-122.4194"},
-    {"name": "California - South", "state": "CA", "lat": "34.0522", "lon": "-118.2437"},
-    {"name": "Colorado", "state": "CO", "lat": "39.7392", "lon": "-104.9903"},
-    {"name": "Connecticut", "state": "CT", "lat": "41.7658", "lon": "-72.6734"},
-    {"name": "Delaware", "state": "DE", "lat": "39.7391", "lon": "-75.5398"},
-    {"name": "Florida - North", "state": "FL", "lat": "30.3322", "lon": "-81.6557"},
-    {"name": "Florida - South", "state": "FL", "lat": "25.7617", "lon": "-80.1918"},
-    {"name": "Georgia", "state": "GA", "lat": "33.7490", "lon": "-84.3880"},
-    {"name": "Hawaii", "state": "HI", "lat": "21.3069", "lon": "-157.8583"},
-    {"name": "Idaho", "state": "ID", "lat": "43.6150", "lon": "-116.2023"},
-    {"name": "Illinois", "state": "IL", "lat": "41.8781", "lon": "-87.6298"},
-    {"name": "Indiana", "state": "IN", "lat": "39.7684", "lon": "-86.1581"},
-    {"name": "Iowa", "state": "IA", "lat": "41.5868", "lon": "-93.6250"},
-    {"name": "Kansas", "state": "KS", "lat": "37.6872", "lon": "-97.3301"},
-    {"name": "Kentucky", "state": "KY", "lat": "38.2527", "lon": "-85.7585"},
-    {"name": "Louisiana", "state": "LA", "lat": "29.9511", "lon": "-90.0715"},
-    {"name": "Maine", "state": "ME", "lat": "43.6591", "lon": "-70.2568"},
-    {"name": "Maryland", "state": "MD", "lat": "39.2904", "lon": "-76.6122"},
-    {"name": "Massachusetts", "state": "MA", "lat": "42.3601", "lon": "-71.0589"},
-    {"name": "Michigan", "state": "MI", "lat": "42.3314", "lon": "-83.0458"},
-    {"name": "Minnesota", "state": "MN", "lat": "44.9778", "lon": "-93.2650"},
-    {"name": "Mississippi", "state": "MS", "lat": "32.2988", "lon": "-90.1848"},
-    {"name": "Missouri", "state": "MO", "lat": "38.6270", "lon": "-90.1994"},
-    {"name": "Montana", "state": "MT", "lat": "45.7833", "lon": "-108.5007"},
-    {"name": "Nebraska", "state": "NE", "lat": "41.2565", "lon": "-95.9345"},
-    {"name": "Nevada", "state": "NV", "lat": "36.1699", "lon": "-115.1398"},
-    {"name": "New Hampshire", "state": "NH", "lat": "42.9956", "lon": "-71.4548"},
-    {"name": "New Jersey", "state": "NJ", "lat": "40.7357", "lon": "-74.1724"},
-    {"name": "New Mexico", "state": "NM", "lat": "35.0844", "lon": "-106.6504"},
-    {"name": "New York", "state": "NY", "lat": "40.7128", "lon": "-74.0060"},
-    {"name": "North Carolina", "state": "NC", "lat": "35.2271", "lon": "-80.8431"},
-    {"name": "North Dakota", "state": "ND", "lat": "46.8083", "lon": "-100.7837"},
-    {"name": "Ohio", "state": "OH", "lat": "39.9612", "lon": "-82.9988"},
-    {"name": "Oklahoma", "state": "OK", "lat": "35.4676", "lon": "-97.5164"},
-    {"name": "Oregon", "state": "OR", "lat": "45.5152", "lon": "-122.6784"},
-    {"name": "Pennsylvania", "state": "PA", "lat": "39.9526", "lon": "-75.1652"},
-    {"name": "Rhode Island", "state": "RI", "lat": "41.8240", "lon": "-71.4128"},
-    {"name": "South Carolina", "state": "SC", "lat": "34.0007", "lon": "-81.0348"},
-    {"name": "South Dakota", "state": "SD", "lat": "43.5460", "lon": "-96.7313"},
-    {"name": "Tennessee", "state": "TN", "lat": "36.1627", "lon": "-86.7816"},
-    {"name": "Texas - North", "state": "TX", "lat": "32.7767", "lon": "-96.7970"},
-    {"name": "Texas - South", "state": "TX", "lat": "29.7604", "lon": "-95.3698"},
-    {"name": "Utah", "state": "UT", "lat": "40.7608", "lon": "-111.8910"},
-    {"name": "Vermont", "state": "VT", "lat": "44.4758", "lon": "-73.2121"},
-    {"name": "Virginia", "state": "VA", "lat": "37.5407", "lon": "-77.4360"},
-    {"name": "Washington", "state": "WA", "lat": "47.6062", "lon": "-122.3321"},
-    {"name": "West Virginia", "state": "WV", "lat": "38.3498", "lon": "-81.6326"},
-    {"name": "Wisconsin", "state": "WI", "lat": "43.0389", "lon": "-87.9065"},
-    {"name": "Wyoming", "state": "WY", "lat": "41.1399", "lon": "-104.8202"}
-]
-
-# ---------------------------------------------------------
-# VALIDATION & NORMALIZATION FILTERS
-# ---------------------------------------------------------
-def is_non_event_listing(title, description=""):
-    text = f"{title} {description}".lower()
-    for kw in NON_EVENT_KEYWORDS:
-        if re.search(r'\b' + re.escape(kw) + r'\b', text):
-            return True
-    return False
-
-def is_stale_year_title(title):
-    if not title:
-        return False
-    title_str = str(title)
-    for yr in range(2015, current_year):
-        if re.search(r'\b' + str(yr) + r'\b', title_str):
-            return True
-    return False
+NON_EVENT_KEYWORDS = ["announced", "announcement", "dates announced", "season pass", "annual banquet"]
 
 def normalize_date(date_input):
     if not date_input:
@@ -168,260 +52,54 @@ def normalize_date(date_input):
 def is_valid_future_event(event_dict):
     if not isinstance(event_dict, dict):
         return False
-
-    title = event_dict.get('title', '')
-    desc = event_dict.get('description', '')
     date_str = normalize_date(event_dict.get('date'))
-
-    # Must fall strictly within today -> 365 days in the future
     if not date_str or date_str < today_str or date_str > max_future_str:
         return False
-
-    try:
-        yr = int(date_str[:4])
-        if yr < current_year:
-            return False
-    except ValueError:
-        return False
-
-    if is_stale_year_title(title):
-        return False
-
-    if is_non_event_listing(title, desc):
-        return False
-
     return True
-
-def get_varied_category_image(category, title_seed):
-    pool = CATEGORY_IMAGE_POOLS.get(category, [DEFAULT_FALLBACK])
-    hash_val = int(hashlib.md5(title_seed.encode('utf-8')).hexdigest(), 16)
-    return pool[hash_val % len(pool)]
-
-def get_root_domain(url):
-    try:
-        netloc = urllib.parse.urlparse(url).netloc.lower()
-        netloc = re.sub(r'^www\.', '', netloc)
-        parts = netloc.split('.')
-        if len(parts) >= 2:
-            return parts[-2]
-        return netloc
-    except Exception:
-        return ""
-
-def generate_fallback_search(title, venue, city, state):
-    clean_query = f"{title} {venue} {city} {state}".strip()
-    encoded = urllib.parse.quote(clean_query)
-    return f"https://www.google.com/search?q={encoded}"
-
-def verify_and_audit_url(url, title="", venue="", city="", state=""):
-    fallback_url = generate_fallback_search(title, venue, city, state)
-    if not url or url == '#' or 'google.com/search' in url:
-        return fallback_url
-    
-    if url in CHECKED_URL_CACHE:
-        return CHECKED_URL_CACHE[url]
-
-    orig_domain = get_root_domain(url)
-
-    try:
-        req = urllib.request.Request(url, headers=HEADERS)
-        with urllib.request.urlopen(req, timeout=5) as resp:
-            final_url = resp.geturl()
-            final_domain = get_root_domain(final_url)
-            
-            allowed_social = {'facebook', 'instagram', 'linktr', 'youtube', 'google'}
-            if orig_domain and final_domain and orig_domain != final_domain:
-                if final_domain not in allowed_social and orig_domain not in allowed_social:
-                    CHECKED_URL_CACHE[url] = fallback_url
-                    return fallback_url
-
-            orig_path_depth = len([p for p in urllib.parse.urlparse(url).path.split('/') if p])
-            final_path_depth = len([p for p in urllib.parse.urlparse(final_url).path.split('/') if p])
-            if orig_path_depth > 0 and final_path_depth == 0:
-                CHECKED_URL_CACHE[url] = fallback_url
-                return fallback_url
-
-            html_chunk = resp.read(30720).decode('utf-8', errors='ignore').lower()
-            for term in SOFT_404_TERMS:
-                if term in html_chunk:
-                    CHECKED_URL_CACHE[url] = fallback_url
-                    return fallback_url
-
-            CHECKED_URL_CACHE[url] = final_url
-            return final_url
-
-    except Exception:
-        CHECKED_URL_CACHE[url] = fallback_url
-        return fallback_url
-
-# ---------------------------------------------------------
-# FUZZY DEDUPLICATION ENGINE
-# ---------------------------------------------------------
-NOISE_WORDS = {'and', 'the', 'at', 'in', 'of', 'for', '2026', '2027', 'annual', 'weekly', 'monthly', 'show', 'meet', 'car', 'cars', 'meetup'}
-
-def tokenize_title(title):
-    clean = re.sub(r'[^a-z0-9\s]', '', str(title or '').lower())
-    tokens = set(clean.split())
-    return tokens - NOISE_WORDS
-
-def is_fuzzy_duplicate(ev1, ev2):
-    d1 = normalize_date(ev1.get('date'))
-    d2 = normalize_date(ev2.get('date'))
-    if not d1 or not d2 or d1 != d2:
-        return False
-
-    s1, s2 = str(ev1.get('state') or '').upper(), str(ev2.get('state') or '').upper()
-    if s1 and s2 and s1 != s2:
-        return False
-
-    t1 = tokenize_title(ev1.get('title'))
-    t2 = tokenize_title(ev2.get('title'))
-    if not t1 or not t2:
-        return False
-
-    intersection = len(t1.intersection(t2))
-    union = len(t1.union(t2))
-    jaccard_score = intersection / union if union > 0 else 0
-
-    if jaccard_score >= 0.45:
-        return True
-
-    v1 = re.sub(r'[^a-z0-9]', '', str(ev1.get('venue') or '').lower())
-    v2 = re.sub(r'[^a-z0-9]', '', str(ev2.get('venue') or '').lower())
-    if v1 and v2 and len(v1) > 6 and (v1 in v2 or v2 in v1):
-        return True
-
-    return False
-
-def deduplicate_events(event_list):
-    unique_list = []
-    for incoming in event_list:
-        duplicate_found = False
-        for existing in unique_list:
-            if is_fuzzy_duplicate(incoming, existing):
-                duplicate_found = True
-                if len(incoming.get('description', '')) > len(existing.get('description', '')):
-                    existing['description'] = incoming['description']
-                break
-        if not duplicate_found:
-            unique_list.append(incoming)
-    return unique_list
-
-# ---------------------------------------------------------
-# 100% REAL MOTORSPORTREG API INGESTION
-# ---------------------------------------------------------
-def extract_live_msr_image(item, category, title):
-    candidate_urls = [
-        item.get('imageUrl'), item.get('image'), item.get('photo'),
-        item.get('avatarUrl'), item.get('logoUrl')
-    ]
-    venue = item.get('venue') or {}
-    candidate_urls.extend([venue.get('imageUrl'), venue.get('logoUrl')])
-
-    for candidate in candidate_urls:
-        if candidate and isinstance(candidate, str) and candidate.startswith('http'):
-            return candidate
-
-    return get_varied_category_image(category, title)
 
 def fetch_multi_hub_msr_events():
     events = []
-    seen_ids = set()
-
-    for hub in NATIONAL_GRID_HUBS:
-        url = f"https://api.motorsportreg.com/rest/events.json?country=USA&latitude={hub['lat']}&longitude={hub['lon']}&radius=350"
-        try:
-            req = urllib.request.Request(url, headers=HEADERS)
-            with urllib.request.urlopen(req, timeout=8) as resp:
-                data = json.loads(resp.read().decode('utf-8'))
-                for item in data.get('recordset', {}).get('events', []):
-                    item_id = item.get('id', '')
-                    if item_id and item_id in seen_ids:
-                        continue
-                    seen_ids.add(item_id)
-
-                    title = str(item.get('name') or 'Motorsports Event')[:80]
-                    desc = str(item.get('type') or '')
-                    raw_start = str(item.get('start') or '')[:10]
-                    start_date = normalize_date(raw_start)
-
-                    candidate = {
-                        "title": title,
-                        "description": desc,
-                        "date": start_date
-                    }
-
-                    if not is_valid_future_event(candidate):
-                        continue
-
-                    venue = item.get('venue') or {}
-                    state = str(venue.get('state') or hub['state'])[:2].upper()
-                    city = str(venue.get('city') or 'Regional')
-                    venue_name = str(venue.get('name') or 'Motorsports Park')[:80]
-                    
-                    raw_url = str(item.get('detailurl') or item.get('uri') or item.get('url') or 'https://www.motorsportreg.com/calendar/')
-                    valid_url = verify_and_audit_url(raw_url, title, venue_name, city, state)
-
-                    category = "Track / Drag" if any(w in title.lower() for w in ["drag", "track", "autocross", "lapping", "race", "school", "kart"]) else "Car Show"
-                    image_url = extract_live_msr_image(item, category, title)
-
-                    events.append({
-                        "title": title,
-                        "state": state,
-                        "city": city,
-                        "venue": venue_name,
-                        "category": category,
-                        "date": start_date,
-                        "time": "08:00 AM - 05:00 PM",
-                        "description": desc or 'Official Motorsports & Track gathering via MotorsportReg.',
-                        "url": valid_url,
-                        "image": image_url
-                    })
-        except Exception as e:
-            print(f"Notice: Grid fetch note ({hub['name']}): {e}")
-
-    print(f"Success: Extracted {len(events)} real published MotorsportReg web events.")
-    return events
-
-# ---------------------------------------------------------
-# SUPABASE SYNC & INDEX.HTML BUILDER
-# ---------------------------------------------------------
-def purge_old_supabase_events():
+    # Simplified stable endpoint query for MotorsportReg API
+    url = "https://api.motorsportreg.com/rest/events.json?country=USA"
     try:
-        url = f"{SUPABASE_URL}/rest/v1/events?date=lt.{today_str}"
-        req = urllib.request.Request(url, method='DELETE')
-        req.add_header('apikey', SUPABASE_ANON_KEY)
-        req.add_header('Authorization', f'Bearer {SUPABASE_ANON_KEY}')
+        req = urllib.request.Request(url, headers=HEADERS)
         with urllib.request.urlopen(req, timeout=10) as resp:
-            print(f"Supabase database purge completed (Status {resp.status}).")
-    except Exception as e:
-        print(f"Notice: Supabase purge note (skipped): {e}")
+            data = json.loads(resp.read().decode('utf-8'))
+            for item in data.get('recordset', {}).get('events', []):
+                title = str(item.get('name') or 'Motorsports Event')[:80]
+                raw_start = str(item.get('start') or '')[:10]
+                start_date = normalize_date(raw_start)
 
-def push_to_supabase(event_list):
-    if not event_list:
-        return
-    url = f"{SUPABASE_URL}/rest/v1/events"
-    headers = {
-        'apikey': SUPABASE_ANON_KEY,
-        'Authorization': f'Bearer {SUPABASE_ANON_KEY}',
-        'Content-Type': 'application/json',
-        'Prefer': 'ignore-duplicates'
-    }
-    batch_size = 50
-    for i in range(0, len(event_list), batch_size):
-        batch = event_list[i:i + batch_size]
-        try:
-            data_json = json.dumps(batch).encode('utf-8')
-            req = urllib.request.Request(url, data_json, headers=headers, method='POST')
-            with urllib.request.urlopen(req, timeout=10) as resp:
-                pass
-        except Exception as e:
-            print(f"Notice: Supabase push batch note: {e}")
-    print(f"Pushed {len(event_list)} records to Supabase.")
+                candidate = {"title": title, "date": start_date}
+                if not is_valid_future_event(candidate):
+                    continue
+
+                venue = item.get('venue') or {}
+                state = str(venue.get('state') or 'WA')[:2].upper()
+                city = str(venue.get('city') or 'Regional')
+                venue_name = str(venue.get('name') or 'Motorsports Park')[:80]
+                raw_url = str(item.get('detailurl') or item.get('uri') or 'https://www.motorsportreg.com/calendar/')
+
+                events.append({
+                    "title": title,
+                    "state": state,
+                    "city": city,
+                    "venue": venue_name,
+                    "category": "Track / Drag",
+                    "date": start_date,
+                    "time": "08:00 AM - 05:00 PM",
+                    "description": 'Official Motorsports & Track gathering via MotorsportReg.',
+                    "url": raw_url,
+                    "image": DEFAULT_FALLBACK
+                })
+    except Exception as e:
+        print(f"Notice: API fetch note: {e}")
+
+    print(f"Success: Extracted {len(events)} real published events.")
+    return events
 
 def update_index():
     if not os.path.exists(INDEX_PATH):
-        print(f"File {INDEX_PATH} not found.")
         sys.exit(0)
 
     with open(INDEX_PATH, 'r', encoding='utf-8') as f:
@@ -429,29 +107,17 @@ def update_index():
 
     match = re.search(r'let eventsData = (\[[\s\S]*?\]);', html)
     if not match:
-        print("Could not match 'let eventsData = [...]' in index.html.")
         sys.exit(0)
 
-    # Scrape strictly real live events across 52 hubs
     msr_events = fetch_multi_hub_msr_events()
-    final_directory = deduplicate_events(msr_events)
-    final_directory.sort(key=lambda x: str(x.get('date') or ''))
-
-    # Overwrite Supabase & index.html cleanly (zero recycled synthetic entries)
-    push_to_supabase(final_directory)
-
-    updated_json = json.dumps(final_directory, indent=6)
+    updated_json = json.dumps(msr_events, indent=6)
     new_html = html[:match.start(1)] + updated_json + html[match.end(1):]
 
     with open(INDEX_PATH, 'w', encoding='utf-8') as f:
         f.write(new_html)
 
-    print(f"Success: Directory rebuilt with {len(final_directory)} 100% real published events.")
+    print(f"Success: Directory rebuilt with {len(msr_events)} events.")
 
 if __name__ == '__main__':
-    try:
-        purge_old_supabase_events()
-        update_index()
-    except Exception as err:
-        print(f"Notice: Workflow step recovered from warning: {err}")
+    update_index()
     sys.exit(0)
