@@ -75,13 +75,9 @@ NON_EVENT_KEYWORDS = [
 CHECKED_URL_CACHE = {}
 
 # ---------------------------------------------------------
-# 1. STRICT ANNOUNCEMENT & DATE AUDIT FILTERS
+# 1. ANNOUNCEMENT, STALE YEAR & DATE VALIDATION FILTERS
 # ---------------------------------------------------------
 def is_non_event_listing(title, description=""):
-    """
-    Identifies MotorsportReg news posts and announcements (e.g. 'Drag Racing Dates Announced')
-    that are not actual car meets or track days.
-    """
     text = f"{title} {description}".lower()
     for kw in NON_EVENT_KEYWORDS:
         if re.search(r'\b' + re.escape(kw) + r'\b', text):
@@ -110,13 +106,6 @@ def normalize_date(date_input):
     return None
 
 def is_valid_future_event(event_dict):
-    """
-    Comprehensive verification:
-    1. Valid YYYY-MM-DD date >= today (2026-10-13)
-    2. Event year >= 2026
-    3. Title contains no legacy years (2015-2025)
-    4. Rejects news announcements & placeholders
-    """
     if not isinstance(event_dict, dict):
         return False
 
@@ -220,7 +209,7 @@ def resolve_bremerton_pdf_url():
     return fallback_url
 
 # ---------------------------------------------------------
-# FUZZY DEDUPLICATION ENGINE
+# 2. FUZZY DEDUPLICATION ENGINE
 # ---------------------------------------------------------
 NOISE_WORDS = {'and', 'the', 'at', 'in', 'of', 'for', '2026', '2027', 'annual', 'weekly', 'monthly', 'show', 'meet', 'car', 'cars', 'meetup'}
 
@@ -273,7 +262,7 @@ def deduplicate_events(event_list):
     return unique_list
 
 # ---------------------------------------------------------
-# MOTORSPORTREG LIVE API WITH ANNOUNCEMENT FILTER
+# 3. MOTORSPORTREG LIVE API WITH DYNAMIC PHOTO EXTRACTION
 # ---------------------------------------------------------
 NATIONAL_GRID_HUBS = [
     {"name": "Seattle / PNW North", "lat": "47.6062", "lon": "-122.3321"},
@@ -334,7 +323,6 @@ def fetch_multi_hub_msr_events():
                         "date": start_date
                     }
 
-                    # Filter out non-event announcements and past dates
                     if not is_valid_future_event(candidate):
                         continue
 
@@ -368,7 +356,7 @@ def fetch_multi_hub_msr_events():
     return events
 
 # ---------------------------------------------------------
-# RECURRENCE & SEASONALITY ROLLING SCHEDULE ENGINE
+# 4. RECURRENCE & SEASONALITY ROLLING SCHEDULE ENGINE
 # ---------------------------------------------------------
 def is_date_valid_for_recurrence(dt, target_weekday, recurrence, active_months):
     start_m, end_m = active_months
@@ -460,7 +448,7 @@ def generate_365_day_50_state_schedule():
     return events
 
 # ---------------------------------------------------------
-# 6. SUPABASE SYNC & INDEX.HTML BUILDER
+# 5. SUPABASE SYNC & INDEX.HTML BUILDER
 # ---------------------------------------------------------
 def purge_old_supabase_events():
     try:
@@ -527,7 +515,6 @@ def update_index():
 
     push_to_supabase(unique_events)
 
-    # Strictly filter out any legacy announcements or past dates from index.html
     valid_existing = []
     for e in existing:
         if is_valid_future_event(e):
@@ -543,7 +530,7 @@ def update_index():
     with open(INDEX_PATH, 'w', encoding='utf-8') as f:
         f.write(new_html)
 
-    print(f"Success: Directory updated with {len(final_directory)} unique events. Non-event news listings purged.")
+    print(f"Success: Directory updated with {len(final_directory)} unique events.")
 
 if __name__ == '__main__':
     try:
