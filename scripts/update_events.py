@@ -5,6 +5,7 @@ import sys
 import datetime
 import urllib.request
 import urllib.parse
+import hashlib
 
 # Reference Date (UTC)
 today = datetime.datetime.now(datetime.timezone.utc).date()
@@ -16,14 +17,45 @@ SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) USAAutoMeets/1.0'}
 
-CATEGORY_IMAGES = {
-    "Track / Drag": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800&auto=format&fit=crop",
-    "Cars & Coffee": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&auto=format&fit=crop",
-    "Car Show": "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=800&auto=format&fit=crop",
-    "Cruise Night": "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&auto=format&fit=crop",
-    "Pop-Up Meet": "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?w=800&auto=format&fit=crop",
-    "Autocross": "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&auto=format&fit=crop"
+# ---------------------------------------------------------
+# DIVERSE CATEGORY IMAGE POOLS (4-5 HIGH-RES PHOTOS PER CATEGORY)
+# ---------------------------------------------------------
+CATEGORY_IMAGE_POOLS = {
+    "Track / Drag": [
+        "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1541348263662-e082662d82da?w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?w=800&auto=format&fit=crop"
+    ],
+    "Cars & Coffee": [
+        "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&auto=format&fit=crop"
+    ],
+    "Car Show": [
+        "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1563720223185-11003d516935?w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1514316454349-750a7fd3da3a?w=800&auto=format&fit=crop"
+    ],
+    "Cruise Night": [
+        "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1508974239320-0a029497e820?w=800&auto=format&fit=crop"
+    ],
+    "Pop-Up Meet": [
+        "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800&auto=format&fit=crop"
+    ],
+    "Autocross": [
+        "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1541348263662-e082662d82da?w=800&auto=format&fit=crop"
+    ]
 }
+
+DEFAULT_FALLBACK = "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=800&auto=format&fit=crop"
 
 SOFT_404_TERMS = [
     "page not found", "404 not found", "404 error", "page doesn't exist",
@@ -34,33 +66,28 @@ SOFT_404_TERMS = [
 
 CHECKED_URL_CACHE = {}
 
-# ---------------------------------------------------------
-# 1. STRICT DATE PARSER & NORMALIZER
-# ---------------------------------------------------------
+def get_varied_category_image(category, title_seed):
+    """
+    Selects a deterministic image from the pool using an MD5 hash of the title.
+    Ensures card-to-card visual variety while keeping the image stable across refreshes.
+    """
+    pool = CATEGORY_IMAGE_POOLS.get(category, [DEFAULT_FALLBACK])
+    hash_val = int(hashlib.md5(title_seed.encode('utf-8')).hexdigest(), 16)
+    return pool[hash_val % len(pool)]
+
 def normalize_date(date_input):
-    """
-    Parses any date format (ISO, MM/DD/YYYY, YYYY/MM/DD) and returns a clean YYYY-MM-DD ISO string.
-    Returns None if the date cannot be parsed.
-    """
     if not date_input:
         return None
-    
     clean_str = str(date_input).strip()[:10]
-    
     for fmt in ('%Y-%m-%d', '%m/%d/%Y', '%Y/%m/%d', '%d-%m-%Y'):
         try:
             dt = datetime.datetime.strptime(clean_str, fmt).date()
             return dt.strftime('%Y-%m-%d')
         except ValueError:
             continue
-            
     return None
 
-# ---------------------------------------------------------
-# 2. DOMAIN HIJACK & LINK VALIDATION ENGINE
-# ---------------------------------------------------------
 def get_root_domain(url):
-    """Extracts second-level domain name (e.g. spokanecountyraceway from www.spokanecountyraceway.com)."""
     try:
         netloc = urllib.parse.urlparse(url).netloc.lower()
         netloc = re.sub(r'^www\.', '', netloc)
@@ -92,22 +119,18 @@ def verify_and_audit_url(url, title="", venue="", city="", state=""):
             final_url = resp.geturl()
             final_domain = get_root_domain(final_url)
             
-            # Detect Unrelated Domain Hijack / Expired Domain Redirects
             allowed_social = {'facebook', 'instagram', 'linktr', 'youtube', 'google'}
             if orig_domain and final_domain and orig_domain != final_domain:
                 if final_domain not in allowed_social and orig_domain not in allowed_social:
-                    print(f"Domain Hijack Caught: '{url}' ({orig_domain}) redirected to '{final_url}' ({final_domain}).")
                     CHECKED_URL_CACHE[url] = fallback_url
                     return fallback_url
 
-            # Detect Deep-Link to Root Homepage Fallback
             orig_path_depth = len([p for p in urllib.parse.urlparse(url).path.split('/') if p])
             final_path_depth = len([p for p in urllib.parse.urlparse(final_url).path.split('/') if p])
             if orig_path_depth > 0 and final_path_depth == 0:
                 CHECKED_URL_CACHE[url] = fallback_url
                 return fallback_url
 
-            # Audit HTML for Soft 404s and Parked Domains
             html_chunk = resp.read(30720).decode('utf-8', errors='ignore').lower()
             for term in SOFT_404_TERMS:
                 if term in html_chunk:
@@ -137,7 +160,7 @@ def resolve_bremerton_pdf_url():
     return fallback_url
 
 # ---------------------------------------------------------
-# 3. FUZZY DEDUPLICATION ENGINE
+# FUZZY DEDUPLICATION
 # ---------------------------------------------------------
 NOISE_WORDS = {'and', 'the', 'at', 'in', 'of', 'for', '2026', '2027', 'annual', 'weekly', 'monthly', 'show', 'meet', 'car', 'cars', 'meetup'}
 
@@ -149,7 +172,6 @@ def tokenize_title(title):
 def is_fuzzy_duplicate(ev1, ev2):
     d1 = normalize_date(ev1.get('date'))
     d2 = normalize_date(ev2.get('date'))
-    
     if not d1 or not d2 or d1 != d2:
         return False
 
@@ -191,7 +213,7 @@ def deduplicate_events(event_list):
     return unique_list
 
 # ---------------------------------------------------------
-# 4. MOTORSPORTREG LIVE API INGESTION
+# MOTORSPORTREG API WITH DYNAMIC IMAGE EXTRACTION
 # ---------------------------------------------------------
 NATIONAL_GRID_HUBS = [
     {"name": "Seattle / PNW North", "lat": "47.6062", "lon": "-122.3321"},
@@ -210,6 +232,25 @@ NATIONAL_GRID_HUBS = [
     {"name": "Orlando / Central Florida", "lat": "28.5383", "lon": "-81.3792"},
     {"name": "New York / Northeast Hub", "lat": "40.7128", "lon": "-74.0060"}
 ]
+
+def extract_live_msr_image(item, category, title):
+    """
+    Attempts to extract live event artwork / logo from MotorsportReg record.
+    Falls back to varied category image pool if live artwork is absent.
+    """
+    candidate_urls = [
+        item.get('imageUrl'), item.get('image'), item.get('photo'),
+        item.get('avatarUrl'), item.get('logoUrl')
+    ]
+    
+    venue = item.get('venue') or {}
+    candidate_urls.extend([venue.get('imageUrl'), venue.get('logoUrl')])
+
+    for candidate in candidate_urls:
+        if candidate and isinstance(candidate, str) and candidate.startswith('http'):
+            return candidate
+
+    return get_varied_category_image(category, title)
 
 def fetch_multi_hub_msr_events():
     events = []
@@ -231,7 +272,6 @@ def fetch_multi_hub_msr_events():
                     raw_start = str(item.get('start') or '')[:10]
                     start_date = normalize_date(raw_start)
                     
-                    # Strict Date Filter: Discard anything prior to today
                     if not start_date or start_date < today_str:
                         continue
 
@@ -244,7 +284,7 @@ def fetch_multi_hub_msr_events():
                     valid_url = verify_and_audit_url(raw_url, title, venue_name, city, state)
 
                     category = "Track / Drag" if any(w in title.lower() for w in ["drag", "track", "autocross", "lapping", "race", "school", "kart"]) else "Car Show"
-                    image_url = CATEGORY_IMAGES.get(category, CATEGORY_IMAGES["Track / Drag"])
+                    image_url = extract_live_msr_image(item, category, title)
 
                     events.append({
                         "title": title,
@@ -261,11 +301,11 @@ def fetch_multi_hub_msr_events():
         except Exception as e:
             print(f"Notice: Grid fetch note ({hub['name']}): {e}")
 
-    print(f"Success: Extracted {len(events)} MotorsportReg web events.")
+    print(f"Success: Extracted {len(events)} MotorsportReg web events with live artwork resolution.")
     return events
 
 # ---------------------------------------------------------
-# 5. RECURRENCE & SEASONALITY ROLLING SCHEDULE
+# RECURRENCE & SEASONALITY ROLLING SCHEDULE ENGINE
 # ---------------------------------------------------------
 def is_date_valid_for_recurrence(dt, target_weekday, recurrence, active_months):
     start_m, end_m = active_months
@@ -299,7 +339,6 @@ def generate_365_day_50_state_schedule():
     events = []
     bremerton_url = resolve_bremerton_pdf_url()
 
-    # Formatted Template Array with Corrected Links
     state_templates = [
         # --- WASHINGTON STATE ---
         ("Pacific Raceways Friday Night Drag & Tune", "WA", "Kent", "Pacific Raceways", "Track / Drag", "04:00 PM - 10:00 PM", "Quarter-mile street legal drag test & tune session.", "https://pacificraceways.com/drag-racing/", 4, "weekly", (4, 10)),
@@ -334,13 +373,12 @@ def generate_365_day_50_state_schedule():
         eval_date = today + datetime.timedelta(days=day_offset)
         eval_date_str = eval_date.strftime('%Y-%m-%d')
         
-        # Discard anything in the past
         if eval_date_str < today_str:
             continue
 
         for title, state, city, venue, cat, time_str, desc, raw_url, target_day, recurrence, active_months in state_templates:
             if is_date_valid_for_recurrence(eval_date, target_day, recurrence, active_months):
-                img_url = CATEGORY_IMAGES.get(cat, CATEGORY_IMAGES["Car Show"])
+                img_url = get_varied_category_image(cat, title)
                 valid_url = verify_and_audit_url(raw_url, title, venue, city, state)
                 
                 events.append({
@@ -359,7 +397,7 @@ def generate_365_day_50_state_schedule():
     return events
 
 # ---------------------------------------------------------
-# 6. SUPABASE SYNC & INDEX.HTML BUILDER
+# SUPABASE SYNC & INDEX.HTML BUILDER
 # ---------------------------------------------------------
 def purge_old_supabase_events():
     try:
@@ -426,7 +464,6 @@ def update_index():
 
     push_to_supabase(unique_events)
 
-    # Strictly purge any legacy 2024/2025/past events from index.html
     valid_existing = []
     for e in existing:
         if isinstance(e, dict):
@@ -444,7 +481,7 @@ def update_index():
     with open(INDEX_PATH, 'w', encoding='utf-8') as f:
         f.write(new_html)
 
-    print(f"Success: Directory updated with {len(final_directory)} unique events. All past dates purged & links audited.")
+    print(f"Success: Directory updated with {len(final_directory)} unique events with dynamic photo resolution and image pool hashing.")
 
 if __name__ == '__main__':
     try:
