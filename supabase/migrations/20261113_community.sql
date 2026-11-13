@@ -5,7 +5,7 @@ create table public.uam_profiles(
  user_id uuid primary key references auth.users(id) on delete cascade,
  display_name text not null default '' check(length(display_name)<=80),
  suspended boolean not null default false, alerts_enabled boolean not null default false,
- unsubscribe_token uuid not null default gen_random_uuid(), consented_at timestamptz,
+ unsubscribe_token uuid not null unique default gen_random_uuid(), consented_at timestamptz,
  created_at timestamptz not null default now());
 create function public.uam_is_admin() returns boolean language sql stable security definer set search_path=public,pg_temp as $$
  select exists(select 1 from auth.users u join public.uam_admins a on a.email=lower(u.email)

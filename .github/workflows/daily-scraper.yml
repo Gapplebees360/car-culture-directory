@@ -120,3 +120,5 @@ jobs:
       - name: Deploy refreshed calendar
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Refresh member event catalog
+        run: python scripts/sync_community_catalog.py

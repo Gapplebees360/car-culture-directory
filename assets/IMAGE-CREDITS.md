@@ -1,5 +1,7 @@
 # Image sources
 
+The community UI uses the official Supabase browser client 2.119.0, distributed under the MIT license. Its distribution retains upstream license notices. That client contains no privileged project key.
+
 Event artwork is supplied by the listing's public calendar API. Each event links to that source. It is labelled "Source artwork", not a photograph of the event. Broken artwork falls back to a labelled scene photograph. Images remain at their publisher URL; the importer does not copy original artwork into this repository.
 
 Local representative scene photography comes from Unsplash and is labelled "Scene photography". It is not represented as a picture of any particular event.
