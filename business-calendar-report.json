@@ -1,0 +1,43 @@
+{
+  "checked_at": "2026-11-13",
+  "service_cost_usd": 0,
+  "sources": [
+    {
+      "source": "Griot's Garage",
+      "status": "success",
+      "accepted": 23,
+      "skipped": [
+        {
+          "title": "Corvette Marque Club Meeting & Tech Session",
+          "reason": "Club meeting/technical session; public attendance not established"
+        },
+        {
+          "title": "NW Chapter American Truck Historical Society (ATHS) Meeting",
+          "reason": "Club meeting/technical session; public attendance not established"
+        },
+        {
+          "title": "Sapphire Suns Winter Car Care School Tech Session & Club Meeting",
+          "reason": "Club meeting/technical session; public attendance not established"
+        },
+        {
+          "title": "CAFFEINE & GASOLINE\u00ae",
+          "reason": "Event date conflicts with its calendar month; needs organizer clarification"
+        },
+        {
+          "title": "Warrior Angel Riders Wigged Out Ride Best In Pink Bike Show",
+          "reason": "Cancelled, trade-only, or motorcycle listing excluded"
+        },
+        {
+          "title": "SEMA",
+          "reason": "Cancelled, trade-only, or motorcycle listing excluded"
+        }
+      ]
+    },
+    {
+      "source": "FCP Euro",
+      "status": "success",
+      "accepted": 2,
+      "skipped": []
+    }
+  ]
+}

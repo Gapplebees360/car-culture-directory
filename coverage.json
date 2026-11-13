@@ -1,13 +1,13 @@
 {
   "checked_at": "2026-11-13",
-  "imported": 383,
+  "imported": 408,
   "states_with_events": 33,
   "coverage": {
     "AK": 1,
     "AL": 12,
     "AR": 0,
-    "AZ": 88,
-    "CA": 29,
+    "AZ": 91,
+    "CA": 30,
     "CO": 11,
     "CT": 3,
     "DE": 0,
@@ -49,21 +49,26 @@
     "UT": 0,
     "VA": 4,
     "VT": 0,
-    "WA": 1,
+    "WA": 22,
     "WI": 7,
     "WV": 8,
     "WY": 0
   },
   "sources": {
+    "Griot's Garage": 23,
     "Facebook": 9,
     "SCCA": 159,
-    "Events With Cars": 215
+    "Events With Cars": 215,
+    "FCP Euro": 2
   },
   "facebook_report": "facebook-report.json",
   "free_calendar_report": "free-calendar-report.json",
   "organizer_registry": "organizer-registry.json",
-  "cars_and_coffee_occurrences": 116,
-  "distinct_cars_and_coffee_series": 18,
-  "with_source_artwork": 209,
+  "business_calendar_report": "business-calendar-report.json",
+  "business_sources": "business-sources.json",
+  "business_watch_report": "business-watch-report.json",
+  "cars_and_coffee_occurrences": 130,
+  "distinct_cars_and_coffee_series": 32,
+  "with_source_artwork": 211,
   "note": "Searches target all 50 states; listings require an explicit source date and US location. Empty states indicate no accepted listings, not proof that no events exist."
 }

@@ -15,3 +15,7 @@ Local representative scene photography comes from Unsplash and is labelled "Scen
 | scene-corvette.jpg | https://images.unsplash.com/photo-1552519507-da3b142c6e3d |
 | scene-supercar.jpg | https://images.unsplash.com/photo-1542362567-b07e54358753 |
 | scene-street.jpg | https://images.unsplash.com/photo-1486496572940-2bb2341fdbdf |
+
+## Business calendar artwork
+
+FCP Euro event images retain their original official calendar URLs and link to https://info.fcpeuro.com/event-schedule. They represent those particular listings and are labelled source artwork. Griot's listings currently use the labelled scene-photo fallback; no generic business logo is presented as an event flyer.

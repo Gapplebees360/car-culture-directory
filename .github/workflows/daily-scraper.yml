@@ -11,9 +11,9 @@ on:
         default: false
   push:
     branches: [main]
-    paths: ['events.json', 'index.html', 'community.html', 'assets/**', 'supabase/**', 'package*.json', 'scripts/**', 'tests/**', '.github/workflows/daily-scraper.yml']
+    paths: ['events.json', 'business-sources.json', 'index.html', 'community.html', 'assets/**', 'supabase/**', 'package*.json', 'scripts/**', 'tests/**', '.github/workflows/daily-scraper.yml']
   pull_request:
-    paths: ['events.json', 'index.html', 'community.html', 'assets/**', 'supabase/**', 'package*.json', 'scripts/**', 'tests/**', '.github/workflows/daily-scraper.yml']
+    paths: ['events.json', 'business-sources.json', 'index.html', 'community.html', 'assets/**', 'supabase/**', 'package*.json', 'scripts/**', 'tests/**', '.github/workflows/daily-scraper.yml']
 
 concurrency:
   group: event-refresh-${{ github.ref }}
@@ -73,14 +73,25 @@ jobs:
         continue-on-error: true
         run: python scripts/import_free_calendars.py
 
+      - name: Import official automotive business calendars
+        id: business
+        continue-on-error: true
+        run: python scripts/import_business_events.py
+
+      - name: Check automotive business calendar leads weekly
+        continue-on-error: true
+        run: python scripts/check_business_sources.py
+
       - name: Check free source health
         env:
           SCCA_RESULT: ${{ steps.scca.outcome }}
           FREE_RESULT: ${{ steps.free.outcome }}
+          BUSINESS_RESULT: ${{ steps.business.outcome }}
         run: |
           if [ "$SCCA_RESULT" = failure ]; then echo '::warning::SCCA refresh failed; prior source data was retained.'; fi
           if [ "$FREE_RESULT" = failure ]; then echo '::warning::Free calendar refresh failed; prior source data was retained.'; fi
-          if [ "$SCCA_RESULT" = failure ] && [ "$FREE_RESULT" = failure ]; then exit 1; fi
+          if [ "$BUSINESS_RESULT" = failure ]; then echo '::warning::Business calendar refresh failed; prior source data was retained.'; fi
+          if [ "$SCCA_RESULT" = failure ] && [ "$FREE_RESULT" = failure ] && [ "$BUSINESS_RESULT" = failure ]; then exit 1; fi
 
       - name: Import public Facebook events across 50 states
         if: github.event_name == 'workflow_dispatch' && inputs.facebook
@@ -101,6 +112,8 @@ jobs:
           git add index.html events.json coverage.json
           if [ -f facebook-report.json ]; then git add facebook-report.json; fi
           if [ -f free-calendar-report.json ]; then git add free-calendar-report.json; fi
+          git add business-calendar-report.json
+          if [ -f business-watch-report.json ]; then git add business-watch-report.json; fi
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "Refresh verified upcoming events"
           git push origin HEAD:main
@@ -114,6 +127,8 @@ jobs:
           if [ -f facebook-report.json ]; then cp facebook-report.json _site/; fi
           if [ -f free-calendar-report.json ]; then cp free-calendar-report.json _site/; fi
           if [ -f organizer-registry.json ]; then cp organizer-registry.json _site/; fi
+          cp business-sources.json business-calendar-report.json _site/
+          if [ -f business-watch-report.json ]; then cp business-watch-report.json _site/; fi
       - uses: actions/upload-pages-artifact@v5
         with:
           path: _site

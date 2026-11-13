@@ -1,0 +1,486 @@
+{
+  "scope": "US automotive aftermarket retailers, manufacturers, tuners, builders, wheel/tire and detailing businesses. Expand to local shops in every state. This is a growing watchlist, not an exhaustive business census.",
+  "policy": "Free official public sources first. Never infer event dates from recurring descriptions or publication dates. Blocked/ambiguous sources remain review leads.",
+  "businesses": [
+    {
+      "name": "Griot's Garage",
+      "url": "https://www.griotsgarage.com/events/",
+      "category": "detailing",
+      "parser": "griots",
+      "status": "daily_import",
+      "note": "Official calendar adapter active."
+    },
+    {
+      "name": "FCP Euro",
+      "url": "https://info.fcpeuro.com/event-schedule",
+      "category": "European parts",
+      "parser": "fcp",
+      "status": "daily_import",
+      "note": "Official calendar adapter active."
+    },
+    {
+      "name": "Summit Racing",
+      "url": "https://www.summitracing.com/newsandevents/calendar",
+      "category": "performance parts",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Speedway Motors Nebraska",
+      "url": "https://www.speedwaymotors.com/pages/carsandcoffee",
+      "category": "hot rod and racing parts",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Speedway Motors Arizona",
+      "url": "https://www.speedwaymotors.com/pages/carsandcoffee-AZ",
+      "category": "hot rod and racing parts",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Holley",
+      "url": "https://www.holley.com/event/",
+      "category": "performance parts and event promoter",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "AmericanMuscle",
+      "url": "https://www.americanmuscle.com/car-shows.html",
+      "category": "Mustang parts",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "JEGS",
+      "url": "https://www.jegs.com/",
+      "category": "performance parts",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Turn 14 Distribution",
+      "url": "https://www.turn14.com/",
+      "category": "aftermarket distribution",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "ECS Tuning",
+      "url": "https://www.ecstuning.com/",
+      "category": "European parts and tuning",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "034Motorsport",
+      "url": "https://www.034motorsport.com/blog/category/events/",
+      "category": "European tuning",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Roush Performance",
+      "url": "https://www.roushperformance.com/pages/events",
+      "category": "vehicle builds and performance",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Lingenfelter Performance Engineering",
+      "url": "https://www.lingenfelter.com/2026-events",
+      "category": "engine builds and tuning",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "H&R Springs",
+      "url": "https://www.hrsprings.com/",
+      "category": "suspension",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Edelbrock",
+      "url": "https://www.edelbrock.com/event-schedule/",
+      "category": "engine and performance parts",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "QA1",
+      "url": "https://qa1.net/events/",
+      "category": "suspension and driveline",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Detroit Speed",
+      "url": "https://www.detroitspeed.com/",
+      "category": "restomod and suspension",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "BMR Suspension",
+      "url": "https://www.bmrsuspension.com/",
+      "category": "suspension",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Borla",
+      "url": "https://www.borla.com/",
+      "category": "exhaust",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "aFe POWER",
+      "url": "https://afepower.com/",
+      "category": "intake and exhaust",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Mishimoto",
+      "url": "https://www.mishimoto.com/",
+      "category": "performance cooling",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "COBB Tuning",
+      "url": "https://www.cobbtuning.com/",
+      "category": "tuning",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "MAPerformance",
+      "url": "https://www.maperformance.com/",
+      "category": "performance parts and tuning",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "GrimmSpeed",
+      "url": "https://www.grimmspeed.com/",
+      "category": "performance parts",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Import Image Racing",
+      "url": "https://www.importimageracing.com/",
+      "category": "import performance parts",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Fitment Industries",
+      "url": "https://www.fitmentindustries.com/",
+      "category": "wheels and suspension",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Tire Rack",
+      "url": "https://www.tirerack.com/",
+      "category": "tires wheels and motorsport",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Discount Tire",
+      "url": "https://www.discounttire.com/",
+      "category": "tires and wheels",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Chemical Guys",
+      "url": "https://www.chemicalguys.com/",
+      "category": "detailing",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Adam's Polishes",
+      "url": "https://adamspolishes.com/pages/adams-cars-and-coffee",
+      "category": "detailing",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Detail Garage",
+      "url": "https://detailgarage.com/pages/event-training",
+      "category": "detailing retail locations",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Meguiars",
+      "url": "https://www.meguiars.com/",
+      "category": "detailing",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "CJ Pony Parts",
+      "url": "https://www.cjponyparts.com/",
+      "category": "Mustang and restoration parts",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Late Model Restoration",
+      "url": "https://lmr.com/",
+      "category": "Mustang restoration and performance",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "National Parts Depot",
+      "url": "https://www.npdlink.com/",
+      "category": "restoration parts",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Classic Industries",
+      "url": "https://www.classicindustries.com/",
+      "category": "restoration parts",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Brothers Trucks",
+      "url": "https://www.holley.com/brands/brothers_trucks/",
+      "category": "truck restoration",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Ringbrothers",
+      "url": "https://www.ringbrothers.com/",
+      "category": "custom builds and parts",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Roadster Shop",
+      "url": "https://roadstershop.com/",
+      "category": "custom builds and chassis",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Hennessey Performance",
+      "url": "https://www.hennesseyperformance.com/",
+      "category": "performance builds",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Shelby American",
+      "url": "https://shelby.com/Shelby-Events",
+      "category": "performance builds and parts",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Saleen",
+      "url": "https://www.saleen.com/saleen-open-house-2026",
+      "category": "performance builds",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Dinan",
+      "url": "https://www.dinancars.com/",
+      "category": "European tuning",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Turner Motorsport",
+      "url": "https://www.turnermotorsport.com/",
+      "category": "BMW parts",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "BimmerWorld",
+      "url": "https://www.bimmerworld.com/",
+      "category": "BMW parts and racing",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "IPD",
+      "url": "https://www.ipdusa.com/",
+      "category": "Volvo parts",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Pelican Parts",
+      "url": "https://www.pelicanparts.com/",
+      "category": "European parts",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "RallySport Direct",
+      "url": "https://www.rallysportdirect.com/",
+      "category": "import performance parts",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Perrin Performance",
+      "url": "https://perrin.com/",
+      "category": "performance parts",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Z1 Motorsports",
+      "url": "https://www.z1motorsports.com/",
+      "category": "Nissan Infiniti tuning",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Z1 Off-Road",
+      "url": "https://www.z1offroad.com/",
+      "category": "off-road parts",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Rennline",
+      "url": "https://www.rennline.com/",
+      "category": "Porsche performance parts",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "AWE",
+      "url": "https://awe-tuning.com/",
+      "category": "exhaust and tuning",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "APR",
+      "url": "https://www.goapr.com/",
+      "category": "European tuning",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Garrett Motion",
+      "url": "https://www.garrettmotion.com/newsroom-garrett-motion/events-calendar/",
+      "category": "turbochargers",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Precision Turbo",
+      "url": "https://www.precisionturbo.net/",
+      "category": "turbochargers",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Texas Speed",
+      "url": "https://www.texas-speed.com/",
+      "category": "engines and performance parts",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Brian Tooley Racing",
+      "url": "https://briantooleyracing.com/",
+      "category": "engine performance parts",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "Sikky Manufacturing",
+      "url": "https://www.sikky.com/",
+      "category": "engine swap parts",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    },
+    {
+      "name": "SPL Parts",
+      "url": "https://www.splparts.com/",
+      "category": "suspension",
+      "parser": null,
+      "status": "needs_calendar_review",
+      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+    }
+  ]
+}

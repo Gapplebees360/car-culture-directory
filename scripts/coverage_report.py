@@ -18,6 +18,8 @@ def write_report(root=ROOT):
                   coverage={state: counts[state] for state in sorted(STATES)},
                   sources=dict(sources), facebook_report='facebook-report.json',
                   free_calendar_report='free-calendar-report.json', organizer_registry='organizer-registry.json',
+                  business_calendar_report='business-calendar-report.json', business_sources='business-sources.json',
+                  business_watch_report='business-watch-report.json',
                   cars_and_coffee_occurrences=sum(event['category']=='Cars & Coffee' for event in events),
                   distinct_cars_and_coffee_series=len({(event['title'],event['city'],event['state']) for event in events if event['category']=='Cars & Coffee'}),
                   with_source_artwork=sum(bool(event.get('image')) for event in events),

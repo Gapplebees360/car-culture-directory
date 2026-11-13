@@ -1,5 +1,20 @@
 [
   {
+    "title": "Dino's Git Down",
+    "date": "2026-11-13",
+    "end_date": "2026-11-14",
+    "city": "Glendale",
+    "state": "AZ",
+    "venue": "State Farm Stadium",
+    "category": "Car Show",
+    "time": "See organizer for schedule",
+    "source": "Griot's Garage",
+    "source_id": "85c0d872bff14340de79d6ac",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-13",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
+  },
+  {
     "title": "Friday the 13th Flash Sale-Car Show- Vendor Pop-up",
     "date": "2026-11-13",
     "city": "Chandler",
@@ -240,6 +255,21 @@
     "image_source": "https://eventswithcars.com/event/insty-tune-lube-car-show/2026-11-14/"
   },
   {
+    "title": "MINI\u2019S and Coffee",
+    "date": "2026-11-14",
+    "end_date": "2026-11-14",
+    "city": "Tacoma",
+    "state": "WA",
+    "venue": "Griot's Garage",
+    "category": "Cars & Coffee",
+    "time": "10:00 a.m. - 12:00 p.m.",
+    "source": "Griot's Garage",
+    "source_id": "8220bd3600da86df4176af8a",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-13",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
+  },
+  {
     "title": "Newton Cars and Coffee",
     "date": "2026-11-14",
     "city": "United States",
@@ -431,6 +461,24 @@
     "description": "Listed on the official SCCA calendar. Check the original listing for registration, schedule, and eligibility."
   },
   {
+    "title": "FCP Euro Sunday Motoring Meet CA",
+    "date": "2026-11-15",
+    "end_date": "2026-11-15",
+    "city": "Torrance",
+    "state": "CA",
+    "venue": "Robinson Helicopter",
+    "category": "Cars & Coffee",
+    "time": "See organizer for schedule",
+    "source": "FCP Euro",
+    "source_id": "6f150c816fadbcea04dd289e",
+    "url": "https://info.fcpeuro.com/event-schedule",
+    "verified_at": "2026-11-13",
+    "description": "Join us at Robinson Helicopter for an all-are welcome gathering on the West Coast. Check the registration page for more info. Check the official registration link for times and access.",
+    "image": "https://3867393.fs1.hubspotusercontent-na1.net/hub/3867393/hubfs/01.18.26_LA_SMM_EDITED-90.jpg?length=800&name=01.18.26_LA_SMM_EDITED-90.jpg",
+    "image_kind": "source_artwork",
+    "image_source": "https://info.fcpeuro.com/event-schedule"
+  },
+  {
     "title": "Kansas City RX #9 EnduroCross and #10 Bonus Event",
     "date": "2026-11-15",
     "end_date": "2026-11-15",
@@ -618,6 +666,21 @@
     "image": "https://eventswithcars.com/wp-content/uploads/2026/11/Wienerschnitzel-1.jpg",
     "image_kind": "source_artwork",
     "image_source": "https://eventswithcars.com/event/wienerschnitzel-cruise-in/2026-11-19/"
+  },
+  {
+    "title": "GOODGUYS 29th Speedway Motors Southwest Nationals",
+    "date": "2026-11-20",
+    "end_date": "2026-11-22",
+    "city": "Scottsdale",
+    "state": "AZ",
+    "venue": "WestWorld of Scottsdale",
+    "category": "Car Show",
+    "time": "See organizer for schedule",
+    "source": "Griot's Garage",
+    "source_id": "fda837b5dfdeba25b80db0c9",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-13",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
   },
   {
     "title": "Buccaneer Region Savannah Autocross Event 9",
@@ -1095,6 +1158,21 @@
     "image_source": "https://eventswithcars.com/event/bullhead-city-pre-car-show-cruise-in-coffee-meet/2026-12-05/"
   },
   {
+    "title": "CAFFEINE & GASOLINE\u00ae \u2014 Lowriders",
+    "date": "2026-12-05",
+    "end_date": "2026-12-05",
+    "city": "Tacoma",
+    "state": "WA",
+    "venue": "Griot's Garage",
+    "category": "Cars & Coffee",
+    "time": "8:00 a.m.",
+    "source": "Griot's Garage",
+    "source_id": "06dd42c34597069d8dd03365",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-13",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
+  },
+  {
     "title": "Central Florida Region Autocross 2026 Practice 1 & 2",
     "date": "2026-12-05",
     "end_date": "2026-12-06",
@@ -1381,6 +1459,21 @@
     "image_source": "https://eventswithcars.com/event/jrs-drive-in-cruise-night/2026-12-11/"
   },
   {
+    "title": "2nd Annual Holiday Toy Drive Cruise-In",
+    "date": "2026-12-12",
+    "end_date": "2026-12-12",
+    "city": "Tacoma",
+    "state": "WA",
+    "venue": "Griot's Garage",
+    "category": "Cruise Night",
+    "time": "9:00 a.m. - 1:00 p.m.",
+    "source": "Griot's Garage",
+    "source_id": "57d006cf19a09a2888da6ea9",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-13",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
+  },
+  {
     "title": "Auto Addicts Cars & Coffee",
     "date": "2026-12-12",
     "end_date": "2026-12-12",
@@ -1632,6 +1725,24 @@
     "source_id": "10004475:2026-12-13",
     "verified_at": "2026-11-13",
     "description": "Listed by Events With Cars. Check the original listing for current details, admission, and schedule changes."
+  },
+  {
+    "title": "FCP Euro Sunday Motoring Meet AZ",
+    "date": "2026-12-13",
+    "end_date": "2026-12-13",
+    "city": "Mesa",
+    "state": "AZ",
+    "venue": "FCP Euro Arizona headquarters",
+    "category": "Cars & Coffee",
+    "time": "See organizer for schedule",
+    "source": "FCP Euro",
+    "source_id": "f2956fe731631181c48f83fe",
+    "url": "https://info.fcpeuro.com/event-schedule",
+    "verified_at": "2026-11-13",
+    "description": "An all-are-welcome get-together at our AZ HQ. Check out the registration page for more info. Check the official registration link for times and access.",
+    "image": "https://3867393.fs1.hubspotusercontent-na1.net/hub/3867393/hubfs/AZ%20SMM%203.jpg?length=800&name=AZ%20SMM%203.jpg",
+    "image_kind": "source_artwork",
+    "image_source": "https://info.fcpeuro.com/event-schedule"
   },
   {
     "title": "Hello Coffee Cars & Coffee",
@@ -2047,6 +2158,21 @@
     "image": "https://eventswithcars.com/wp-content/uploads/2026/11/cars-and-coffee.jpg",
     "image_kind": "source_artwork",
     "image_source": "https://eventswithcars.com/event/bullhead-city-pre-car-show-cruise-in-coffee-meet/2027-01-02/"
+  },
+  {
+    "title": "CAFFEINE & GASOLINE\u00ae \u2014 Rally Cars",
+    "date": "2027-01-02",
+    "end_date": "2027-01-02",
+    "city": "Tacoma",
+    "state": "WA",
+    "venue": "Griot's Garage",
+    "category": "Cars & Coffee",
+    "time": "8:00 a.m.",
+    "source": "Griot's Garage",
+    "source_id": "6345148290941aa4b0eb0472",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-13",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
   },
   {
     "title": "Finger Lakes Region The Long Way Home RoadRally",
@@ -2856,6 +2982,21 @@
     "image_source": "https://eventswithcars.com/event/bullhead-city-pre-car-show-cruise-in-coffee-meet/2027-02-06/"
   },
   {
+    "title": "CAFFEINE & GASOLINE\u00ae \u2014 Local Builders Showcase",
+    "date": "2027-02-06",
+    "end_date": "2027-02-06",
+    "city": "Tacoma",
+    "state": "WA",
+    "venue": "Griot's Garage",
+    "category": "Cars & Coffee",
+    "time": "8:00 a.m.",
+    "source": "Griot's Garage",
+    "source_id": "0109c7677b380466a3c4d6aa",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-13",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
+  },
+  {
     "title": "Jerona Cafe Car Cruise-In",
     "date": "2027-02-06",
     "end_date": "2027-02-06",
@@ -3547,6 +3688,21 @@
     "image": "https://eventswithcars.com/wp-content/uploads/2026/11/cars-and-coffee.jpg",
     "image_kind": "source_artwork",
     "image_source": "https://eventswithcars.com/event/bullhead-city-pre-car-show-cruise-in-coffee-meet/2027-03-06/"
+  },
+  {
+    "title": "CAFFEINE & GASOLINE\u00ae \u2014 Ferrari Day",
+    "date": "2027-03-06",
+    "end_date": "2027-03-06",
+    "city": "Tacoma",
+    "state": "WA",
+    "venue": "Griot's Garage",
+    "category": "Cars & Coffee",
+    "time": "8:00 a.m.",
+    "source": "Griot's Garage",
+    "source_id": "7dfabbf405aaeaf236079b65",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-13",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
   },
   {
     "title": "Finger Lakes Region RoadRally Slip Sliding Fever",
@@ -5024,6 +5180,21 @@
     "description": "Listed on the official SCCA calendar. Check the original listing for registration, schedule, and eligibility."
   },
   {
+    "title": "6th Annual PNW Kei Car Meet",
+    "date": "2027-05-01",
+    "end_date": "2027-05-01",
+    "city": "Tacoma",
+    "state": "WA",
+    "venue": "Griot's Garage",
+    "category": "Car Show",
+    "time": "12:00 p.m. - 2:00 p.m.",
+    "source": "Griot's Garage",
+    "source_id": "1a81849b992ed31744d68a97",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-13",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
+  },
+  {
     "title": "Blackhawk Valley Region May Majors (Pending Approval)",
     "date": "2027-05-01",
     "end_date": "2027-05-02",
@@ -5054,6 +5225,21 @@
     "image": "https://eventswithcars.com/wp-content/uploads/2026/11/cars-and-coffee.jpg",
     "image_kind": "source_artwork",
     "image_source": "https://eventswithcars.com/event/bullhead-city-pre-car-show-cruise-in-coffee-meet/2027-05-01/"
+  },
+  {
+    "title": "CAFFEINE & GASOLINE\u00ae \u2014 Tuner",
+    "date": "2027-05-01",
+    "end_date": "2027-05-01",
+    "city": "Tacoma",
+    "state": "WA",
+    "venue": "Griot's Garage",
+    "category": "Cars & Coffee",
+    "time": "8:00 a.m.",
+    "source": "Griot's Garage",
+    "source_id": "660950751062ea7215f3f899",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-13",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
   },
   {
     "title": "Jerona Cafe Car Cruise-In",
@@ -5315,6 +5501,21 @@
     "description": "Listed by Events With Cars. Check the original listing for current details, admission, and schedule changes."
   },
   {
+    "title": "Car Show: Nissan Family Affair 3.0",
+    "date": "2027-05-09",
+    "end_date": "2027-05-09",
+    "city": "Tacoma",
+    "state": "WA",
+    "venue": "Griot's Garage",
+    "category": "Car Show",
+    "time": "10:00 a.m. - 2:00 p.m.",
+    "source": "Griot's Garage",
+    "source_id": "7bd6cf4e63e04817b5b969e8",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-13",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
+  },
+  {
     "title": "Hello Coffee Cars & Coffee",
     "date": "2027-05-09",
     "end_date": "2027-05-09",
@@ -5411,6 +5612,21 @@
     "description": "Listed on the official SCCA calendar. Check the original listing for registration, schedule, and eligibility."
   },
   {
+    "title": "Mad Vinyl Works : May Madness Car Show",
+    "date": "2027-05-15",
+    "end_date": "2027-05-15",
+    "city": "Tacoma",
+    "state": "WA",
+    "venue": "Griot's Garage",
+    "category": "Car Show",
+    "time": "2:00 p.m. - 5:00 p.m.",
+    "source": "Griot's Garage",
+    "source_id": "526eef80562ec9623227bb8e",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-13",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
+  },
+  {
     "title": "New England Region Opening Weekend Regional Road Race & Club Race Experience",
     "date": "2027-05-15",
     "end_date": "2027-05-16",
@@ -5465,6 +5681,21 @@
     "source_id": "60539",
     "verified_at": "2026-11-13",
     "description": "Listed on the official SCCA calendar. Check the original listing for registration, schedule, and eligibility."
+  },
+  {
+    "title": "Shinefest\u00ae",
+    "date": "2027-05-22",
+    "end_date": "2027-05-22",
+    "city": "Tacoma",
+    "state": "WA",
+    "venue": "Griot's Garage",
+    "category": "Car Show",
+    "time": "9:00 a.m. - 2:00 p.m.",
+    "source": "Griot's Garage",
+    "source_id": "bebe0642b7c26b731d650e46",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-13",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
   },
   {
     "title": "Land O\u2019Lakes Regional Road Race \u2013 Harvey West Double Divisional",
@@ -5523,6 +5754,36 @@
     "description": "Listed on the official SCCA calendar. Check the original listing for registration, schedule, and eligibility."
   },
   {
+    "title": "CAFFEINE & GASOLINE\u00ae \u2014 Porsche",
+    "date": "2027-06-05",
+    "end_date": "2027-06-05",
+    "city": "Tacoma",
+    "state": "WA",
+    "venue": "Griot's Garage",
+    "category": "Cars & Coffee",
+    "time": "8:00 a.m.",
+    "source": "Griot's Garage",
+    "source_id": "d7a90c95837c3ee9e832532b",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-13",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
+  },
+  {
+    "title": "Car Show: Corvairs NW Orphans & Discontinued",
+    "date": "2027-06-06",
+    "end_date": "2027-06-06",
+    "city": "Tacoma",
+    "state": "WA",
+    "venue": "Griot's Garage",
+    "category": "Car Show",
+    "time": "10:00 a.m. - 2:00 p.m.",
+    "source": "Griot's Garage",
+    "source_id": "49c4c0b925248a2b6646e8d2",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-13",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
+  },
+  {
     "title": "Chicago Region SCCA Hoosier Super Tour \u2013 June Sprints",
     "date": "2027-06-11",
     "end_date": "2027-06-13",
@@ -5565,6 +5826,21 @@
     "description": "Listed on the official SCCA calendar. Check the original listing for registration, schedule, and eligibility."
   },
   {
+    "title": "AVANTS Miata Mingle",
+    "date": "2027-06-12",
+    "end_date": "2027-06-12",
+    "city": "Tacoma",
+    "state": "WA",
+    "venue": "Griot's Garage",
+    "category": "Car Show",
+    "time": "10:00 a.m. - 1:00 p.m.",
+    "source": "Griot's Garage",
+    "source_id": "76f13bf1372405167d11ec2c",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-13",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
+  },
+  {
     "title": "Milwaukee OnWisconsin National Roadrally",
     "date": "2027-06-12",
     "end_date": "2027-06-12",
@@ -5591,6 +5867,21 @@
     "source_id": "61809",
     "verified_at": "2026-11-13",
     "description": "Listed on the official SCCA calendar. Check the original listing for registration, schedule, and eligibility."
+  },
+  {
+    "title": "South Sound 442 Concours Lawn Show",
+    "date": "2027-06-20",
+    "end_date": "2027-06-20",
+    "city": "Tacoma",
+    "state": "WA",
+    "venue": "Griot's Garage",
+    "category": "Car Show",
+    "time": "10:00 a.m. - 2:00 p.m.",
+    "source": "Griot's Garage",
+    "source_id": "a74c1deb9c10b4f19088fffa",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-13",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
   },
   {
     "title": "Central Florida Region SCCA Test Day, Regional Road Race, Enduro",
@@ -5633,6 +5924,21 @@
     "source_id": "60542",
     "verified_at": "2026-11-13",
     "description": "Listed on the official SCCA calendar. Check the original listing for registration, schedule, and eligibility."
+  },
+  {
+    "title": "CAFFEINE & GASOLINE\u00ae \u2014 All American",
+    "date": "2027-07-03",
+    "end_date": "2027-07-03",
+    "city": "Tacoma",
+    "state": "WA",
+    "venue": "Griot's Garage",
+    "category": "Cars & Coffee",
+    "time": "8:00 a.m.",
+    "source": "Griot's Garage",
+    "source_id": "f702a5ea30cba1d965740677",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-13",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
   },
   {
     "title": "Colorado Region Freedom Sprints Majors & Regional Road Race (Pending Approval)",
@@ -5831,6 +6137,21 @@
     "description": "Listed on the official SCCA calendar. Check the original listing for registration, schedule, and eligibility."
   },
   {
+    "title": "CAFFEINE & GASOLINE\u00ae \u2014 80's - 90's",
+    "date": "2027-08-07",
+    "end_date": "2027-08-07",
+    "city": "Tacoma",
+    "state": "WA",
+    "venue": "Griot's Garage",
+    "category": "Cars & Coffee",
+    "time": "8:00 a.m.",
+    "source": "Griot's Garage",
+    "source_id": "a77dff7370b036c2221ec503",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-13",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
+  },
+  {
     "title": "Chciagoi Regional Road Race \u2013 Kettle Moraine Double Regional",
     "date": "2027-08-21",
     "end_date": "2027-08-22",
@@ -5943,6 +6264,21 @@
     "description": "Listed on the official SCCA calendar. Check the original listing for registration, schedule, and eligibility."
   },
   {
+    "title": "CAFFEINE & GASOLINE\u00ae \u2014 Italian",
+    "date": "2027-09-04",
+    "end_date": "2027-09-04",
+    "city": "Tacoma",
+    "state": "WA",
+    "venue": "Griot's Garage",
+    "category": "Cars & Coffee",
+    "time": "8:00 a.m.",
+    "source": "Griot's Garage",
+    "source_id": "df0268223c95b58ffc4d6ff9",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-13",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
+  },
+  {
     "title": "Chicago Regional Road Race \u2013 Autobahn Classic 2027`",
     "date": "2027-09-11",
     "end_date": "2027-09-12",
@@ -6013,6 +6349,21 @@
     "description": "Listed on the official SCCA calendar. Check the original listing for registration, schedule, and eligibility."
   },
   {
+    "title": "AVANTS OKTOBERFEST",
+    "date": "2027-09-25",
+    "end_date": "2027-09-25",
+    "city": "Tacoma",
+    "state": "WA",
+    "venue": "Griot's Garage",
+    "category": "Car Show",
+    "time": "11:00 a.m. - 2:00 p.m.",
+    "source": "Griot's Garage",
+    "source_id": "0ec267edaa778a2b3fdb9cd6",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-13",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
+  },
+  {
     "title": "Cal Club September Regional Road Race",
     "date": "2027-09-25",
     "end_date": "2027-09-26",
@@ -6053,6 +6404,21 @@
     "source_id": "61727",
     "verified_at": "2026-11-13",
     "description": "Listed on the official SCCA calendar. Check the original listing for registration, schedule, and eligibility."
+  },
+  {
+    "title": "CAFFEINE & GASOLINE\u00ae \u2014 German",
+    "date": "2027-10-02",
+    "end_date": "2027-10-02",
+    "city": "Tacoma",
+    "state": "WA",
+    "venue": "Griot's Garage",
+    "category": "Cars & Coffee",
+    "time": "8:00 a.m.",
+    "source": "Griot's Garage",
+    "source_id": "b429c35f807541360edb8802",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-13",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
   },
   {
     "title": "Washington D.C. Region October MARRS Regional Road Race & Test Day",
@@ -6165,6 +6531,21 @@
     "source_id": "58251",
     "verified_at": "2026-11-13",
     "description": "Listed on the official SCCA calendar. Check the original listing for registration, schedule, and eligibility."
+  },
+  {
+    "title": "CAFFEINE & GASOLINE\u00ae \u2014 Racecars",
+    "date": "2027-11-06",
+    "end_date": "2027-11-06",
+    "city": "Tacoma",
+    "state": "WA",
+    "venue": "Griot's Garage",
+    "category": "Cars & Coffee",
+    "time": "8:00 a.m.",
+    "source": "Griot's Garage",
+    "source_id": "3e788b872187489169081d22",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-13",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
   },
   {
     "title": "Cal Club November Regional Road Race",
