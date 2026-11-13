@@ -126,6 +126,7 @@ jobs:
           mkdir -p _site
           cp index.html car_culture_directory.html CNAME events.json coverage.json _site/
           cp robots.txt sitemap.xml 404.html .nojekyll search-config.json _site/
+          cp BingSiteAuth.xml _site/
           cp *-indexnow.txt _site/
           cp -r events states event-types _site/
           if [ -f community.html ]; then cp community.html _site/; fi
