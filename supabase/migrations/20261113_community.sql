@@ -246,3 +246,14 @@ create function public.uam_finish_alerts(p_user uuid,p_keys text[],p_sent boolea
  sent_at=case when p_sent then now() else null end,lease_until=null where user_id=p_user and event_key=any(p_keys) and status='sending' $$;
 revoke all on function public.uam_claim_alerts(),public.uam_finish_alerts(uuid,text[],boolean) from public,anon,authenticated;
 grant execute on function public.uam_claim_alerts(),public.uam_finish_alerts(uuid,text[],boolean) to service_role;
+
+-- Applied separately to the first hosted install as uam_restrict_helper_execution.
+revoke all on function public.uam_new_profile() from public,anon,authenticated;
+revoke all on function public.uam_is_admin(),public.uam_verified() from public,anon;
+grant execute on function public.uam_is_admin(),public.uam_verified() to authenticated,service_role;
+drop policy uam_event_read on public.uam_events;
+create policy uam_event_anon_read on public.uam_events for select to anon using(approved);
+create policy uam_event_member_read on public.uam_events for select to authenticated using(approved or (select public.uam_is_admin()));
+drop policy uam_flyer_read on storage.objects;
+create policy uam_flyer_public_read on storage.objects for select to anon using(bucket_id='uam-flyers' and exists(select 1 from public.uam_events where approved and flyer_path=storage.objects.name));
+create policy uam_flyer_member_read on storage.objects for select to authenticated using(bucket_id='uam-flyers' and ((storage.foldername(name))[1]=(select auth.uid())::text or (select public.uam_is_admin()) or exists(select 1 from public.uam_events where approved and flyer_path=storage.objects.name)));
