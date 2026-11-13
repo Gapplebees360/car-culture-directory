@@ -5,11 +5,16 @@
 | Source | Entry point | Importer | Refresh |
 | --- | --- | --- | --- |
 | SCCA official public calendar | https://www.scca.com/wp-json/wp/v2/event | scripts/import_scca.py | Daily, plus changes to main |
-| Public Facebook events via Apify's official actor | https://apify.com/apify/facebook-events-scraper | scripts/import_facebook.py | Manual; maximum $5 per run |
+| Events With Cars public calendar API | https://eventswithcars.com/wp-json/tribe/events/v1/events | scripts/import_free_calendars.py | Daily; no paid service |
+| Public Facebook events via Apify's official actor | https://apify.com/apify/facebook-events-scraper | scripts/import_facebook.py | Manual; default $0.50, maximum $1 per run and $5 per billing cycle |
 
 SCCA uses all paginated records, `custom.start_datetime` / `custom.end_datetime` for dates, the organizer's calendar link for city/state, and the event's original page URL. The WordPress post date is not the event date.
 
-Facebook runs 150 queries: car show, cars and coffee, and car meet for each of the 50 full state names. The actor's supported `maxEvents` input limits each query to two records. It has a 20-minute provider timeout and a $5 maximum charge. Neither Facebook cookies nor a Facebook login are needed by this actor. Credentials are read only from `APIFY_TOKEN` and sent in an authorization header.
+Facebook runs 150 queries: car show, cars and coffee, and car meet for each of the 50 full state names. The actor's supported `maxEvents` input limits each query to two records. It has a 20-minute provider timeout. Before a paid run, current billing-cycle usage must be available; the cap is the smaller of the requested amount, $1, and the remainder of $5 less a $0.25 reserve. Another running actor blocks the start. Neither Facebook cookies nor a Facebook login are needed by this actor. Credentials are read only from `APIFY_TOKEN` and sent in an authorization header.
+
+The free calendar importer reads all published pages within a 180-day window. Its first import supplied 215 accepted event occurrences, including 113 cars-and-coffee occurrences representing 15 recurring series. Those series are concentrated in four states, so the number must not be presented as 113 different meetups or national coverage. Listing artwork was available for 209 occurrences; repeated occurrences may share an image. Dates are explicit feed dates, not generated recurrence rules. All source pages remain linked.
+
+Organizer discovery is separate from publication. The free carsandcoffeedirectory.com index supplied 377 leads across 50 states, recorded in organizer-registry.json with `needs_organizer_verification` status. The importer does not copy its recurring schedule hints into future events. Direct museum/organizer feed checks also found unpublished dates and inaccessible endpoints; those are not silently treated as live sources.
 
 Facebook search is not exhaustive or a reliable geographic filter. The initial corrected run returned 70 records, included 111 failed provider requests, and yielded 9 accepted automotive events in 7 states after normalization. These results do not establish that every requested query completed or that the other states have no events. `facebook-report.json` distinguishes requested searches from returned records and accepted locations.
 

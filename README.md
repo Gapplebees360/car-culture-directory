@@ -28,14 +28,28 @@ Submissions and alerts are unavailable until their backend services are implemen
 The existing Apify connection can run the official Facebook Events actor. Set `APIFY_TOKEN` securely in the environment, then run:
 
 ```sh
-python scripts/import_facebook.py start --max-charge 5
+python scripts/import_facebook.py start --max-charge 0.5
 python scripts/import_facebook.py status
 python scripts/import_facebook.py collect
 python scripts/update_events.py
 python scripts/coverage_report.py
 ```
 
-`run` combines start/poll/collect for unattended execution. In GitHub Actions, manually dispatch the refresh workflow with the Facebook option selected; it reads the repository's `APIFY_TOKEN` secret. Daily runs retain existing Facebook listings and refresh SCCA without starting a paid Facebook search. No automatic daily Facebook charges are enabled.
+`run` combines start/poll/collect for unattended execution. Paid searches default to $0.50 and cannot exceed $1 per run. Before starting, the importer reads the account's current billing-cycle usage, reserves $0.25 for storage/reads, and caps the run to the remaining $5 monthly allowance. Missing usage data or another running actor blocks the paid run. The existing Apify account platform limit was verified as $5; it was not increased. No paid run was started while implementing this change.
+
+In GitHub Actions, manually dispatch the refresh workflow with the Facebook option selected; it reads the repository's `APIFY_TOKEN` secret. Daily runs retain existing Facebook listings and refresh SCCA and free calendars without starting a paid Facebook search. No automatic daily Facebook charges are enabled.
+
+## Free cars-and-coffee coverage
+
+```sh
+python scripts/import_free_calendars.py
+python scripts/update_events.py
+python scripts/coverage_report.py
+```
+
+The free Events With Cars public feed supplies explicitly dated occurrences in a 180-day window, venue data, and source artwork. These are third-party calendar listings; verify the original listing before travelling. The daily workflow refreshes them without an Apify account. `free-calendar-report.json` distinguishes occurrences from distinct recurring series and records rejected listings.
+
+Run `python scripts/discover_organizers.py` to rebuild the research registry. `organizer-registry.json` currently contains 377 discovery leads across all 50 states. Leads are marked for verification; they do not create any future dates or published events. The next step is to follow each lead to its official organizer calendar/feed, prioritizing states without coverage.
 
 See SOURCES.md for exact sources, the previous scraper defects, normalization rules, and known search gaps. `.cache/` contains local run metadata and is ignored. Never commit API tokens, Facebook cookies, or raw attendee/organizer profiles.
 

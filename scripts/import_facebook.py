@@ -4,6 +4,7 @@ Start once, poll with status, collect only a successful run. No Facebook login/c
 """
 import argparse
 import datetime as dt
+from decimal import Decimal, ROUND_DOWN
 import json
 import os
 from pathlib import Path
@@ -43,7 +44,19 @@ def queries():
     return [f'{theme} {name} United States' for theme in THEMES for name in STATE_NAMES.values()]
 
 
-def start(max_charge=5):
+def budget_cap(requested, usage):
+    # Leave headroom for reads/storage; the provider account is also capped at $5.
+    spent = Decimal(str(usage.get('totalUsageCreditsUsdAfterVolumeDiscount', 'NaN')))
+    if not spent.is_finite() or spent < 0:
+        raise ValueError('Cannot verify monthly usage; paid scraping is disabled')
+    remaining = Decimal('5.00') - Decimal('0.25') - spent
+    cap = min(Decimal(str(requested)), Decimal('1.00'), remaining).quantize(Decimal('0.01'), rounding=ROUND_DOWN)
+    if cap < Decimal('0.10'):
+        raise ValueError('Monthly $5 allowance is exhausted or reserved; use free sources until the billing cycle resets')
+    return float(cap)
+
+
+def start(max_charge=0.5):
     if not 0 < max_charge <= 5:
         raise ValueError('This importer limits each run to at most $5')
     if CACHE.exists():
@@ -51,6 +64,11 @@ def start(max_charge=5):
         status = api('actor-runs/' + previous['id'])['data']['status']
         if status in {'READY', 'RUNNING', 'TIMING-OUT', 'ABORTING'}:
             raise ValueError('A Facebook run is already active; use status instead of starting another')
+    usage = api('users/me/usage/monthly')['data']
+    active = api('actor-runs?status=RUNNING&limit=1')['data']['items']
+    if active:
+        raise ValueError('Another paid actor is active; wait for it to finish so monthly spend can be checked safely')
+    max_charge = budget_cap(max_charge, usage)
     input_data = {'searchQueries': queries(), 'maxEvents': 2}
     options = urlencode({'timeout': 1200, 'memory': 4096, 'maxTotalChargeUsd': max_charge})
     run = api(f'acts/{ACTOR}/runs?{options}', input_data)['data']
@@ -197,7 +215,7 @@ def collect(root=ROOT, run_id=None):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('command', choices=['start', 'status', 'collect', 'run'])
-    parser.add_argument('--max-charge', type=float, default=5)
+    parser.add_argument('--max-charge', type=float, default=0.5)
     parser.add_argument('--run-id')
     args = parser.parse_args()
     if args.command == 'run':

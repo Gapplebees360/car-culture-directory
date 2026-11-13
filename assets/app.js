@@ -1,4 +1,11 @@
     const DEFAULT_FALLBACK_IMAGE = "assets/track-car.jpg";
+    const SCENE_IMAGES = ['assets/track-car.jpg', 'assets/scene-bmw.jpg', 'assets/scene-corvette.jpg', 'assets/scene-sports.jpg', 'assets/scene-street.jpg', 'assets/scene-supercar.jpg', 'assets/hero-porsche.jpg'];
+
+    function sceneForEvent(record) {
+      const key = [record.source, record.source_id, record.title, record.category].join('|');
+      const hash = Array.from(key).reduce((value, character) => ((value * 31) + character.charCodeAt(0)) >>> 0, 0);
+      return SCENE_IMAGES[hash % SCENE_IMAGES.length];
+    }
 
     // Master 50 US State List
     const ALL_US_STATES = [
@@ -86,8 +93,10 @@
       loadMore.hidden = filteredEvents.length <= visibleLimit;
       filteredEvents.slice(0, visibleLimit).forEach(record => {
         const event = Object.fromEntries(Object.entries(record).map(([key, value]) => [key, escapeHtml(value)]));
-        const sceneImage = ['Cars & Coffee', 'Car Show', 'Pop-Up Meet', 'Cruise Night'].includes(record.category) ? 'assets/hero-porsche.jpg' : DEFAULT_FALLBACK_IMAGE;
-        const imageUrl = escapeHtml(safeUrl(record.image, sceneImage));
+        const sceneImage = sceneForEvent(record);
+        const sourceImage = safeUrl(record.image);
+        const hasSourceImage = Boolean(sourceImage);
+        const imageUrl = escapeHtml(sourceImage || sceneImage);
         const sourceUrl = escapeHtml(safeUrl(record.url));
         const hasValidUrl = Boolean(sourceUrl);
         const date = new Date(record.date + 'T12:00:00');
@@ -97,16 +106,16 @@
         const card = document.createElement('div');
         card.className = 'event-card';
         card.innerHTML = `
-          <div class="card-image-wrapper">
+          <div class="card-image-wrapper${hasSourceImage ? ' has-artwork' : ''}">
             <span class="date-badge"><small>${month}</small>${day}</span>
-            <span class="photo-note">${record.image ? 'Event photo' : 'Scene photography'}</span>
+            <span class="photo-note">${hasSourceImage ? 'Source artwork' : 'Scene photography'}</span>
             <span class="category-badge">${event.category || 'Car Meet'}</span>
             <img 
               src="${imageUrl}" 
-              alt="${record.image ? event.title : 'Automotive scene illustration'}" 
-              class="event-card-img"
+              alt="${hasSourceImage ? 'Source artwork for ' + event.title : 'Automotive scene illustration'}"
+              class="event-card-img${hasSourceImage ? ' is-artwork' : ''}"
               loading="lazy" decoding="async"
-              onerror="this.onerror=null; this.src='${DEFAULT_FALLBACK_IMAGE}';"
+              onerror="this.onerror=null; this.src='${sceneImage}'; this.alt='Automotive scene illustration'; this.classList.remove('is-artwork'); this.closest('.card-image-wrapper').classList.remove('has-artwork'); this.closest('.card-image-wrapper').querySelector('.photo-note').textContent='Scene photography';"
             />
           </div>
           <div class="event-card-body">

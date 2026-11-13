@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       facebook:
-        description: 'Run paid 50-state Facebook search (maximum $5)'
+        description: 'Optional Facebook search ($5 monthly guard; $1 maximum per run)'
         type: boolean
         default: false
   push:
@@ -61,13 +61,29 @@ jobs:
           python-version: '3.11'
 
       - name: Import official SCCA calendar
+        id: scca
+        continue-on-error: true
         run: python scripts/import_scca.py
+
+      - name: Import free public event calendars
+        id: free
+        continue-on-error: true
+        run: python scripts/import_free_calendars.py
+
+      - name: Check free source health
+        env:
+          SCCA_RESULT: ${{ steps.scca.outcome }}
+          FREE_RESULT: ${{ steps.free.outcome }}
+        run: |
+          if [ "$SCCA_RESULT" = failure ]; then echo '::warning::SCCA refresh failed; prior source data was retained.'; fi
+          if [ "$FREE_RESULT" = failure ]; then echo '::warning::Free calendar refresh failed; prior source data was retained.'; fi
+          if [ "$SCCA_RESULT" = failure ] && [ "$FREE_RESULT" = failure ]; then exit 1; fi
 
       - name: Import public Facebook events across 50 states
         if: github.event_name == 'workflow_dispatch' && inputs.facebook
         env:
           APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
-        run: python scripts/import_facebook.py run --max-charge 5
+        run: python scripts/import_facebook.py run --max-charge 0.5
 
       - name: Build validated event directory
         run: python scripts/update_events.py
@@ -81,6 +97,7 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add index.html events.json coverage.json
           if [ -f facebook-report.json ]; then git add facebook-report.json; fi
+          if [ -f free-calendar-report.json ]; then git add free-calendar-report.json; fi
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "Refresh verified upcoming events"
           git push origin HEAD:main
@@ -91,6 +108,8 @@ jobs:
           cp index.html car_culture_directory.html CNAME events.json coverage.json _site/
           cp -r assets _site/
           if [ -f facebook-report.json ]; then cp facebook-report.json _site/; fi
+          if [ -f free-calendar-report.json ]; then cp free-calendar-report.json _site/; fi
+          if [ -f organizer-registry.json ]; then cp organizer-registry.json _site/; fi
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site

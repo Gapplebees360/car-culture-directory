@@ -17,6 +17,10 @@ def write_report(root=ROOT):
                   imported=len(events), states_with_events=len(counts),
                   coverage={state: counts[state] for state in sorted(STATES)},
                   sources=dict(sources), facebook_report='facebook-report.json',
+                  free_calendar_report='free-calendar-report.json', organizer_registry='organizer-registry.json',
+                  cars_and_coffee_occurrences=sum(event['category']=='Cars & Coffee' for event in events),
+                  distinct_cars_and_coffee_series=len({(event['title'],event['city'],event['state']) for event in events if event['category']=='Cars & Coffee'}),
+                  with_source_artwork=sum(bool(event.get('image')) for event in events),
                   note='Searches target all 50 states; listings require an explicit source date and US location. Empty states indicate no accepted listings, not proof that no events exist.')
     temporary = root / 'coverage.json.tmp'
     temporary.write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')

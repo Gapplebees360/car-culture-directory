@@ -14,6 +14,8 @@ Acceptance: regression tests pass, invalid input leaves the published page intac
 
 ## Phase 2 — Restore useful event coverage
 
+Free-first expansion: added a daily public calendar adapter with cars-and-coffee dates and listing artwork, plus a 377-lead research registry spanning all 50 states. Published coverage is 381 occurrences across 33 states. Next: verify leads against official organizer calendars, prioritize the 17 uncovered states, and add source-specific public feeds. Paid Facebook discovery stays manual, with a verified billing-cycle usage check and $5 monthly limit.
+
 Implemented: SCCA public calendar plus a capped, manual Facebook discovery adapter. Facebook searches request all 50 states, require actual event geography/dates, and reject unrelated, private, online, and cancelled listings. The first corrected run added 9 accepted events; combined coverage is 167 events in 33 states. The provider reported partial request failures, so comprehensive 50-state coverage remains unfinished. SOURCES.md documents the exact inputs and limitations.
 
 1. Start with an agreed pilot region and official organizer calendars.

@@ -1,0 +1,2898 @@
+{
+  "checked_at": "2026-11-13",
+  "source": "https://www.carsandcoffeedirectory.com/events",
+  "note": "Discovery leads only. Verify official organizers, exact dates, seasonal exceptions, and permissions before enabling an importer. No recurring dates are generated from this directory.",
+  "states": {
+    "AL": {
+      "name": "Alabama",
+      "leads": 7,
+      "status": "needs_organizer_verification"
+    },
+    "AK": {
+      "name": "Alaska",
+      "leads": 4,
+      "status": "needs_organizer_verification"
+    },
+    "AZ": {
+      "name": "Arizona",
+      "leads": 12,
+      "status": "needs_organizer_verification"
+    },
+    "AR": {
+      "name": "Arkansas",
+      "leads": 4,
+      "status": "needs_organizer_verification"
+    },
+    "CA": {
+      "name": "California",
+      "leads": 40,
+      "status": "needs_organizer_verification"
+    },
+    "CO": {
+      "name": "Colorado",
+      "leads": 8,
+      "status": "needs_organizer_verification"
+    },
+    "CT": {
+      "name": "Connecticut",
+      "leads": 7,
+      "status": "needs_organizer_verification"
+    },
+    "DE": {
+      "name": "Delaware",
+      "leads": 4,
+      "status": "needs_organizer_verification"
+    },
+    "FL": {
+      "name": "Florida",
+      "leads": 26,
+      "status": "needs_organizer_verification"
+    },
+    "GA": {
+      "name": "Georgia",
+      "leads": 10,
+      "status": "needs_organizer_verification"
+    },
+    "HI": {
+      "name": "Hawaii",
+      "leads": 3,
+      "status": "needs_organizer_verification"
+    },
+    "ID": {
+      "name": "Idaho",
+      "leads": 4,
+      "status": "needs_organizer_verification"
+    },
+    "IL": {
+      "name": "Illinois",
+      "leads": 9,
+      "status": "needs_organizer_verification"
+    },
+    "IN": {
+      "name": "Indiana",
+      "leads": 4,
+      "status": "needs_organizer_verification"
+    },
+    "IA": {
+      "name": "Iowa",
+      "leads": 4,
+      "status": "needs_organizer_verification"
+    },
+    "KS": {
+      "name": "Kansas",
+      "leads": 6,
+      "status": "needs_organizer_verification"
+    },
+    "KY": {
+      "name": "Kentucky",
+      "leads": 5,
+      "status": "needs_organizer_verification"
+    },
+    "LA": {
+      "name": "Louisiana",
+      "leads": 6,
+      "status": "needs_organizer_verification"
+    },
+    "ME": {
+      "name": "Maine",
+      "leads": 5,
+      "status": "needs_organizer_verification"
+    },
+    "MD": {
+      "name": "Maryland",
+      "leads": 10,
+      "status": "needs_organizer_verification"
+    },
+    "MA": {
+      "name": "Massachusetts",
+      "leads": 5,
+      "status": "needs_organizer_verification"
+    },
+    "MI": {
+      "name": "Michigan",
+      "leads": 7,
+      "status": "needs_organizer_verification"
+    },
+    "MN": {
+      "name": "Minnesota",
+      "leads": 6,
+      "status": "needs_organizer_verification"
+    },
+    "MS": {
+      "name": "Mississippi",
+      "leads": 4,
+      "status": "needs_organizer_verification"
+    },
+    "MO": {
+      "name": "Missouri",
+      "leads": 4,
+      "status": "needs_organizer_verification"
+    },
+    "MT": {
+      "name": "Montana",
+      "leads": 5,
+      "status": "needs_organizer_verification"
+    },
+    "NE": {
+      "name": "Nebraska",
+      "leads": 4,
+      "status": "needs_organizer_verification"
+    },
+    "NV": {
+      "name": "Nevada",
+      "leads": 4,
+      "status": "needs_organizer_verification"
+    },
+    "NH": {
+      "name": "New Hampshire",
+      "leads": 6,
+      "status": "needs_organizer_verification"
+    },
+    "NJ": {
+      "name": "New Jersey",
+      "leads": 11,
+      "status": "needs_organizer_verification"
+    },
+    "NM": {
+      "name": "New Mexico",
+      "leads": 4,
+      "status": "needs_organizer_verification"
+    },
+    "NY": {
+      "name": "New York",
+      "leads": 9,
+      "status": "needs_organizer_verification"
+    },
+    "NC": {
+      "name": "North Carolina",
+      "leads": 15,
+      "status": "needs_organizer_verification"
+    },
+    "ND": {
+      "name": "North Dakota",
+      "leads": 2,
+      "status": "needs_organizer_verification"
+    },
+    "OH": {
+      "name": "Ohio",
+      "leads": 5,
+      "status": "needs_organizer_verification"
+    },
+    "OK": {
+      "name": "Oklahoma",
+      "leads": 4,
+      "status": "needs_organizer_verification"
+    },
+    "OR": {
+      "name": "Oregon",
+      "leads": 7,
+      "status": "needs_organizer_verification"
+    },
+    "PA": {
+      "name": "Pennsylvania",
+      "leads": 7,
+      "status": "needs_organizer_verification"
+    },
+    "RI": {
+      "name": "Rhode Island",
+      "leads": 3,
+      "status": "needs_organizer_verification"
+    },
+    "SC": {
+      "name": "South Carolina",
+      "leads": 7,
+      "status": "needs_organizer_verification"
+    },
+    "SD": {
+      "name": "South Dakota",
+      "leads": 3,
+      "status": "needs_organizer_verification"
+    },
+    "TN": {
+      "name": "Tennessee",
+      "leads": 7,
+      "status": "needs_organizer_verification"
+    },
+    "TX": {
+      "name": "Texas",
+      "leads": 16,
+      "status": "needs_organizer_verification"
+    },
+    "UT": {
+      "name": "Utah",
+      "leads": 9,
+      "status": "needs_organizer_verification"
+    },
+    "VT": {
+      "name": "Vermont",
+      "leads": 4,
+      "status": "needs_organizer_verification"
+    },
+    "VA": {
+      "name": "Virginia",
+      "leads": 18,
+      "status": "needs_organizer_verification"
+    },
+    "WA": {
+      "name": "Washington",
+      "leads": 9,
+      "status": "needs_organizer_verification"
+    },
+    "WV": {
+      "name": "West Virginia",
+      "leads": 4,
+      "status": "needs_organizer_verification"
+    },
+    "WI": {
+      "name": "Wisconsin",
+      "leads": 6,
+      "status": "needs_organizer_verification"
+    },
+    "WY": {
+      "name": "Wyoming",
+      "leads": 4,
+      "status": "needs_organizer_verification"
+    }
+  },
+  "leads": [
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/anchorage-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Anchorage Cars & Coffee",
+      "city": "Anchorage",
+      "state": "AK"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/euro-cars-coffee-cruise",
+      "status": "needs_organizer_verification",
+      "name": "Euro Cars, Coffee & Cruise",
+      "city": "Anchorage",
+      "state": "AK"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/fairbanks-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Fairbanks Cars & Coffee",
+      "city": "Fairbanks",
+      "state": "AK"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/ak-valley-car-club-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "AK Valley Car Club Cars & Coffee",
+      "city": "Wasilla",
+      "state": "AK"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/birmingham-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Birmingham Cars & Coffee",
+      "city": "Birmingham",
+      "state": "AL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-and-concrete",
+      "status": "needs_organizer_verification",
+      "name": "Cars Coffee and Concrete",
+      "city": "Florence",
+      "state": "AL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/huntsville-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Huntsville Cars & Coffee",
+      "city": "Huntsville",
+      "state": "AL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/magic-city-octane",
+      "status": "needs_organizer_verification",
+      "name": "Magic City Octane",
+      "city": "Leeds",
+      "state": "AL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/madison-cars-coffee-alabama",
+      "status": "needs_organizer_verification",
+      "name": "Madison Cars & Coffee (Alabama)",
+      "city": "Madison",
+      "state": "AL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/montgomery-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Montgomery Cars & Coffee",
+      "city": "Montgomery",
+      "state": "AL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/auburn-opelika-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Auburn - Opelika Cars & Coffee",
+      "city": "Opelika",
+      "state": "AL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/conway-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Conway Cars & Coffee",
+      "city": "Conway",
+      "state": "AR"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/little-rock-afb-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Little Rock AFB Cars and Coffee",
+      "city": "Little Rock",
+      "state": "AR"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/little-rock-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Little Rock Cars & Coffee",
+      "city": "Little Rock",
+      "state": "AR"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/nwa-cars-coffee-cruising-the-ozarks",
+      "status": "needs_organizer_verification",
+      "name": "NWA Cars and Coffee (Cruising the Ozarks)",
+      "city": "Rogers",
+      "state": "AR"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/anthem-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Anthem Cars & Coffee",
+      "city": "Anthem",
+      "state": "AZ"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/nanas-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Nana's Cars & Coffee",
+      "city": "Coolidge",
+      "state": "AZ"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/gilbert-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Gilbert Cars & Coffee",
+      "city": "Gilbert",
+      "state": "AZ"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/lake-havasu-city-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Lake Havasu City Cars & Coffee",
+      "city": "Lake Havasu City",
+      "state": "AZ"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/highline-autos-cars-coffee-desert-ridge",
+      "status": "needs_organizer_verification",
+      "name": "Highline Autos Cars and Coffee (Desert Ridge)",
+      "city": "Phoenix",
+      "state": "AZ"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/prescott-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Prescott Cars & Coffee",
+      "city": "Prescott",
+      "state": "AZ"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/qc-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "QC Cars & Coffee",
+      "city": "Queen Creek",
+      "state": "AZ"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/fourtillfour-fast-cars",
+      "status": "needs_organizer_verification",
+      "name": "Fourtillfour Fast Cars",
+      "city": "Scottsdale",
+      "state": "AZ"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/fourtillfour-porsches-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Fourtillfour Porsches & Coffee",
+      "city": "Scottsdale",
+      "state": "AZ"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/fourtillfour-shakedown",
+      "status": "needs_organizer_verification",
+      "name": "Fourtillfour Shakedown",
+      "city": "Scottsdale",
+      "state": "AZ"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/fourtillfour-vintage-offroad",
+      "status": "needs_organizer_verification",
+      "name": "Fourtillfour Vintage Offroad",
+      "city": "Scottsdale",
+      "state": "AZ"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/scottsdale-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Scottsdale Cars & Coffee",
+      "city": "Scottsdale",
+      "state": "AZ"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/benicia-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Benicia Cars and Coffee",
+      "city": "Benicia",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/the-drivers-club-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "The Drivers Club Cars and Coffee",
+      "city": "Buena Park",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/caffeine-cruisers-event",
+      "status": "needs_organizer_verification",
+      "name": "Caffeine Cruisers Event",
+      "city": "Capitola",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/carlsbad-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Carlsbad Cars and Coffee",
+      "city": "Carlsbad",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-carmichael",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee Carmichael",
+      "city": "Carmichael",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/dreams-and-drivers-cars-n-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Dreams and Drivers Cars n Coffee",
+      "city": "Carmichael",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-corona",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee Corona",
+      "city": "Corona",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/keypoint-credit-union-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "KeyPoint Credit Union Cars & Coffee",
+      "city": "Dublin",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-folsom-el-dorado-hills",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Coffee Folsom \u2013 El Dorado Hills",
+      "city": "El Dorado Hills",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/manhattan-beach-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Manhattan Beach Cars & Coffee",
+      "city": "El Segundo",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-escondido",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Coffee Escondido",
+      "city": "Escondido",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/niles-flying-a-classics-and-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Niles Flying A Classics and Coffee",
+      "city": "Fremont",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/ohlone-college-flea-market-with-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Ohlone College Flea Market with Cars and Coffee",
+      "city": "Fremont",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-south-valley",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee South Valley",
+      "city": "Fresno",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-at-the-pointe",
+      "status": "needs_organizer_verification",
+      "name": "Cars at the Pointe",
+      "city": "Fresno",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/fresno-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Fresno Cars & Coffee",
+      "city": "Fresno",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-grass-valley",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Coffee Grass Valley",
+      "city": "Grass Valley",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/hollister-coffee-and-cars",
+      "status": "needs_organizer_verification",
+      "name": "Hollister Coffee and Cars",
+      "city": "Hollister",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/donut-derelicts",
+      "status": "needs_organizer_verification",
+      "name": "Donut Derelicts",
+      "city": "Huntington Beach",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/coffee-and-cars-la-quinta",
+      "status": "needs_organizer_verification",
+      "name": "Coffee and Cars La Quinta",
+      "city": "La Quinta",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-los-angeles",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee Los Angeles",
+      "city": "Los Angeles",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/marina-del-rey-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Marina del Rey Cars and Coffee",
+      "city": "Marina del Rey",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/santa-barbara-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Santa Barbara Cars & Coffee",
+      "city": "Montecito",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/napa-valley-hot-rods-cars-n-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Napa Valley Hot Rods Cars n Coffee",
+      "city": "Napa",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/classic-cars-and-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Classic Cars And Coffee",
+      "city": "Northridge",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/pismo-derelicts-donuts",
+      "status": "needs_organizer_verification",
+      "name": "Pismo Derelicts & Donuts",
+      "city": "Pismo Beach",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/rancho-santa-fe-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Rancho Santa Fe Cars and Coffee",
+      "city": "Rancho Santa Fe",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/roseville-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Roseville Cars & Coffee",
+      "city": "Roseville",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-sac",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Coffee Sac",
+      "city": "Sacramento",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/country-club-plaza-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Country Club Plaza Cars and Coffee",
+      "city": "Sacramento",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-at-laguna-seca",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Coffee at Laguna Seca",
+      "city": "Salinas",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/salinas-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Salinas Cars and Coffee",
+      "city": "Salinas",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/south-oc-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "South OC Cars and Coffee",
+      "city": "San Clemente",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/san-diego-cars-coffee-elite-finish",
+      "status": "needs_organizer_verification",
+      "name": "San Diego Cars & Coffee (Elite Finish)",
+      "city": "San Diego",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/zuma-cars-coffee-by-the-ocean",
+      "status": "needs_organizer_verification",
+      "name": "Zuma Cars & Coffee by the Ocean",
+      "city": "Santa Monica",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/hot-rods-burgers",
+      "status": "needs_organizer_verification",
+      "name": "Hot Rods & Burgers",
+      "city": "Santa Rosa",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/veterans-all-american-car-show",
+      "status": "needs_organizer_verification",
+      "name": "Veterans All American Car Show",
+      "city": "Sonoma",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/conejo-valley-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Conejo Valley Cars & Coffee",
+      "city": "Thousand Oaks",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/coffee-n-cars-valencia",
+      "status": "needs_organizer_verification",
+      "name": "Coffee N Cars Valencia",
+      "city": "Valencia",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/pharoahs-of-visalia-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Pharoahs of Visalia Cars and Coffee",
+      "city": "Visalia",
+      "state": "CA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-shakes-aurora",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Shakes Aurora",
+      "city": "Aurora",
+      "state": "CO"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/coffee-classics-boulder",
+      "status": "needs_organizer_verification",
+      "name": "Coffee & Classics Boulder",
+      "city": "Boulder",
+      "state": "CO"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/pikes-peak-air-coolers",
+      "status": "needs_organizer_verification",
+      "name": "Pikes Peak Air Coolers",
+      "city": "Colorado Springs",
+      "state": "CO"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/grand-junction-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Grand Junction Cars & Coffee",
+      "city": "Grand Junction",
+      "state": "CO"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-lafayette",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee Lafayette",
+      "city": "Lafayette",
+      "state": "CO"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/northern-colorado-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Northern Colorado Cars & Coffee",
+      "city": "Loveland",
+      "state": "CO"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/parker-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Parker Cars & Coffee",
+      "city": "Parker",
+      "state": "CO"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/steamboat-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Steamboat Cars and Coffee",
+      "city": "Steamboat Springs",
+      "state": "CO"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/powerhouse-gym-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Powerhouse Gym Cars and Coffee",
+      "city": "Berlin",
+      "state": "CT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/bristol-auto-club-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Bristol Auto Club Cars & Coffee",
+      "city": "Bristol",
+      "state": "CT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-darien",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee Darien",
+      "city": "Darien",
+      "state": "CT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/fairfield-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Fairfield Cars & Coffee",
+      "city": "Fairfield",
+      "state": "CT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/greenwich-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Greenwich Cars & Coffee",
+      "city": "Greenwich",
+      "state": "CT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/ct-shoreline-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "CT Shoreline Cars & Coffee",
+      "city": "Guilford",
+      "state": "CT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/waterbury-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Waterbury Cars & Coffee",
+      "city": "Waterbury",
+      "state": "CT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/ghost-ryderz-coffee-and-cars",
+      "status": "needs_organizer_verification",
+      "name": "Ghost Ryderz Coffee and Cars",
+      "city": "Frankford",
+      "state": "DE"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/british-car-club-of-delaware-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "British Car Club of Delaware Cars & Coffee",
+      "city": "Newark",
+      "state": "DE"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-of-wilmington-de",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee of Wilmington De",
+      "city": "Newark",
+      "state": "DE"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/north-wilmington-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "North Wilmington Cars & Coffee",
+      "city": "Wilmington",
+      "state": "DE"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-palm-beach",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee Palm Beach",
+      "city": "Boca Raton",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-and-cannoli",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Cannoli",
+      "city": "Bonita Springs",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/daytona-beach-cars-coffee-one-daytona",
+      "status": "needs_organizer_verification",
+      "name": "Daytona Beach Cars & Coffee (ONE Daytona)",
+      "city": "Daytona Beach",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/miami-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Miami Cars & Coffee",
+      "city": "Doral",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/englewood-weekly-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Englewood Weekly Cars & Coffee",
+      "city": "Englewood",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/jacksonville-cars-coffee-fleming-island",
+      "status": "needs_organizer_verification",
+      "name": "Jacksonville Cars & Coffee (Fleming Island)",
+      "city": "Fleming Island",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/mango-ritas-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Mango Rita's Cars & Coffee",
+      "city": "Fort Myers",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/gainesville-cars-coffee-tioga-town-center",
+      "status": "needs_organizer_verification",
+      "name": "Gainesville Cars & Coffee (Tioga Town Center)",
+      "city": "Gainesville",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/lakeland-cars-coffee-lakeside-village",
+      "status": "needs_organizer_verification",
+      "name": "Lakeland Cars & Coffee (Lakeside Village)",
+      "city": "Lakeland",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-239-naples",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Coffee 239 (Naples)",
+      "city": "Naples",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/epic-cars-coffee-and-classics",
+      "status": "needs_organizer_verification",
+      "name": "EPIC Cars and Coffee and Classics",
+      "city": "Naples",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/hooters-show-and-shine-naples",
+      "status": "needs_organizer_verification",
+      "name": "Hooters Show and Shine Naples",
+      "city": "Naples",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/trunk-or-treat-at-hooters-naples",
+      "status": "needs_organizer_verification",
+      "name": "Trunk-or-Treat at Hooters Naples",
+      "city": "Naples",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/vanderbilt-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Vanderbilt Cars and Coffee",
+      "city": "Naples",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/zeppes-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Zeppe's Cars and Coffee",
+      "city": "Naples",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/ocala-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Ocala Cars & Coffee",
+      "city": "Ocala",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/orlando-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Orlando Cars & Coffee",
+      "city": "Orlando",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/panama-city-beach-cars-coffee-pier-park",
+      "status": "needs_organizer_verification",
+      "name": "Panama City Beach Cars & Coffee (Pier Park)",
+      "city": "Panama City Beach",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/pensacola-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Pensacola Cars & Coffee",
+      "city": "Pensacola",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/second-sunday-car-truck-show-plantation-walk",
+      "status": "needs_organizer_verification",
+      "name": "Second Sunday Car & Truck Show (Plantation Walk)",
+      "city": "Plantation",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/space-coast-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Space Coast Cars and Coffee",
+      "city": "Rockledge",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/sarasota-cars-coffee-university-town-center",
+      "status": "needs_organizer_verification",
+      "name": "Sarasota Cars & Coffee (University Town Center)",
+      "city": "Sarasota",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-at-classic-car-museum-of-st-augustine",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee at Classic Car Museum of St. Augustine",
+      "city": "St. Augustine",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/southwood-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Southwood Cars and Coffee",
+      "city": "Tallahassee",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/tallahassee-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Tallahassee Cars & Coffee",
+      "city": "Tallahassee",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/the-villages-classic-car-cruise-in",
+      "status": "needs_organizer_verification",
+      "name": "The Villages Classic Car Cruise-In",
+      "city": "The Villages",
+      "state": "FL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/athens-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Athens Cars & Coffee",
+      "city": "Athens",
+      "state": "GA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/coffee-and-cars-augusta",
+      "status": "needs_organizer_verification",
+      "name": "Coffee and Cars Augusta",
+      "city": "Augusta",
+      "state": "GA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/motors-and-mouths-car-meet",
+      "status": "needs_organizer_verification",
+      "name": "Motors and Mouths Car Meet",
+      "city": "Columbus",
+      "state": "GA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/caffeine-and-chrome-gateway-classic-cars",
+      "status": "needs_organizer_verification",
+      "name": "Caffeine and Chrome (Gateway Classic Cars)",
+      "city": "Cumming",
+      "state": "GA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-alpharetta-gateway-classic-cars",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Coffee Alpharetta (Gateway Classic Cars)",
+      "city": "Cumming",
+      "state": "GA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/caffeine-and-octane",
+      "status": "needs_organizer_verification",
+      "name": "Caffeine and Octane",
+      "city": "Kennesaw",
+      "state": "GA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/roswell-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Roswell Cars & Coffee",
+      "city": "Roswell",
+      "state": "GA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/worship-roswell-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Worship Roswell Cars and Coffee",
+      "city": "Roswell",
+      "state": "GA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/savannah-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Savannah Cars & Coffee",
+      "city": "Savannah",
+      "state": "GA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/steeda-cars-coffee-valdosta",
+      "status": "needs_organizer_verification",
+      "name": "Steeda Cars & Coffee Valdosta",
+      "city": "Valdosta",
+      "state": "GA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-hawaii-oahu",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee Hawaii (Oahu)",
+      "city": "Honolulu",
+      "state": "HI"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/maui-cars-coffee-kahului",
+      "status": "needs_organizer_verification",
+      "name": "Maui Cars & Coffee (Kahului)",
+      "city": "Kahului",
+      "state": "HI"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/big-island-cars-coffee-kailua-kona",
+      "status": "needs_organizer_verification",
+      "name": "Big Island Cars & Coffee (Kailua-Kona)",
+      "city": "Kailua-Kona",
+      "state": "HI"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/bettendorf-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Bettendorf Cars & Coffee",
+      "city": "Bettendorf",
+      "state": "IA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cedar-rapids-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Cedar Rapids Cars & Coffee",
+      "city": "Cedar Rapids",
+      "state": "IA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/iowa-city-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Iowa City Cars and Coffee",
+      "city": "Coralville",
+      "state": "IA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/des-moines-cars-coffee-westown-parkway",
+      "status": "needs_organizer_verification",
+      "name": "Des Moines Cars & Coffee (Westown Parkway)",
+      "city": "West Des Moines",
+      "state": "IA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/dubs-and-donuts-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Dubs and Donuts Cars and Coffee",
+      "city": "Boise",
+      "state": "ID"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/caffeine-chrome-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Caffeine & Chrome Cars and Coffee",
+      "city": "Chubbuck",
+      "state": "ID"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/coeur-dalene-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Coeur d'Alene Cars & Coffee",
+      "city": "Coeur d'Alene",
+      "state": "ID"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/treasure-valley-cars-coffee-meridian",
+      "status": "needs_organizer_verification",
+      "name": "Treasure Valley Cars & Coffee (Meridian)",
+      "city": "Meridian",
+      "state": "ID"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-at-two-brothers-roundhouse",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Coffee at Two Brothers Roundhouse",
+      "city": "Aurora",
+      "state": "IL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/wings-wheels-chicago",
+      "status": "needs_organizer_verification",
+      "name": "Wings & Wheels Chicago",
+      "city": "DeKalb",
+      "state": "IL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/central-illinois-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Central Illinois Cars and Coffee",
+      "city": "East Peoria",
+      "state": "IL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/chicago-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Chicago Cars and Coffee",
+      "city": "Homewood",
+      "state": "IL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cold-brewed-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Cold Brewed Cars & Coffee",
+      "city": "Lisle",
+      "state": "IL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/champaign-county-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Champaign County Cars & Coffee",
+      "city": "Mahomet",
+      "state": "IL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/chrome-and-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Chrome and Coffee",
+      "city": "Naperville",
+      "state": "IL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/rockford-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Rockford Cars & Coffee",
+      "city": "Rockford",
+      "state": "IL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/chicagoland-cars-and-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Chicagoland Cars And Coffee",
+      "city": "Vernon Hills",
+      "state": "IL"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cruise-indy-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Cruise Indy Cars & Coffee",
+      "city": "Carmel",
+      "state": "IN"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/indianapolis-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Indianapolis Cars & Coffee",
+      "city": "Indianapolis",
+      "state": "IN"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/mccordsville-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "McCordsville Cars & Coffee",
+      "city": "McCordsville",
+      "state": "IN"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/graham-rahal-performance-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Graham Rahal Performance Cars & Coffee",
+      "city": "Zionsville",
+      "state": "IN"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/corvette-connected-kansas-city-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Corvette Connected Kansas City Cars and Coffee",
+      "city": "Kansas City",
+      "state": "KS"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/rev-it-up-cars-coffee-lawrence",
+      "status": "needs_organizer_verification",
+      "name": "Rev It Up Cars and Coffee Lawrence",
+      "city": "Lawrence",
+      "state": "KS"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-kansas-city-at-kansas-city-automotive-museum",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee Kansas City at Kansas City Automotive Museum",
+      "city": "Olathe",
+      "state": "KS"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-at-kansas-city-automotive-museum",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee at Kansas City Automotive Museum",
+      "city": "Olathe",
+      "state": "KS"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/wichita-area-bmw-cca-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Wichita Area BMW CCA Cars & Coffee",
+      "city": "Wichita",
+      "state": "KS"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/wichita-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Wichita Cars & Coffee",
+      "city": "Wichita",
+      "state": "KS"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/bowling-green-cars-coffee-ncm-motorsports-park",
+      "status": "needs_organizer_verification",
+      "name": "Bowling Green Cars & Coffee (NCM Motorsports Park)",
+      "city": "Bowling Green",
+      "state": "KY"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/fantes-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Fante's Cars & Coffee",
+      "city": "Louisville",
+      "state": "KY"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/kyana-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "KYANA Cars & Coffee",
+      "city": "Louisville",
+      "state": "KY"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/louisville-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Louisville Cars & Coffee",
+      "city": "Louisville",
+      "state": "KY"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/captains-quarters-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Captain's Quarters Cars & Coffee",
+      "city": "Prospect",
+      "state": "KY"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-at-nola-motorsports-park",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee at NOLA Motorsports Park",
+      "city": "Avondale",
+      "state": "LA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-baton-rouge",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Coffee Baton Rouge",
+      "city": "Baton Rouge",
+      "state": "LA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/central-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Central Cars and Coffee",
+      "city": "Central",
+      "state": "LA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/caffeine-and-octane-lake-charles",
+      "status": "needs_organizer_verification",
+      "name": "Caffeine and Octane Lake Charles",
+      "city": "Lake Charles",
+      "state": "LA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-new-orleans",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Coffee New Orleans",
+      "city": "New Orleans",
+      "state": "LA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/oreilly-auto-parts-cruise-in-prairieville",
+      "status": "needs_organizer_verification",
+      "name": "O'Reilly Auto Parts Cruise-In - Prairieville",
+      "city": "Prairieville",
+      "state": "LA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-amherst",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee Amherst",
+      "city": "Amherst",
+      "state": "MA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-at-larz-anderson-auto-museum",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee at Larz Anderson Auto Museum",
+      "city": "Brookline",
+      "state": "MA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/bedford-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Bedford Cars & Coffee",
+      "city": "Burlington",
+      "state": "MA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/boston-cars-coffee-canton",
+      "status": "needs_organizer_verification",
+      "name": "Boston Cars & Coffee (Canton)",
+      "city": "Canton",
+      "state": "MA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-at-lala-java",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee at Lala Java",
+      "city": "Northborough",
+      "state": "MA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/bethesda-cars-n-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Bethesda Cars n Coffee",
+      "city": "Bethesda",
+      "state": "MD"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/burtonsville-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Burtonsville Cars & Coffee",
+      "city": "Burtonsville",
+      "state": "MD"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/hunt-valley-horsepower",
+      "status": "needs_organizer_verification",
+      "name": "Hunt Valley Horsepower",
+      "city": "Cockeysville",
+      "state": "MD"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-gaithersburg",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee - Gaithersburg",
+      "city": "Gaithersburg",
+      "state": "MD"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/4th-annual-macc-fathers-day-car-show",
+      "status": "needs_organizer_verification",
+      "name": "4th Annual MACC Father\u2019s Day Car Show",
+      "city": "Gambrills",
+      "state": "MD"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-ocean-city",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee - Ocean City",
+      "city": "Ocean City",
+      "state": "MD"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/potomac-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Potomac Cars & Coffee",
+      "city": "Poolesville",
+      "state": "MD"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/rockville-antique-and-classic-car-show",
+      "status": "needs_organizer_verification",
+      "name": "Rockville Antique and Classic Car Show",
+      "city": "Rockville",
+      "state": "MD"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/the-car-show-at-the-corn-hooley-shamrock-shenanigans-festival",
+      "status": "needs_organizer_verification",
+      "name": "The Car Show at the Corn-Hooley & Shamrock Shenanigans Festival",
+      "city": "Severna Park",
+      "state": "MD"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/mt-top-cruisers-cruise-in-at-lake-lure",
+      "status": "needs_organizer_verification",
+      "name": "Mt. Top Cruisers Cruise-In at Lake & Lure",
+      "city": "Swanton",
+      "state": "MD"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-at-boothbay-railway-village",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Coffee at Boothbay Railway Village",
+      "city": "Boothbay",
+      "state": "ME"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/portland-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Portland Cars & Coffee",
+      "city": "Portland",
+      "state": "ME"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/throttle-cruise-in",
+      "status": "needs_organizer_verification",
+      "name": "Throttle Cruise-In",
+      "city": "Scarborough",
+      "state": "ME"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/seal-cove-auto-museum-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Seal Cove Auto Museum Cars and Coffee",
+      "city": "Seal Cove",
+      "state": "ME"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/spfc-cars-coffee-south-portland",
+      "status": "needs_organizer_verification",
+      "name": "SPFC Cars and Coffee (South Portland)",
+      "city": "South Portland",
+      "state": "ME"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/ann-arbor-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Ann Arbor Cars & Coffee",
+      "city": "Ann Arbor",
+      "state": "MI"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/detroit-cars-coffee-bloomfield-hills",
+      "status": "needs_organizer_verification",
+      "name": "Detroit Cars & Coffee (Bloomfield Hills)",
+      "city": "Bloomfield Hills",
+      "state": "MI"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/caffeine-and-chrome-at-gateway-classic-cars-of-detroit",
+      "status": "needs_organizer_verification",
+      "name": "Caffeine and Chrome at Gateway Classic Cars of Detroit",
+      "city": "Dearborn",
+      "state": "MI"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/grand-rapids-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Grand Rapids Cars & Coffee",
+      "city": "Grand Rapids",
+      "state": "MI"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/lansing-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Lansing Cars & Coffee",
+      "city": "Okemos",
+      "state": "MI"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/m1-concourse-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "M1 Concourse Cars & Coffee",
+      "city": "Pontiac",
+      "state": "MI"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/high-octane-cafe-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "High Octane Cafe Cars & Coffee",
+      "city": "Waterford",
+      "state": "MI"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-and-caves",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Caves",
+      "city": "Chanhassen",
+      "state": "MN"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-by-the-creek",
+      "status": "needs_organizer_verification",
+      "name": "Cars By The Creek",
+      "city": "Cold Spring",
+      "state": "MN"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/fargo-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Fargo Cars & Coffee",
+      "city": "Dilworth",
+      "state": "MN"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/mn-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "MN Cars & Coffee",
+      "city": "Minneapolis",
+      "state": "MN"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/v8s-and-vaults-fall-preview",
+      "status": "needs_organizer_verification",
+      "name": "V8s and Vaults Fall Preview",
+      "city": "St. Michael",
+      "state": "MN"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/intermarque-carscoffee",
+      "status": "needs_organizer_verification",
+      "name": "InterMarque Cars/Coffee",
+      "city": "St. Paul",
+      "state": "MN"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/columbia-mo-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Columbia MO Cars & Coffee",
+      "city": "Columbia",
+      "state": "MO"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/kansas-city-cars-coffee-at-the-underground",
+      "status": "needs_organizer_verification",
+      "name": "Kansas City Cars & Coffee at The Underground",
+      "city": "Kansas City",
+      "state": "MO"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-at-fast-lane-classic-cars",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Coffee at Fast Lane Classic Cars",
+      "city": "St. Charles",
+      "state": "MO"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-at-the-cherry-garage",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Coffee at The Cherry Garage",
+      "city": "St. Louis",
+      "state": "MO"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/biloxi-4th-saturday-cruise-in",
+      "status": "needs_organizer_verification",
+      "name": "Biloxi 4th Saturday Cruise-In",
+      "city": "Biloxi",
+      "state": "MS"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/crossroads-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Crossroads Cars and Coffee",
+      "city": "Corinth",
+      "state": "MS"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/central-ms-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Central MS Cars and Coffee",
+      "city": "Ridgeland",
+      "state": "MS"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/southaven-cruise-night",
+      "status": "needs_organizer_verification",
+      "name": "Southaven Cruise Night",
+      "city": "Southaven",
+      "state": "MS"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/billings-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Billings Cars & Coffee",
+      "city": "Billings",
+      "state": "MT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/ressler-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Ressler Cars & Coffee",
+      "city": "Bozeman",
+      "state": "MT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/great-falls-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Great Falls Cars & Coffee",
+      "city": "Great Falls",
+      "state": "MT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/rcr-cars-coffee-kalispell",
+      "status": "needs_organizer_verification",
+      "name": "RCR Cars and Coffee (Kalispell)",
+      "city": "Kalispell",
+      "state": "MT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/missoula-rigs-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Missoula Rigs & Coffee",
+      "city": "Missoula",
+      "state": "MT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/asheville-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Asheville Cars & Coffee",
+      "city": "Asheville",
+      "state": "NC"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/brevard-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Brevard Cars & Coffee",
+      "city": "Brevard",
+      "state": "NC"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/concord-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Concord Cars & Coffee",
+      "city": "Concord",
+      "state": "NC"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/lake-norman-cars-coffee-mooresville",
+      "status": "needs_organizer_verification",
+      "name": "Lake Norman Cars & Coffee (Mooresville)",
+      "city": "Cornelius",
+      "state": "NC"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/hendersonville-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Hendersonville Cars & Coffee",
+      "city": "Hendersonville",
+      "state": "NC"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/hickory-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Hickory Cars & Coffee",
+      "city": "Hickory",
+      "state": "NC"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/fayetteville-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Fayetteville Cars & Coffee",
+      "city": "Hope Mills",
+      "state": "NC"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/jacksonville-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Jacksonville Cars & Coffee",
+      "city": "Jacksonville",
+      "state": "NC"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/triad-cars-coffee-greensborowinston-salem",
+      "status": "needs_organizer_verification",
+      "name": "Triad Cars & Coffee (Greensboro/Winston-Salem)",
+      "city": "Kernersville",
+      "state": "NC"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-cary",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee Cary",
+      "city": "Morrisville",
+      "state": "NC"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-morrisville",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Coffee Morrisville",
+      "city": "Morrisville",
+      "state": "NC"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/new-bern-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "New Bern Cars & Coffee",
+      "city": "New Bern",
+      "state": "NC"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/sanford-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Sanford Cars & Coffee",
+      "city": "Olivia",
+      "state": "NC"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/raleigh-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Raleigh Cars & Coffee",
+      "city": "Raleigh",
+      "state": "NC"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/wilmington-cars-coffee-nc",
+      "status": "needs_organizer_verification",
+      "name": "Wilmington Cars & Coffee - NC",
+      "city": "Wilmington",
+      "state": "NC"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/prime-steel-car-club-cruise-night",
+      "status": "needs_organizer_verification",
+      "name": "Prime Steel Car Club Cruise Night",
+      "city": "Grand Forks",
+      "state": "ND"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/bismarckmandan-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Bismarck/Mandan Cars & Coffee",
+      "city": "Mandan",
+      "state": "ND"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/kearney-cruise-night",
+      "status": "needs_organizer_verification",
+      "name": "Kearney Cruise Night",
+      "city": "Kearney",
+      "state": "NE"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/lincoln-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Lincoln Cars & Coffee",
+      "city": "Lincoln",
+      "state": "NE"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/pioneer-village-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Pioneer Village Cars & Coffee",
+      "city": "Minden",
+      "state": "NE"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/omaha-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Omaha Cars & Coffee",
+      "city": "Omaha",
+      "state": "NE"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-on-capitol-concord",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee on Capitol (Concord)",
+      "city": "Concord",
+      "state": "NH"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/southern-new-hampshire-cars-coffee-manchester",
+      "status": "needs_organizer_verification",
+      "name": "Southern New Hampshire Cars and Coffee (Manchester)",
+      "city": "Manchester",
+      "state": "NH"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-robots-and-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Cars, Robots, and Coffee",
+      "city": "Merrimack",
+      "state": "NH"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/go-auto-cars-coffee-nashua",
+      "status": "needs_organizer_verification",
+      "name": "GO AUTO Cars & Coffee (Nashua)",
+      "city": "Nashua",
+      "state": "NH"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/the-ice-house-museum-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "The Ice House Museum Cars and Coffee",
+      "city": "New London",
+      "state": "NH"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/salem-nh-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Salem NH Cars & Coffee",
+      "city": "Salem",
+      "state": "NH"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/sussex-county-cars-coffee-newton",
+      "status": "needs_organizer_verification",
+      "name": "Sussex County Cars & Coffee (Newton)",
+      "city": "Augusta",
+      "state": "NJ"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cherry-hill-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Cherry Hill Cars & Coffee",
+      "city": "Cherry Hill",
+      "state": "NJ"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/flemington-car-shows",
+      "status": "needs_organizer_verification",
+      "name": "Flemington Car Shows",
+      "city": "Flemington",
+      "state": "NJ"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/performance-garage-club-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Performance Garage Club - Cars & Coffee",
+      "city": "Frenchtown",
+      "state": "NJ"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/princeton-cars-coffee-lawrenceville",
+      "status": "needs_organizer_verification",
+      "name": "Princeton Cars & Coffee (Lawrenceville)",
+      "city": "Lawrenceville",
+      "state": "NJ"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-nj",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee NJ",
+      "city": "Millstone Township",
+      "state": "NJ"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/morristown-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Morristown Cars & Coffee",
+      "city": "Morristown",
+      "state": "NJ"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cape-may-county-cars-coffee-rio-grande",
+      "status": "needs_organizer_verification",
+      "name": "Cape May County Cars & Coffee (Rio Grande)",
+      "city": "Rio Grande",
+      "state": "NJ"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/unleashed-societys-halloween-trunk-or-treat-car-show",
+      "status": "needs_organizer_verification",
+      "name": "Unleashed Society's Halloween Trunk Or Treat Car Show",
+      "city": "Rockaway",
+      "state": "NJ"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/vineland-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Vineland Cars & Coffee",
+      "city": "Vineland",
+      "state": "NJ"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/woodbridge-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Woodbridge Cars & Coffee",
+      "city": "Woodbridge Township",
+      "state": "NJ"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/albuquerque-cars-coffee-heights",
+      "status": "needs_organizer_verification",
+      "name": "Albuquerque Cars & Coffee (Heights)",
+      "city": "Albuquerque",
+      "state": "NM"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/las-cruces-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Las Cruces Cars & Coffee",
+      "city": "Las Cruces",
+      "state": "NM"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/rigs-coffee-rio-rancho",
+      "status": "needs_organizer_verification",
+      "name": "Rigs & Coffee Rio Rancho",
+      "city": "Rio Rancho",
+      "state": "NM"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-santa-fe",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Coffee Santa Fe",
+      "city": "Santa Fe",
+      "state": "NM"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/carson-city-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Carson City Cars & Coffee",
+      "city": "Carson City",
+      "state": "NV"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-las-vegas-shelby-american",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee Las Vegas (Shelby American)",
+      "city": "Las Vegas",
+      "state": "NV"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/celebrity-cars-coffee-las-vegas",
+      "status": "needs_organizer_verification",
+      "name": "Celebrity Cars & Coffee Las Vegas",
+      "city": "Las Vegas",
+      "state": "NV"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/reno-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Reno Cars & Coffee",
+      "city": "Reno",
+      "state": "NV"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/captree-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Captree Cars and Coffee",
+      "city": "Babylon",
+      "state": "NY"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/new-york-city-cars-coffee-bronx-city-island",
+      "status": "needs_organizer_verification",
+      "name": "New York City Cars & Coffee (Bronx - City Island)",
+      "city": "Bronx",
+      "state": "NY"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/binghamton-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Binghamton Cars & Coffee",
+      "city": "Johnson City",
+      "state": "NY"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-lake-grove",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee Lake Grove",
+      "city": "Lake Grove",
+      "state": "NY"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/manhasset-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Manhasset Cars & Coffee",
+      "city": "Manhasset",
+      "state": "NY"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/long-island-cars-coffee-oceanside",
+      "status": "needs_organizer_verification",
+      "name": "Long Island Cars & Coffee (Oceanside)",
+      "city": "Oceanside",
+      "state": "NY"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/westchester-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Westchester Cars & Coffee",
+      "city": "Peekskill",
+      "state": "NY"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/rochester-ny-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Rochester NY Cars & Coffee",
+      "city": "Rochester",
+      "state": "NY"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/buffalo-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Buffalo Cars & Coffee",
+      "city": "Williamsville",
+      "state": "NY"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cincinnati-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Cincinnati Cars & Coffee",
+      "city": "Cincinnati",
+      "state": "OH"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cleveland-cars-coffee-solon",
+      "status": "needs_organizer_verification",
+      "name": "Cleveland Cars & Coffee (Solon)",
+      "city": "Cleveland Area",
+      "state": "OH"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/columbus-cars-coffee-powell",
+      "status": "needs_organizer_verification",
+      "name": "Columbus Cars & Coffee (Powell)",
+      "city": "Columbus",
+      "state": "OH"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/toledo-cars-coffee-perrysburg",
+      "status": "needs_organizer_verification",
+      "name": "Toledo Cars & Coffee (Perrysburg)",
+      "city": "Perrysburg",
+      "state": "OH"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/springfield-oh-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Springfield OH Cars & Coffee",
+      "city": "Springfield",
+      "state": "OH"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/norman-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Norman Cars & Coffee",
+      "city": "Norman",
+      "state": "OK"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/coffee-cars-okc",
+      "status": "needs_organizer_verification",
+      "name": "Coffee & Cars OKC",
+      "city": "Oklahoma City",
+      "state": "OK"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/stillwater-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Stillwater Cars & Coffee",
+      "city": "Stillwater",
+      "state": "OK"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/tulsa-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Tulsa Cars & Coffee",
+      "city": "Tulsa",
+      "state": "OK"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/bend-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Bend Cars & Coffee",
+      "city": "Bend",
+      "state": "OR"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/corvallis-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Corvallis Cars & Coffee",
+      "city": "Corvallis",
+      "state": "OR"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/creswell-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Creswell Cars and Coffee",
+      "city": "Creswell",
+      "state": "OR"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-mcminnville",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Coffee McMinnville",
+      "city": "McMinnville",
+      "state": "OR"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/medford-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Medford Cars & Coffee",
+      "city": "Medford",
+      "state": "OR"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/portland-cars-coffee-beaverton",
+      "status": "needs_organizer_verification",
+      "name": "Portland Cars & Coffee (Beaverton)",
+      "city": "Sherwood",
+      "state": "OR"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/woodburn-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Woodburn Cars and Coffee",
+      "city": "Woodburn",
+      "state": "OR"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-lehigh-valley",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee Lehigh Valley",
+      "city": "Allentown",
+      "state": "PA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/717-street-cars-coffee-harrisburg",
+      "status": "needs_organizer_verification",
+      "name": "717 Street Cars & Coffee (Harrisburg)",
+      "city": "Harrisburg",
+      "state": "PA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/urban-werks-cars-coffee-lancaster",
+      "status": "needs_organizer_verification",
+      "name": "Urban Werks Cars & Coffee (Lancaster)",
+      "city": "Lancaster",
+      "state": "PA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/pittsburgh-cars-n-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Pittsburgh Cars 'N' Coffee",
+      "city": "Pittsburgh",
+      "state": "PA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/pittsburgh-cars-n-coffee-warrendale",
+      "status": "needs_organizer_verification",
+      "name": "Pittsburgh Cars N Coffee (Warrendale)",
+      "city": "Warrendale",
+      "state": "PA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/philadelphia-cars-coffee-wayne",
+      "status": "needs_organizer_verification",
+      "name": "Philadelphia Cars & Coffee (Wayne)",
+      "city": "Wayne",
+      "state": "PA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/scrantonwilkes-barre-cars-coffee-wilkes-barre",
+      "status": "needs_organizer_verification",
+      "name": "Scranton/Wilkes-Barre Cars & Coffee (Wilkes-Barre)",
+      "city": "Wilkes-Barre",
+      "state": "PA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/audrain-auto-museum-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Audrain Auto Museum Cars & Coffee",
+      "city": "Newport",
+      "state": "RI"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/north-kingstown-cars-coffee-pilgrim-motors",
+      "status": "needs_organizer_verification",
+      "name": "North Kingstown Cars & Coffee (Pilgrim Motors)",
+      "city": "North Kingstown",
+      "state": "RI"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/audrain-cars-coffee-at-audrain-park-place",
+      "status": "needs_organizer_verification",
+      "name": "Audrain Cars & Coffee at Audrain Park Place",
+      "city": "Portsmouth",
+      "state": "RI"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/columbia-sc-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Columbia SC Cars & Coffee",
+      "city": "Columbia",
+      "state": "SC"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/hilton-head-island-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Hilton Head Island Cars & Coffee",
+      "city": "Hilton Head Island",
+      "state": "SC"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/3rd-sundays-cars-coffee-at-the-dear-donut",
+      "status": "needs_organizer_verification",
+      "name": "3rd Sundays Cars & Coffee at The Dear Donut",
+      "city": "Lugoff",
+      "state": "SC"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/charleston-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Charleston Cars & Coffee",
+      "city": "Mount Pleasant",
+      "state": "SC"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-myrtle-beach",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee Myrtle Beach",
+      "city": "Myrtle Beach",
+      "state": "SC"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/rock-hill-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Rock Hill Cars & Coffee",
+      "city": "Rock Hill",
+      "state": "SC"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/greenville-sc-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Greenville SC Cars & Coffee",
+      "city": "Simpsonville",
+      "state": "SC"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-aberdeen",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Coffee Aberdeen",
+      "city": "Aberdeen",
+      "state": "SD"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-black-hills",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee Black Hills",
+      "city": "Rapid City",
+      "state": "SD"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-of-siouxland",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee of Siouxland",
+      "city": "Tea",
+      "state": "SD"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/chattanooga-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Chattanooga Cars & Coffee",
+      "city": "Chattanooga",
+      "state": "TN"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-columbia",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee - Columbia",
+      "city": "Columbia",
+      "state": "TN"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/germantown-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Germantown Cars and Coffee",
+      "city": "Germantown",
+      "state": "TN"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/johnson-city-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Johnson City Cars & Coffee",
+      "city": "Johnson City",
+      "state": "TN"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/knoxville-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Knoxville Cars & Coffee",
+      "city": "Knoxville",
+      "state": "TN"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/nashville-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Nashville Cars & Coffee",
+      "city": "Lebanon",
+      "state": "TN"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/memphis-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Memphis Cars & Coffee",
+      "city": "Memphis",
+      "state": "TN"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-austin-at-cota",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee Austin at COTA",
+      "city": "Austin",
+      "state": "TX"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-at-pinballz-kingdom",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee at Pinballz Kingdom",
+      "city": "Buda",
+      "state": "TX"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/college-station-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "College Station Cars & Coffee",
+      "city": "College Station",
+      "state": "TX"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-at-texas-discovery-gardens",
+      "status": "needs_organizer_verification",
+      "name": "Cars + Coffee at Texas Discovery Gardens",
+      "city": "Dallas",
+      "state": "TX"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/coffee-with-cars-dripping-springs",
+      "status": "needs_organizer_verification",
+      "name": "Coffee with Cars Dripping Springs",
+      "city": "Dripping Springs",
+      "state": "TX"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/caffeine-classics-and-community",
+      "status": "needs_organizer_verification",
+      "name": "Caffeine, Classics and Community",
+      "city": "Fort Worth",
+      "state": "TX"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/original-bakery-bunch",
+      "status": "needs_organizer_verification",
+      "name": "Original Bakery Bunch",
+      "city": "Fort Worth",
+      "state": "TX"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/moody-gardens-5th-annual-car-show",
+      "status": "needs_organizer_verification",
+      "name": "Moody Gardens 5th Annual Car Show",
+      "city": "Galveston",
+      "state": "TX"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-giddings",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Coffee Giddings",
+      "city": "Giddings",
+      "state": "TX"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/coffee-and-cars-houston",
+      "status": "needs_organizer_verification",
+      "name": "Coffee and Cars Houston",
+      "city": "Houston",
+      "state": "TX"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/kingwood-classic-cruisers",
+      "status": "needs_organizer_verification",
+      "name": "Kingwood Classic Cruisers",
+      "city": "Kingwood",
+      "state": "TX"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-lubbock",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee Lubbock",
+      "city": "Lubbock",
+      "state": "TX"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/mckinney-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "McKinney Cars & Coffee",
+      "city": "McKinney",
+      "state": "TX"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/carfest-coffee",
+      "status": "needs_organizer_verification",
+      "name": "CarFest & Coffee",
+      "city": "San Antonio",
+      "state": "TX"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/san-antonio-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "San Antonio Cars & Coffee",
+      "city": "San Antonio",
+      "state": "TX"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-van-alstyne",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee Van Alstyne",
+      "city": "Van Alstyne",
+      "state": "TX"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/american-fork-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "American Fork Cars & Coffee",
+      "city": "American Fork",
+      "state": "UT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/lehi-cars-coffee-traverse-mountain-outlets",
+      "status": "needs_organizer_verification",
+      "name": "Lehi Cars & Coffee (Traverse Mountain Outlets)",
+      "city": "Lehi",
+      "state": "UT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/murray-cars-coffee-envision",
+      "status": "needs_organizer_verification",
+      "name": "Murray Cars & Coffee (Envision)",
+      "city": "Murray",
+      "state": "UT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/ogden-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Ogden Cars & Coffee",
+      "city": "Ogden",
+      "state": "UT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/park-city-car-club-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Park City Car Club Cars & Coffee",
+      "city": "Park City",
+      "state": "UT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/roy-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Roy Cars & Coffee",
+      "city": "Roy",
+      "state": "UT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/salt-lake-city-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Salt Lake City Cars & Coffee",
+      "city": "Salt Lake City and Sandy",
+      "state": "UT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/st-george-cars-coffee-car-guys-care",
+      "status": "needs_organizer_verification",
+      "name": "St. George Cars & Coffee (Car Guys Care)",
+      "city": "St. George",
+      "state": "UT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/syracuse-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Syracuse Cars & Coffee",
+      "city": "Syracuse",
+      "state": "UT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/blacksburg-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Blacksburg Cars & Coffee",
+      "city": "Blacksburg",
+      "state": "VA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-charlottesville",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee - Charlottesville",
+      "city": "Charlottesville",
+      "state": "VA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-loudoun",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee Loudoun",
+      "city": "Dulles",
+      "state": "VA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-fredericksburg",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee - Fredericksburg",
+      "city": "Fredericksburg",
+      "state": "VA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-stafford",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee - Stafford",
+      "city": "Fredericksburg",
+      "state": "VA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/laid-not-sprayed-vinyl-workz-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Laid Not Sprayed Vinyl Workz Cars & Coffee",
+      "city": "Fredericksburg",
+      "state": "VA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/katies-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Katie's Cars and Coffee",
+      "city": "Great Falls",
+      "state": "VA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/harrisonburg-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Harrisonburg Cars & Coffee",
+      "city": "Harrisonburg",
+      "state": "VA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-leesburg",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee - Leesburg",
+      "city": "Leesburg",
+      "state": "VA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/middleburg-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Middleburg Cars & Coffee",
+      "city": "Middleburg",
+      "state": "VA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/crusin-for-a-cause",
+      "status": "needs_organizer_verification",
+      "name": "Crusin' for a Cause",
+      "city": "Purcellville",
+      "state": "VA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/altered-bwg-spookyfest",
+      "status": "needs_organizer_verification",
+      "name": "Altered BWG SpookyFest",
+      "city": "Richmond",
+      "state": "VA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-richmond",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee Richmond",
+      "city": "Richmond",
+      "state": "VA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-roanoke",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee - Roanoke",
+      "city": "Salem",
+      "state": "VA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-dulles-landing",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Coffee Dulles Landing",
+      "city": "South Riding",
+      "state": "VA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-virginia-beach",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee - Virginia Beach",
+      "city": "Virginia Beach",
+      "state": "VA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/4th-annual-pct-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "4th Annual PCT Cars & Coffee",
+      "city": "Warrenton",
+      "state": "VA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-williamsburg",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee - Williamsburg",
+      "city": "Williamsburg",
+      "state": "VA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-manchester",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee Manchester",
+      "city": "Manchester Center",
+      "state": "VT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/middlebury-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Middlebury Cars & Coffee",
+      "city": "Middlebury",
+      "state": "VT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/burlington-vt-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Burlington VT Cars & Coffee",
+      "city": "South Burlington",
+      "state": "VT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/waitsfield-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Waitsfield Cars & Coffee",
+      "city": "Waitsfield",
+      "state": "VT"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/bellevue-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Bellevue Cars & Coffee",
+      "city": "Bellevue",
+      "state": "WA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/everett-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Everett Cars & Coffee",
+      "city": "Everett",
+      "state": "WA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/monroe-wa-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Monroe WA Cars & Coffee",
+      "city": "Monroe",
+      "state": "WA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/steamboat-island-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Steamboat Island Cars & Coffee",
+      "city": "Olympia",
+      "state": "WA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/exotics-at-redmond-town-center",
+      "status": "needs_organizer_verification",
+      "name": "Exotics at Redmond Town Center",
+      "city": "Redmond",
+      "state": "WA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/lake-washington-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Lake Washington Cars & Coffee",
+      "city": "Seattle",
+      "state": "WA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-seattle-shoreline",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Coffee Seattle (Shoreline)",
+      "city": "Shoreline",
+      "state": "WA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/spokane-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Spokane Cars & Coffee",
+      "city": "Spokane Valley",
+      "state": "WA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/tacoma-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Tacoma Cars & Coffee",
+      "city": "Tacoma",
+      "state": "WA"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/appleton-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Appleton Cars & Coffee",
+      "city": "Appleton",
+      "state": "WI"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-at-the-grind",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee at The Grind",
+      "city": "Holmen",
+      "state": "WI"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/madison-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Madison Cars & Coffee",
+      "city": "Madison",
+      "state": "WI"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-mke",
+      "status": "needs_organizer_verification",
+      "name": "Cars & Coffee MKE",
+      "city": "Milwaukee",
+      "state": "WI"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/920-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "920 Cars & Coffee",
+      "city": "Suamico",
+      "state": "WI"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/61st-annual-greater-milwaukee-area-winter-swap-meet",
+      "status": "needs_organizer_verification",
+      "name": "61st Annual Greater Milwaukee Area Winter Swap Meet",
+      "city": "West Bend",
+      "state": "WI"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-bridgeport",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Coffee Bridgeport",
+      "city": "Clarksburg",
+      "state": "WV"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/barboursville-wv-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Barboursville WV Cars & Coffee",
+      "city": "Huntington",
+      "state": "WV"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/morgantown-wv-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Morgantown WV Cars & Coffee",
+      "city": "Morgantown",
+      "state": "WV"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/sights-sounds-speed-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Sights Sounds & Speed Cars & Coffee",
+      "city": "St. Albans",
+      "state": "WV"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/casper-cars-coffee-at-perkins",
+      "status": "needs_organizer_verification",
+      "name": "Casper Cars & Coffee at Perkins",
+      "city": "Casper",
+      "state": "WY"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cheyenne-cars-coffee",
+      "status": "needs_organizer_verification",
+      "name": "Cheyenne Cars & Coffee",
+      "city": "Cheyenne",
+      "state": "WY"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-at-toyota-of-laramie",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Coffee at Toyota of Laramie",
+      "city": "Laramie",
+      "state": "WY"
+    },
+    {
+      "discovery_url": "https://www.carsandcoffeedirectory.com/events/cars-coffee-downtown-rock-springs",
+      "status": "needs_organizer_verification",
+      "name": "Cars and Coffee Downtown Rock Springs",
+      "city": "Rock Springs",
+      "state": "WY"
+    }
+  ]
+}

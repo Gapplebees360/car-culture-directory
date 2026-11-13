@@ -24,6 +24,11 @@ frame.addEventListener('load', async () => {
     change('categoryFilter', 'Cars & Coffee');
     check(cards().length > 0 && cards().every(card => card.querySelector('.category-badge').textContent === 'Cars & Coffee'), 'Category filter must match');
     doc.getElementById('resetFilters').click();
+    const sceneImages = new Set(cards().map(card => card.querySelector('img').getAttribute('src')));
+    check(sceneImages.size > 1, 'Event cards should use varied imagery');
+    const failedImage = cards()[0].querySelector('img');
+    failedImage.dispatchEvent(new frame.contentWindow.Event('error'));
+    check(cards()[0].querySelector('.photo-note').textContent === 'Scene photography', 'Image failure must label the fallback as scene photography');
     check(doc.documentElement.scrollWidth <= doc.documentElement.clientWidth, 'Phone layout must not overflow horizontally');
     const headline = doc.createRange();
     headline.selectNodeContents(doc.querySelector('h1'));

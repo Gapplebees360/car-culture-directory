@@ -1,17 +1,17 @@
 {
   "checked_at": "2026-11-13",
-  "imported": 167,
+  "imported": 381,
   "states_with_events": 33,
   "coverage": {
     "AK": 1,
-    "AL": 5,
+    "AL": 12,
     "AR": 0,
-    "AZ": 5,
-    "CA": 21,
+    "AZ": 88,
+    "CA": 27,
     "CO": 11,
     "CT": 3,
     "DE": 0,
-    "FL": 14,
+    "FL": 108,
     "GA": 8,
     "HI": 0,
     "IA": 0,
@@ -25,7 +25,7 @@
     "MD": 0,
     "ME": 1,
     "MI": 3,
-    "MN": 4,
+    "MN": 10,
     "MO": 3,
     "MS": 0,
     "MT": 0,
@@ -35,7 +35,7 @@
     "NH": 2,
     "NJ": 8,
     "NM": 0,
-    "NV": 4,
+    "NV": 10,
     "NY": 10,
     "OH": 5,
     "OK": 1,
@@ -45,7 +45,7 @@
     "SC": 0,
     "SD": 0,
     "TN": 2,
-    "TX": 12,
+    "TX": 24,
     "UT": 0,
     "VA": 4,
     "VT": 0,
@@ -55,9 +55,15 @@
     "WY": 0
   },
   "sources": {
-    "SCCA": 158,
-    "Facebook": 9
+    "Facebook": 9,
+    "SCCA": 157,
+    "Events With Cars": 215
   },
   "facebook_report": "facebook-report.json",
+  "free_calendar_report": "free-calendar-report.json",
+  "organizer_registry": "organizer-registry.json",
+  "cars_and_coffee_occurrences": 116,
+  "distinct_cars_and_coffee_series": 18,
+  "with_source_artwork": 209,
   "note": "Searches target all 50 states; listings require an explicit source date and US location. Empty states indicate no accepted listings, not proof that no events exist."
 }
