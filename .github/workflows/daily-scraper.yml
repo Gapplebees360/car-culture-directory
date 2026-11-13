@@ -11,9 +11,9 @@ on:
         default: false
   push:
     branches: [main]
-    paths: ['events.json', 'index.html', 'assets/**', 'scripts/**', 'tests/**', '.github/workflows/daily-scraper.yml']
+    paths: ['events.json', 'index.html', 'community.html', 'assets/**', 'supabase/**', 'package*.json', 'scripts/**', 'tests/**', '.github/workflows/daily-scraper.yml']
   pull_request:
-    paths: ['events.json', 'index.html', 'assets/**', 'scripts/**', 'tests/**', '.github/workflows/daily-scraper.yml']
+    paths: ['events.json', 'index.html', 'community.html', 'assets/**', 'supabase/**', 'package*.json', 'scripts/**', 'tests/**', '.github/workflows/daily-scraper.yml']
 
 concurrency:
   group: event-refresh-${{ github.ref }}
@@ -37,6 +37,8 @@ jobs:
         with:
           node-version: '22'
       - run: node tests/frontend.cjs
+      - run: npm ci --ignore-scripts
+      - run: npm run test:community
 
   refresh-events:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
@@ -107,6 +109,7 @@ jobs:
         run: |
           mkdir -p _site
           cp index.html car_culture_directory.html CNAME events.json coverage.json _site/
+          if [ -f community.html ]; then cp community.html _site/; fi
           cp -r assets _site/
           if [ -f facebook-report.json ]; then cp facebook-report.json _site/; fi
           if [ -f free-calendar-report.json ]; then cp free-calendar-report.json _site/; fi
