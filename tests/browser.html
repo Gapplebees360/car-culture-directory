@@ -1,0 +1,38 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Directory browser checks</title>
+<body data-result="running"><pre id="result">Running browser checks…</pre><iframe title="Phone layout test" id="site" src="../index.html" style="width:390px;height:900px;border:0"></iframe>
+<script>
+const frame = document.getElementById('site');
+frame.addEventListener('load', async () => {
+  try {
+    const doc = frame.contentDocument;
+    await doc.fonts.ready;
+    const check = (condition, message) => { if (!condition) throw new Error(message); };
+    const change = (id, value) => { const element = doc.getElementById(id); element.value = value; element.dispatchEvent(new frame.contentWindow.Event(id === 'searchInput' ? 'input' : 'change')); };
+    const cards = () => [...doc.querySelectorAll('.event-card')];
+    check(cards().length === 18, 'Initial grid should contain 18 cards');
+    doc.getElementById('loadMore').click();
+    check(cards().length === 36, 'Load more should reveal the next 18 cards');
+    change('searchInput', 'does-not-exist-qa-123456789');
+    check(cards().length === 0, 'Keyword filtering must hide unmatched events');
+    check(doc.getElementById('loadMore').hidden, 'Load more must hide for no results');
+    check(frame.contentWindow.getComputedStyle(doc.getElementById('loadMore')).display === 'none', 'Load more must actually be invisible for no results');
+    doc.getElementById('resetFilters').click();
+    check(cards().length === 18, 'Reset must restore the initial page');
+    change('stateFilter', 'ME');
+    check(cards().length > 0 && cards().every(card => card.textContent.includes(', ME')), 'State filter must match Maine locations');
+    doc.getElementById('resetFilters').click();
+    change('categoryFilter', 'Cars & Coffee');
+    check(cards().length > 0 && cards().every(card => card.querySelector('.category-badge').textContent === 'Cars & Coffee'), 'Category filter must match');
+    doc.getElementById('resetFilters').click();
+    check(doc.documentElement.scrollWidth <= doc.documentElement.clientWidth, 'Phone layout must not overflow horizontally');
+    const headline = doc.createRange();
+    headline.selectNodeContents(doc.querySelector('h1'));
+    check([...headline.getClientRects()].every(rect => rect.right <= doc.documentElement.clientWidth + 1), 'Phone headline must not be clipped');
+    document.body.dataset.result = 'passed';
+    document.getElementById('result').textContent = 'PASS: real browser initialization, pagination, search, reset, state/category filters, phone overflow.';
+  } catch (error) {
+    document.body.dataset.result = 'failed';
+    document.getElementById('result').textContent = 'FAIL: ' + error.message;
+  }
+});
+</script></body></html>

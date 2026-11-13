@@ -14,7 +14,7 @@ Acceptance: regression tests pass, invalid input leaves the published page intac
 
 ## Phase 2 — Restore useful event coverage
 
-Implemented first adapter: SCCA public calendar, full pagination, original event dates, US city/state extraction, stable source IDs, source attribution, coverage report, failure preservation, and automatic publishing. This supplies motorsport categories; it does not provide comprehensive car-show or cars-and-coffee coverage.
+Implemented: SCCA public calendar plus a capped, manual Facebook discovery adapter. Facebook searches request all 50 states, require actual event geography/dates, and reject unrelated, private, online, and cancelled listings. The first corrected run added 9 accepted events; combined coverage is 167 events in 33 states. The provider reported partial request failures, so comprehensive 50-state coverage remains unfinished. SOURCES.md documents the exact inputs and limitations.
 
 1. Start with an agreed pilot region and official organizer calendars.
 2. Add one adapter per source with fixtures, source attribution, actual dates, time zone, and last verification time.
@@ -35,6 +35,8 @@ Acceptance: every published date is traceable to an organizer listing; an adapte
 Acceptance: submissions enter a review queue, browser requests cannot publish directly, subscriptions are confirmed, and unsuccessful requests never display success.
 
 ## Phase 4 — Search, mobile, and publishing
+
+Implemented: motorsport-inspired responsive redesign, separated frontend assets, date filters, reset controls, source counts, load-more pagination, desktop screenshots, and real-browser checks for phone overflow and filtering. Submission/email backend work remains in Phase 3.
 
 - Add shareable filters, full state names, useful date filters, and clear no-results recovery.
 - Perform real browser checks at phone and desktop sizes, keyboard navigation, and assistive-technology checks.

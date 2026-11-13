@@ -1,0 +1,356 @@
+{
+  "source": "Facebook",
+  "run_id": "QCNl7fuNLwF6sP58B",
+  "run_status": "SUCCEEDED",
+  "queries_requested": 150,
+  "states_requested": [
+    "AL",
+    "AK",
+    "AZ",
+    "AR",
+    "CA",
+    "CO",
+    "CT",
+    "DE",
+    "FL",
+    "GA",
+    "HI",
+    "ID",
+    "IL",
+    "IN",
+    "IA",
+    "KS",
+    "KY",
+    "LA",
+    "ME",
+    "MD",
+    "MA",
+    "MI",
+    "MN",
+    "MS",
+    "MO",
+    "MT",
+    "NE",
+    "NV",
+    "NH",
+    "NJ",
+    "NM",
+    "NY",
+    "NC",
+    "ND",
+    "OH",
+    "OK",
+    "OR",
+    "PA",
+    "RI",
+    "SC",
+    "SD",
+    "TN",
+    "TX",
+    "UT",
+    "VT",
+    "VA",
+    "WA",
+    "WV",
+    "WI",
+    "WY"
+  ],
+  "returned": 70,
+  "accepted": 9,
+  "rejected": [
+    {
+      "url": "https://www.facebook.com/events/1721630405603614/",
+      "reason": "Cancelled, online, or past event"
+    },
+    {
+      "url": "https://www.facebook.com/events/1708313010377381/",
+      "reason": "Cancelled, online, or past event"
+    },
+    {
+      "url": "https://www.facebook.com/events/781537581935708/",
+      "reason": "Event outside upcoming one-year window"
+    },
+    {
+      "url": "https://www.facebook.com/events/1701564437599472/",
+      "reason": "No clear automotive event relevance"
+    },
+    {
+      "url": "https://www.facebook.com/events/978032888587032/",
+      "reason": "No clear automotive event relevance"
+    },
+    {
+      "url": "https://www.facebook.com/events/1695258765364212/",
+      "reason": "No unambiguous US city/state in event location; search state is never used as location"
+    },
+    {
+      "url": "https://www.facebook.com/events/1637413144600004/",
+      "reason": "No clear automotive event relevance"
+    },
+    {
+      "url": "https://www.facebook.com/events/2087290721913435/",
+      "reason": "No clear automotive event relevance"
+    },
+    {
+      "url": "https://www.facebook.com/events/1637399227792129/",
+      "reason": "No unambiguous US city/state in event location; search state is never used as location"
+    },
+    {
+      "url": "https://www.facebook.com/events/1962374674643484/",
+      "reason": "No unambiguous US city/state in event location; search state is never used as location"
+    },
+    {
+      "url": "https://www.facebook.com/events/1922161018950648/",
+      "reason": "No unambiguous US city/state in event location; search state is never used as location"
+    },
+    {
+      "url": "https://www.facebook.com/events/2603734530101124/",
+      "reason": "No unambiguous US city/state in event location; search state is never used as location"
+    },
+    {
+      "url": "https://www.facebook.com/events/1598460238395205/",
+      "reason": "No clear automotive event relevance"
+    },
+    {
+      "url": "https://www.facebook.com/events/1351168477075612/",
+      "reason": "No unambiguous US city/state in event location; search state is never used as location"
+    },
+    {
+      "url": "https://www.facebook.com/events/1728921398173865/",
+      "reason": "No unambiguous US city/state in event location; search state is never used as location"
+    },
+    {
+      "url": "https://www.facebook.com/events/1170600408739590/",
+      "reason": "Cancelled, online, or past event"
+    },
+    {
+      "url": "https://www.facebook.com/events/3618873671594428/",
+      "reason": "No clear automotive event relevance"
+    },
+    {
+      "url": "https://www.facebook.com/events/2317024189051609/",
+      "reason": "No clear automotive event relevance"
+    },
+    {
+      "url": "https://www.facebook.com/events/1036548569391866/",
+      "reason": "Cancelled, online, or past event"
+    },
+    {
+      "url": "https://www.facebook.com/events/1059588980479392/",
+      "reason": "Cancelled, online, or past event"
+    },
+    {
+      "url": "https://www.facebook.com/events/1844125079924226/",
+      "reason": "Cancelled, online, or past event"
+    },
+    {
+      "url": "https://www.facebook.com/events/1480293183916975/",
+      "reason": "No clear automotive event relevance"
+    },
+    {
+      "url": "https://www.facebook.com/events/2308716273275260/",
+      "reason": "Cancelled, online, or past event"
+    },
+    {
+      "url": "https://www.facebook.com/events/2266014944198229/",
+      "reason": "Cancelled, online, or past event"
+    },
+    {
+      "url": "https://www.facebook.com/events/1144666558034794/",
+      "reason": "Cancelled, online, or past event"
+    },
+    {
+      "url": "https://www.facebook.com/events/1748443839736469/",
+      "reason": "Cancelled, online, or past event"
+    },
+    {
+      "url": "https://www.facebook.com/events/2661063327744807/",
+      "reason": "No clear automotive event relevance"
+    },
+    {
+      "url": "https://www.facebook.com/events/1072741918619896/",
+      "reason": "Performance or livestream, not an automotive gathering"
+    },
+    {
+      "url": "https://www.facebook.com/events/1097333676398757/",
+      "reason": "Cancelled, online, or past event"
+    },
+    {
+      "url": "https://www.facebook.com/events/2181052535840590/",
+      "reason": "Cancelled, online, or past event"
+    },
+    {
+      "url": "https://www.facebook.com/events/1940682209881275/",
+      "reason": "No trustworthy local event date"
+    },
+    {
+      "url": "https://www.facebook.com/events/4657841204497340/",
+      "reason": "No clear automotive event relevance"
+    },
+    {
+      "url": "https://www.facebook.com/events/936992379252511/",
+      "reason": "Cancelled, online, or past event"
+    },
+    {
+      "url": "https://www.facebook.com/events/2977718062568726/",
+      "reason": "No unambiguous US city/state in event location; search state is never used as location"
+    },
+    {
+      "url": "https://www.facebook.com/events/941679812316376/",
+      "reason": "No unambiguous US city/state in event location; search state is never used as location"
+    },
+    {
+      "url": "https://www.facebook.com/events/1958310825135478/",
+      "reason": "No unambiguous US city/state in event location; search state is never used as location"
+    },
+    {
+      "url": "https://www.facebook.com/events/2950712771973047/",
+      "reason": "No clear automotive event relevance"
+    },
+    {
+      "url": "https://www.facebook.com/events/4404900643158374/",
+      "reason": "Non-US location"
+    },
+    {
+      "url": "https://www.facebook.com/events/3323376661202486/",
+      "reason": "No clear automotive event relevance"
+    },
+    {
+      "url": "https://www.facebook.com/events/1441726604107155/",
+      "reason": "Cancelled, online, or past event"
+    },
+    {
+      "url": "https://www.facebook.com/events/28843956595288056/",
+      "reason": "No clear automotive event relevance"
+    },
+    {
+      "url": "https://www.facebook.com/events/2123147991829006/",
+      "reason": "No unambiguous US city/state in event location; search state is never used as location"
+    },
+    {
+      "url": "https://www.facebook.com/events/1859859545177328/",
+      "reason": "No unambiguous US city/state in event location; search state is never used as location"
+    },
+    {
+      "url": "https://www.facebook.com/events/1810077266832728/",
+      "reason": "Cancelled, online, or past event"
+    },
+    {
+      "url": "https://www.facebook.com/events/1036749362515294/",
+      "reason": "Cancelled, online, or past event"
+    },
+    {
+      "url": "https://www.facebook.com/events/1781876486256831/",
+      "reason": "No unambiguous US city/state in event location; search state is never used as location"
+    },
+    {
+      "url": "https://www.facebook.com/events/1151119067429473/",
+      "reason": "No unambiguous US city/state in event location; search state is never used as location"
+    },
+    {
+      "url": "https://www.facebook.com/events/1922501358416258/",
+      "reason": "Cancelled, online, or past event"
+    },
+    {
+      "url": "https://www.facebook.com/events/1138736858705401/",
+      "reason": "Cancelled, online, or past event"
+    },
+    {
+      "url": "https://www.facebook.com/events/1460871489212880/",
+      "reason": "Cancelled, online, or past event"
+    },
+    {
+      "url": "https://www.facebook.com/events/1062510429881233/",
+      "reason": "No clear automotive event relevance"
+    },
+    {
+      "url": "https://www.facebook.com/events/3695949080567762/",
+      "reason": "No unambiguous US city/state in event location; search state is never used as location"
+    },
+    {
+      "url": "https://www.facebook.com/events/2331109551015874/",
+      "reason": "No unambiguous US city/state in event location; search state is never used as location"
+    },
+    {
+      "url": "https://www.facebook.com/events/1087855107375831/",
+      "reason": "Cancelled, online, or past event"
+    },
+    {
+      "url": "https://www.facebook.com/events/1720087296345707/",
+      "reason": "Social party without a stated automotive gathering"
+    },
+    {
+      "url": "https://www.facebook.com/events/1667875648020186/",
+      "reason": "No unambiguous US city/state in event location; search state is never used as location"
+    },
+    {
+      "url": "",
+      "reason": "Event is not explicitly public"
+    },
+    {
+      "url": "https://www.facebook.com/events/1081942381555195/",
+      "reason": "No unambiguous US city/state in event location; search state is never used as location"
+    },
+    {
+      "url": "",
+      "reason": "Event is not explicitly public"
+    },
+    {
+      "url": "https://www.facebook.com/events/4649487908706169/",
+      "reason": "No clear automotive event relevance"
+    },
+    {
+      "url": "",
+      "reason": "Event is not explicitly public"
+    }
+  ],
+  "states_with_accepted_events": [
+    "AL",
+    "AZ",
+    "CA",
+    "ID",
+    "KS",
+    "ME",
+    "TN"
+  ],
+  "actual_charge_usd": 0.9109999999999999,
+  "provider_status_message": "Finished! Total 701 requests: 590 succeeded, 111 failed.",
+  "queries_with_returned_records": [
+    "car meet California United States",
+    "car meet Maine United States",
+    "car meet Maryland United States",
+    "car meet Michigan United States",
+    "car meet Montana United States",
+    "car meet North Carolina United States",
+    "car meet North Dakota United States",
+    "car meet Ohio United States",
+    "car meet Washington United States",
+    "car meet West Virginia United States",
+    "car show Alabama United States",
+    "car show Arkansas United States",
+    "car show Colorado United States",
+    "car show Connecticut United States",
+    "car show Indiana United States",
+    "car show Kansas United States",
+    "car show Maine United States",
+    "car show Maryland United States",
+    "car show Massachusetts United States",
+    "car show Nebraska United States",
+    "car show New York United States",
+    "car show North Carolina United States",
+    "car show Ohio United States",
+    "car show South Carolina United States",
+    "car show South Dakota United States",
+    "cars and coffee California United States",
+    "cars and coffee Colorado United States",
+    "cars and coffee Idaho United States",
+    "cars and coffee Indiana United States",
+    "cars and coffee Kansas United States",
+    "cars and coffee Maryland United States",
+    "cars and coffee Michigan United States",
+    "cars and coffee New Jersey United States",
+    "cars and coffee New York United States",
+    "cars and coffee North Carolina United States",
+    "cars and coffee Ohio United States",
+    "cars and coffee Texas United States"
+  ]
+}

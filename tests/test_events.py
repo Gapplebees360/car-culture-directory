@@ -68,6 +68,15 @@ class EventTests(unittest.TestCase):
             build(root, TODAY)
             self.assertEqual((root / 'index.html').read_text(), 'let eventsData = [];')
 
+    def test_description_brackets_do_not_truncate_the_embedded_array(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            previous = json.dumps([event(description='A bracket sequence ]; is ordinary text')])
+            (root / 'index.html').write_text('let eventsData = ' + previous + ';\nKEEP THIS;', encoding='utf-8')
+            (root / 'events.json').write_text('[]', encoding='utf-8')
+            build(root, TODAY)
+            self.assertEqual((root / 'index.html').read_text(), 'let eventsData = [];\nKEEP THIS;')
+
 
 if __name__ == '__main__':
     unittest.main()

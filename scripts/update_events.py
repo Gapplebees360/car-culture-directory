@@ -9,7 +9,7 @@ from urllib.parse import urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 STATES = set('AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY'.split())
 CATEGORIES = {'Track / Drag', 'Cars & Coffee', 'Car Show', 'Cruise Night', 'Pop-Up Meet', 'Autocross', 'Road Rally', 'Rallycross'}
-PATTERN = re.compile(r'let eventsData = (\[[\s\S]*?\]);')
+PATTERN = re.compile(r'let eventsData = ')
 
 
 def http_url(value):
@@ -62,8 +62,12 @@ def build(root=ROOT, today=None):
     if len(matches) != 1:
         raise ValueError('Expected exactly one eventsData marker; homepage left unchanged')
     match = matches[0]
+    # Decode JSON rather than stopping at a bracket sequence inside a description.
+    previous, length = json.JSONDecoder().raw_decode(html[match.end():])
+    if not isinstance(previous, list) or html[match.end() + length:match.end() + length + 1] != ';':
+        raise ValueError('Invalid embedded events array; homepage left unchanged')
     payload = json.dumps(events, indent=6).replace('<', '\\u003c').replace('>', '\\u003e').replace('&', '\\u0026')
-    updated = html[:match.start(1)] + payload + html[match.end(1):]
+    updated = html[:match.end()] + payload + html[match.end() + length:]
     if updated != html:
         temporary = index.with_suffix('.html.tmp')
         temporary.write_text(updated, encoding='utf-8')
