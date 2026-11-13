@@ -1,0 +1,9 @@
+{
+  "name": "usa-auto-meets-checks",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test:community": "node tests/community-db.mjs && node --test tests/community-validation.mjs && node tests/check-edge-syntax.mjs"
+  },
+  "devDependencies": { "@electric-sql/pglite": "0.5.16" }
+}

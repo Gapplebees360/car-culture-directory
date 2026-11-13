@@ -142,6 +142,7 @@
           </div>
         `;
         eventsGrid.appendChild(card);
+        if (globalThis.UAMCommunity) globalThis.UAMCommunity.decorateCard(card, record);
       });
     }
 
@@ -207,4 +208,15 @@
         resetPage();
       });
       categoryFilter.addEventListener('change', resetPage);
+      if (globalThis.UAMCommunity) globalThis.UAMCommunity.syncDirectory(eventsData).then(records => {
+        eventsData = records.filter(event => (event.end_date || event.date) >= today).sort((a,b)=>a.date.localeCompare(b.date));
+        populateStateDropdowns(eventsData); populateCityDropdown(eventsData);
+        const states = new Set(eventsData.map(event=>event.state)).size;
+        const sources = [...new Set(eventsData.map(event=>event.source).filter(Boolean))];
+        document.getElementById('coverageSummary').textContent = `${states} of 50 states · Sources: ${sources.join(' + ')}`;
+        document.getElementById('totalEvents').textContent = eventsData.length;
+        document.getElementById('totalStates').textContent = states;
+        document.getElementById('totalSources').textContent = sources.length;
+        resetPage();
+      }).catch(error => console.warn('Community event sync is unavailable:', error.message));
     });
