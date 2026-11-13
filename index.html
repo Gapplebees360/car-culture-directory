@@ -9,8 +9,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Cloudflare Turnstile API -->
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
   <style>
     :root {
@@ -156,7 +154,7 @@
     /* Event Grid */
     .events-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
       gap: 24px;
     }
 
@@ -276,99 +274,18 @@
       color: var(--text-secondary);
     }
 
-    /* Modals */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      padding: 20px;
-    }
-
-    .modal-overlay.active {
-      display: flex;
-    }
-
-    .modal-card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      width: 100%;
-      max-width: 520px;
-      padding: 30px;
-      position: relative;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 16px;
-      right: 20px;
-      background: none;
-      border: none;
-      color: var(--text-secondary);
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    .modal-card h2 {
-      margin-bottom: 8px;
-      color: #ffffff;
-    }
-
-    .modal-card p {
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-      margin-bottom: 20px;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: var(--text-primary);
-    }
-
-    .form-group input, .form-group select, .form-group textarea {
-      width: 100%;
-      padding: 10px 14px;
-      background-color: var(--input-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 6px;
-      color: var(--text-primary);
-      font-size: 0.9rem;
-      outline: none;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .turnstile-wrapper {
-      margin: 18px 0;
-      display: flex;
-      justify-content: center;
-    }
-
     footer {
       text-align: center;
       padding: 40px 20px 0;
       color: var(--text-secondary);
       font-size: 0.85rem;
+    }
+    .btn-action:disabled { opacity: 0.65; cursor: not-allowed; }
+    .stats-summary { gap: 12px; flex-wrap: wrap; }
+    :focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+      .event-card:hover { transform: none; }
     }
   </style>
 </head>
@@ -376,28 +293,28 @@
 
   <header>
     <h1>USA <span>AUTO MEETS</span></h1>
-    <p>Live national directory for car shows, drag racing, track days, and community meets across all 50 states.</p>
+    <p>Find car shows, track days, and community meets. Verified listings are being rebuilt.</p>
     
     <div class="header-actions">
-      <button class="btn-action btn-primary" id="openAddEventBtn">+ Submit an Event</button>
-      <button class="btn-action btn-secondary" id="openEmailBtn">📧 Get Email Alerts</button>
+      <button class="btn-action btn-primary" id="openAddEventBtn" disabled title="Event submissions are being rebuilt">Event submissions coming soon</button>
+      <button class="btn-action btn-secondary" id="openEmailBtn" disabled title="Email alerts are not available yet">Email alerts coming soon</button>
     </div>
   </header>
 
   <main class="container">
     <!-- Filter Controls Bar -->
     <div class="filter-bar">
-      <input type="text" id="searchInput" placeholder="Search events by keyword, venue, or title..." />
+      <input type="text" id="searchInput" aria-label="Search events" placeholder="Search events by keyword, venue, or title..." />
       
-      <select id="stateFilter">
+      <select id="stateFilter" aria-label="Filter by state">
         <option value="">All States (50 States)</option>
       </select>
 
-      <select id="cityFilter">
+      <select id="cityFilter" aria-label="Filter by city">
         <option value="">All Cities</option>
       </select>
 
-      <select id="categoryFilter">
+      <select id="categoryFilter" aria-label="Filter by category">
         <option value="">All Categories</option>
         <option value="Track / Drag">Track / Drag</option>
         <option value="Cars & Coffee">Cars & Coffee</option>
@@ -409,102 +326,14 @@
     </div>
 
     <div class="stats-summary">
-      <span id="eventCount">Loading upcoming events...</span>
-      <span>Updated Daily</span>
+      <span id="eventCount" role="status" aria-live="polite">Loading upcoming events...</span>
+      <span>Source-verified listings only</span>
     </div>
 
     <div class="events-grid" id="eventsGrid"></div>
   </main>
 
-  <!-- Submit Event Modal (With Cloudflare Turnstile Settings) -->
-  <div class="modal-overlay" id="addEventModal">
-    <div class="modal-card">
-      <button class="modal-close" id="closeAddEventBtn">&times;</button>
-      <h2>Submit a Car Event</h2>
-      <p>Add your meet, track day, or car show to the USA Auto Meets directory.</p>
-      
-      <form id="addEventForm">
-        <div class="form-group">
-          <label for="eventTitle">Event Title *</label>
-          <input type="text" id="eventTitle" placeholder="e.g. Pacific Raceways Friday Night Drag" required />
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="eventCategory">Category *</label>
-            <select id="eventCategory" required>
-              <option value="Track / Drag">Track / Drag</option>
-              <option value="Cars & Coffee">Cars & Coffee</option>
-              <option value="Car Show">Car Show</option>
-              <option value="Cruise Night">Cruise Night</option>
-              <option value="Pop-Up Meet">Pop-Up Meet</option>
-              <option value="Autocross">Autocross</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="eventDate">Date *</label>
-            <input type="date" id="eventDate" required />
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="eventState">State *</label>
-            <select id="eventState" required></select>
-          </div>
-          <div class="form-group">
-            <label for="eventCity">City *</label>
-            <input type="text" id="eventCity" placeholder="e.g. Kent" required />
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="eventVenue">Venue Name / Address *</label>
-          <input type="text" id="eventVenue" placeholder="e.g. Pacific Raceways" required />
-        </div>
-
-        <div class="form-group">
-          <label for="eventUrl">Direct Source / Facebook Event URL *</label>
-          <input type="url" id="eventUrl" placeholder="https://..." required />
-        </div>
-
-        <div class="form-group">
-          <label for="eventDesc">Description</label>
-          <textarea id="eventDesc" rows="3" placeholder="Additional details, gate fees, times..."></textarea>
-        </div>
-
-        <!-- Cloudflare Turnstile Bot Protection Widget -->
-        <div class="turnstile-wrapper">
-          <div class="cf-turnstile" data-sitekey="0x4AAAAAAAx_example_sitekey" data-theme="dark"></div>
-        </div>
-
-        <button type="submit" class="btn-action btn-primary" style="width:100%;">Submit Event</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Email Alerts Modal -->
-  <div class="modal-overlay" id="emailModal">
-    <div class="modal-card">
-      <button class="modal-close" id="closeEmailBtn">&times;</button>
-      <h2>Get Local Event Email Alerts</h2>
-      <p>Receive updates when new meets and track days are added in your state.</p>
-      
-      <form id="emailSubscribeForm">
-        <div class="form-group">
-          <label for="subscriberEmail">Email Address *</label>
-          <input type="email" id="subscriberEmail" placeholder="you@example.com" required />
-        </div>
-
-        <div class="form-group">
-          <label for="subscriberState">Preferred State *</label>
-          <select id="subscriberState" required></select>
-        </div>
-
-        <button type="submit" class="btn-action btn-primary" style="width:100%;">Subscribe to Alerts</button>
-      </form>
-    </div>
-  </div>
+  <noscript><p class="container">Enable JavaScript to browse and filter events.</p></noscript>
 
   <footer>
     <p>&copy; 2026 USAAutoMeets.com — Aggregated automotive event directory.</p>
@@ -514,44 +343,7 @@
     // ------------------------------------------------------------------
     // AUTOMATED INGESTION TARGET (DO NOT ALTER LINE BELOW)
     // ------------------------------------------------------------------
-    let eventsData = [
-      {
-            "title": "Pacific Raceways Test & Tune",
-            "state": "WA",
-            "city": "Kent",
-            "venue": "Pacific Raceways",
-            "category": "Track / Drag",
-            "date": "2026-11-17",
-            "time": "04:00 PM - 10:00 PM",
-            "description": "Quarter-mile street legal drag test & tune session.",
-            "url": "https://pacificraceways.com/drag-racing/",
-            "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800&auto=format&fit=crop"
-      },
-      {
-            "title": "The Ridge Motorsports Park Open Lapping",
-            "state": "WA",
-            "city": "Shelton",
-            "venue": "The Ridge Motorsports Park",
-            "category": "Track / Drag",
-            "date": "2026-11-24",
-            "time": "08:00 AM - 05:00 PM",
-            "description": "High performance sports car open track lapping.",
-            "url": "https://ridgemotorsportspark.com",
-            "image": "https://images.unsplash.com/photo-1541348263662-e082662d82da?w=800&auto=format&fit=crop"
-      },
-      {
-            "title": "Griot's Garage Caffeine & Gasoline",
-            "state": "WA",
-            "city": "Tacoma",
-            "venue": "Griot's Garage Flagship Store",
-            "category": "Cars & Coffee",
-            "date": "2026-11-30",
-            "time": "08:00 AM - 10:00 AM",
-            "description": "Flagship store cars & coffee with free coffee and parking.",
-            "url": "https://griotsgarage.com",
-            "image": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&auto=format&fit=crop"
-      }
-];
+    let eventsData = [];
 
     const DEFAULT_FALLBACK_IMAGE = "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=800&auto=format&fit=crop";
 
@@ -572,23 +364,9 @@
     const categoryFilter = document.getElementById('categoryFilter');
     const eventCount = document.getElementById('eventCount');
 
-    // Modals
-    const addEventModal = document.getElementById('addEventModal');
-    const openAddEventBtn = document.getElementById('openAddEventBtn');
-    const closeAddEventBtn = document.getElementById('closeAddEventBtn');
-
-    const emailModal = document.getElementById('emailModal');
-    const openEmailBtn = document.getElementById('openEmailBtn');
-    const closeEmailBtn = document.getElementById('closeEmailBtn');
-
-    const eventStateSelect = document.getElementById('eventState');
-    const subscriberStateSelect = document.getElementById('subscriberState');
-
     // Populate State Filter Dropdowns
     function populateStateDropdowns(events) {
       stateFilter.innerHTML = '<option value="">All States (50 States)</option>';
-      if (eventStateSelect) eventStateSelect.innerHTML = '<option value="">Select State</option>';
-      if (subscriberStateSelect) subscriberStateSelect.innerHTML = '<option value="">Select State</option>';
 
       ALL_US_STATES.forEach(state => {
         const count = events.filter(e => e.state === state).length;
@@ -598,19 +376,6 @@
         optFilter.textContent = count > 0 ? `${state} (${count} events)` : `${state}`;
         stateFilter.appendChild(optFilter);
 
-        if (eventStateSelect) {
-          const optForm1 = document.createElement('option');
-          optForm1.value = state;
-          optForm1.textContent = state;
-          eventStateSelect.appendChild(optForm1);
-        }
-
-        if (subscriberStateSelect) {
-          const optForm2 = document.createElement('option');
-          optForm2.value = state;
-          optForm2.textContent = state;
-          subscriberStateSelect.appendChild(optForm2);
-        }
       });
     }
 
@@ -633,6 +398,19 @@
       });
     }
 
+    function safeUrl(value, fallback = '') {
+      try {
+        const url = new URL(value);
+        return ['https:', 'http:'].includes(url.protocol) && !url.username && !url.password ? url.href : fallback;
+      } catch { return fallback; }
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, character => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[character]));
+    }
+
     // Render Event Cards
     function renderEvents(filteredEvents) {
       eventsGrid.innerHTML = '';
@@ -642,15 +420,17 @@
         eventsGrid.innerHTML = `
           <div class="no-results">
             <h3>No events found</h3>
-            <p>Try adjusting your search query, state, city, or category filters.</p>
+            <p>${eventsData.length ? "Try adjusting your filters." : "We are rebuilding the directory with verified dates and original event sources. No verified upcoming listings are available yet."}</p>
           </div>
         `;
         return;
       }
 
-      filteredEvents.forEach(event => {
-        const imageUrl = (event.image && event.image !== '#') ? event.image : DEFAULT_FALLBACK_IMAGE;
-        const hasValidUrl = event.url && event.url !== '#';
+      filteredEvents.forEach(record => {
+        const event = Object.fromEntries(Object.entries(record).map(([key, value]) => [key, escapeHtml(value)]));
+        const imageUrl = escapeHtml(safeUrl(record.image, DEFAULT_FALLBACK_IMAGE));
+        const sourceUrl = escapeHtml(safeUrl(record.url));
+        const hasValidUrl = Boolean(sourceUrl);
 
         const card = document.createElement('div');
         card.className = 'event-card';
@@ -661,6 +441,7 @@
               src="${imageUrl}" 
               alt="${event.title}" 
               class="event-card-img"
+              loading="lazy" decoding="async"
               onerror="this.onerror=null; this.src='${DEFAULT_FALLBACK_IMAGE}';"
             />
           </div>
@@ -675,7 +456,7 @@
             <p class="event-description">${event.description || 'No additional event details provided.'}</p>
             <div class="card-footer">
               ${hasValidUrl ? `
-                <a href="${event.url}" target="_blank" rel="noopener noreferrer" class="event-link-btn">
+                <a href="${sourceUrl}" target="_blank" rel="noopener noreferrer" class="event-link-btn">
                   View Original Event Listing &rarr;
                 </a>
               ` : `
@@ -715,33 +496,12 @@
       renderEvents(filtered);
     }
 
-    // Modal Controls
-    if (openAddEventBtn) openAddEventBtn.addEventListener('click', () => addEventModal.classList.add('active'));
-    if (closeAddEventBtn) closeAddEventBtn.addEventListener('click', () => addEventModal.classList.remove('active'));
-
-    if (openEmailBtn) openEmailBtn.addEventListener('click', () => emailModal.classList.add('active'));
-    if (closeEmailBtn) closeEmailBtn.addEventListener('click', () => emailModal.classList.remove('active'));
-
-    window.addEventListener('click', (e) => {
-      if (addEventModal && e.target === addEventModal) addEventModal.classList.remove('active');
-      if (emailModal && e.target === emailModal) emailModal.classList.remove('active');
-    });
-
-    // Form Submissions
-    document.getElementById('addEventForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('Thank you! Your event has been submitted for verification.');
-      addEventModal.classList.remove('active');
-    });
-
-    document.getElementById('emailSubscribeForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('Successfully subscribed to local car event alerts!');
-      emailModal.classList.remove('active');
-    });
-
     // Initialize Page
     document.addEventListener('DOMContentLoaded', () => {
+      const now = new Date();
+      const today = [now.getFullYear(), String(now.getMonth() + 1).padStart(2, '0'), String(now.getDate()).padStart(2, '0')].join('-');
+      eventsData = eventsData.filter(event => /^\d{4}-\d{2}-\d{2}$/.test(event.date) && event.date >= today)
+        .sort((a, b) => a.date.localeCompare(b.date));
       populateStateDropdowns(eventsData);
       populateCityDropdown(eventsData);
       renderEvents(eventsData);

@@ -1,171 +1,73 @@
-import os
-import re
-import json
-import sys
+"""Validate reviewed events and embed them in the static homepage. No network writes."""
 import datetime
-import urllib.request
-import urllib.parse
-import hashlib
+import json
+from pathlib import Path
+import re
+import sys
+from urllib.parse import urlsplit
 
-# Reference Dates (UTC)
-today = datetime.datetime.now(datetime.timezone.utc).date()
-today_str = today.strftime('%Y-%m-%d')
-max_future_date = today + datetime.timedelta(days=365)
-max_future_str = max_future_date.strftime('%Y-%m-%d')
-current_year = today.year
+ROOT = Path(__file__).resolve().parents[1]
+STATES = set('AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY'.split())
+CATEGORIES = {'Track / Drag', 'Cars & Coffee', 'Car Show', 'Cruise Night', 'Pop-Up Meet', 'Autocross'}
+PATTERN = re.compile(r'let eventsData = (\[[\s\S]*?\]);')
 
-INDEX_PATH = 'index.html'
 
-SUPABASE_URL = "https://lswnpxeiagureogrlopy.supabase.co"
-SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxzd25weGVpYWd1cmVvZ3Jsb3B5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE3NjkwNDcsImV4cCI6MjEwNzM0NTA0N30.yg0B_yyMAgdM692J9s-HevvfaykqZoVV0a0AiS6mZ_s"
-
-HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) USAAutoMeets/1.0'}
-
-CATEGORY_IMAGE_POOLS = {
-    "Track / Drag": [
-        "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1541348263662-e082662d82da?w=800&auto=format&fit=crop"
-    ],
-    "Cars & Coffee": [
-        "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&auto=format&fit=crop"
-    ],
-    "Car Show": [
-        "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=800&auto=format&fit=crop"
-    ]
-}
-
-DEFAULT_FALLBACK = "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=800&auto=format&fit=crop"
-NON_EVENT_KEYWORDS = ["announced", "announcement", "dates announced", "season pass", "annual banquet"]
-
-def normalize_date(date_input):
-    if not date_input:
-        return None
-    clean_str = str(date_input).strip()[:10]
-    for fmt in ('%Y-%m-%d', '%m/%d/%Y', '%Y/%m/%d', '%d-%m-%Y'):
-        try:
-            dt = datetime.datetime.strptime(clean_str, fmt).date()
-            return dt.strftime('%Y-%m-%d')
-        except ValueError:
-            continue
-    return None
-
-def is_valid_future_event(event_dict):
-    if not isinstance(event_dict, dict):
+def http_url(value):
+    if not isinstance(value, str):
         return False
-    date_str = normalize_date(event_dict.get('date'))
-    if not date_str or date_str < today_str or date_str > max_future_str:
-        return False
-    return True
+    parsed = urlsplit(value)
+    return parsed.scheme in {'http', 'https'} and bool(parsed.hostname) and not parsed.username and not parsed.password
 
-def fetch_public_car_events():
-    events = []
-    
-    # 1. Fetch live open-source event data feeds or structured regional calendars
-    # Using direct public endpoints that require zero API keys or paid tiers
-    sources = [
-        "https://raw.githubusercontent.com/Gapplebees360/car-culture-directory/main/events.json" # Self-healing fallback feed if hosted, or public directories
-    ]
-    
-    # Adding verified active regional track event seeds for Washington & major hubs to ensure active listings
-    # These are verified real URLs pointing directly to official track schedules
-    verified_real_events = [
-        {
-            "title": "Pacific Raceways Test & Tune",
-            "state": "WA",
-            "city": "Kent",
-            "venue": "Pacific Raceways",
-            "category": "Track / Drag",
-            "date": (today + datetime.timedelta(days=5)).strftime('%Y-%m-%d'),
-            "time": "04:00 PM - 10:00 PM",
-            "description": "Quarter-mile street legal drag test & tune session.",
-            "url": "https://pacificraceways.com/drag-racing/",
-            "image": CATEGORY_IMAGE_POOLS["Track / Drag"][0]
-        },
-        {
-            "title": "The Ridge Motorsports Park Open Lapping",
-            "state": "WA",
-            "city": "Shelton",
-            "venue": "The Ridge Motorsports Park",
-            "category": "Track / Drag",
-            "date": (today + datetime.timedelta(days=12)).strftime('%Y-%m-%d'),
-            "time": "08:00 AM - 05:00 PM",
-            "description": "High performance sports car open track lapping.",
-            "url": "https://ridgemotorsportspark.com",
-            "image": CATEGORY_IMAGE_POOLS["Track / Drag"][1]
-        },
-        {
-            "title": "Griot's Garage Caffeine & Gasoline",
-            "state": "WA",
-            "city": "Tacoma",
-            "venue": "Griot's Garage Flagship Store",
-            "category": "Cars & Coffee",
-            "date": (today + datetime.timedelta(days=18)).strftime('%Y-%m-%d'),
-            "time": "08:00 AM - 10:00 AM",
-            "description": "Flagship store cars & coffee with free coffee and parking.",
-            "url": "https://griotsgarage.com",
-            "image": CATEGORY_IMAGE_POOLS["Cars & Coffee"][0]
-        }
-    ]
 
-    for ev in verified_real_events:
-        if is_valid_future_event(ev):
-            events.append(ev)
+def validate_events(records, today=None):
+    today = today or datetime.datetime.now(datetime.timezone.utc).date()
+    if not isinstance(records, list):
+        raise ValueError('events.json must contain an array')
+    result, seen = [], set()
+    for number, event in enumerate(records, 1):
+        if not isinstance(event, dict):
+            raise ValueError(f'Event {number} must be an object')
+        for field in ('title', 'state', 'city', 'venue', 'category', 'date', 'url', 'verified_at'):
+            if not isinstance(event.get(field), str) or not event[field].strip():
+                raise ValueError(f'Event {number}: missing {field}')
+        date = datetime.date.fromisoformat(event['date'])
+        verified = datetime.date.fromisoformat(event['verified_at'])
+        if verified > today:
+            raise ValueError(f'Event {number}: verification date is in the future')
+        if event['state'] not in STATES or event['category'] not in CATEGORIES:
+            raise ValueError(f'Event {number}: invalid state or category')
+        if not http_url(event['url']) or (event.get('image') and not http_url(event['image'])):
+            raise ValueError(f'Event {number}: invalid source or image URL')
+        for field in ('time', 'description', 'image'):
+            if field in event and not isinstance(event[field], str):
+                raise ValueError(f'Event {number}: {field} must be text')
+        key = (event['title'].strip().casefold(), event['date'], event['city'].strip().casefold(), event['state'])
+        if date >= today and key not in seen:
+            result.append(event)
+            seen.add(key)
+    return sorted(result, key=lambda event: (event['date'], event['title']))
 
-    print(f"Success: Loaded {len(events)} verified active events.")
-    return events
 
-def purge_old_supabase_events():
-    try:
-        url = f"{SUPABASE_URL}/rest/v1/events?date=lt.{today_str}"
-        req = urllib.request.Request(url, method='DELETE')
-        req.add_header('apikey', SUPABASE_ANON_KEY)
-        req.add_header('Authorization', f'Bearer {SUPABASE_ANON_KEY}')
-        with urllib.request.urlopen(req, timeout=10) as resp:
-            pass
-    except Exception:
-        pass
+def build(root=ROOT, today=None):
+    events = validate_events(json.loads((root / 'events.json').read_text(encoding='utf-8')), today)
+    index = root / 'index.html'
+    html = index.read_text(encoding='utf-8')
+    matches = list(PATTERN.finditer(html))
+    if len(matches) != 1:
+        raise ValueError('Expected exactly one eventsData marker; homepage left unchanged')
+    match = matches[0]
+    payload = json.dumps(events, indent=6).replace('<', '\\u003c').replace('>', '\\u003e').replace('&', '\\u0026')
+    updated = html[:match.start(1)] + payload + html[match.end(1):]
+    if updated != html:
+        temporary = index.with_suffix('.html.tmp')
+        temporary.write_text(updated, encoding='utf-8')
+        temporary.replace(index)
+    print(f'Validated {len(events)} upcoming events. No dates invented; no database changes.')
 
-def push_to_supabase(event_list):
-    if not event_list:
-        return
-    url = f"{SUPABASE_URL}/rest/v1/events"
-    headers = {
-        'apikey': SUPABASE_ANON_KEY,
-        'Authorization': f'Bearer {SUPABASE_ANON_KEY}',
-        'Content-Type': 'application/json',
-        'Prefer': 'ignore-duplicates'
-    }
-    try:
-        data_json = json.dumps(event_list).encode('utf-8')
-        req = urllib.request.Request(url, data_json, headers=headers, method='POST')
-        with urllib.request.urlopen(req, timeout=10) as resp:
-            pass
-    except Exception:
-        pass
-
-def update_index():
-    if not os.path.exists(INDEX_PATH):
-        sys.exit(0)
-
-    with open(INDEX_PATH, 'r', encoding='utf-8') as f:
-        html = f.read()
-
-    match = re.search(r'let eventsData = (\[[\s\S]*?\]);', html)
-    if not match:
-        sys.exit(0)
-
-    events = fetch_public_car_events()
-    push_to_supabase(events)
-
-    updated_json = json.dumps(events, indent=6)
-    new_html = html[:match.start(1)] + updated_json + html[match.end(1):]
-
-    with open(INDEX_PATH, 'w', encoding='utf-8') as f:
-        f.write(new_html)
-
-    print(f"Success: Directory rebuilt with {len(events)} events.")
 
 if __name__ == '__main__':
-    purge_old_supabase_events()
-    update_index()
-    sys.exit(0)
+    try:
+        build()
+    except (OSError, ValueError) as error:
+        print(f'Event refresh failed: {error}', file=sys.stderr)
+        sys.exit(1)
