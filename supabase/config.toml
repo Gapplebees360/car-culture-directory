@@ -1,0 +1,4 @@
+[functions.community]
+# User endpoints validate access tokens with Auth. Health/catalog refresh/unsubscribe
+# are public, narrowly scoped routes with their own controls. See COMMUNITY-SETUP.md.
+verify_jwt = false
