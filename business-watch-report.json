@@ -1,7 +1,7 @@
 {
   "checked_at": "2026-11-13",
   "service_cost_usd": 0,
-  "checked_this_run": 10,
+  "checked_this_run": 0,
   "note": "Discovery only. A readable business page or candidate calendar is not a verified event. Imports are separately validated in business-calendar-report.json.",
   "businesses": [
     {
