@@ -117,6 +117,7 @@
     for(const id of ['alertState','submitState'])for(const state of states){const opt=document.createElement('option');opt.value=opt.textContent=state;$(id).appendChild(opt);}
     const readiness=await fetch(base+'/health').then(response=>response.json()).catch(()=>({}));
     if(!readiness.accounts){document.querySelectorAll('form button').forEach(button=>button.disabled=true);message('Community accounts are awaiting activation. Event browsing remains available.');return;}
+    if(!readiness.signup_ready){$('signUpForm').querySelector('button').disabled=true;$('signupReadiness').textContent='New account registration is waiting for email-confirmation delivery to be activated. Existing verified members can still sign in.';}
     $('signInForm').onsubmit=async e=>{e.preventDefault();try{check(await db.auth.signInWithPassword({email:$('loginEmail').value.trim(),password:$('loginPassword').value}));message('Signed in.');await refreshAccount();}catch(error){message(error.message,true);}};
     $('signUpForm').onsubmit=async e=>{e.preventDefault();try{check(await db.auth.signUp({email:$('registerEmail').value.trim(),password:$('registerPassword').value,options:{emailRedirectTo:location.origin+'/community.html'}}));message('If registration is available for this address, check your email and confirm it before signing in.');}catch(error){message(error.message,true);}};
     $('signOut').onclick=async()=>{await db.auth.signOut();await refreshAccount();};

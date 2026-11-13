@@ -41,7 +41,7 @@ Deno.serve(async(req: Request) => {
     const db=admin();
     if(path==='/health') {
       const ready=await db.from('uam_profiles').select('user_id',{head:true,count:'exact'});
-      return json({accounts:!ready.error,submissions:!ready.error,alerts_ready:!ready.error&&!!secret('RESEND_API_KEY')&&!!secret('EMAIL_FROM')&&!!secret('ALERT_CRON_SECRET')},ready.error?503:200);
+      return json({accounts:!ready.error,submissions:!ready.error,signup_ready:!ready.error&&secret('AUTH_EMAIL_READY')==='true',alerts_ready:!ready.error&&!!secret('RESEND_API_KEY')&&!!secret('EMAIL_FROM')&&!!secret('ALERT_CRON_SECRET')},ready.error?503:200);
     }
     if(path==='/unsubscribe' && req.method==='POST') {
       const body=await req.json();
