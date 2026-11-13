@@ -8,7 +8,7 @@ from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 STATES = set('AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY'.split())
-CATEGORIES = {'Track / Drag', 'Cars & Coffee', 'Car Show', 'Cruise Night', 'Pop-Up Meet', 'Autocross'}
+CATEGORIES = {'Track / Drag', 'Cars & Coffee', 'Car Show', 'Cruise Night', 'Pop-Up Meet', 'Autocross', 'Road Rally', 'Rallycross'}
 PATTERN = re.compile(r'let eventsData = (\[[\s\S]*?\]);')
 
 
@@ -19,8 +19,11 @@ def http_url(value):
     return parsed.scheme in {'http', 'https'} and bool(parsed.hostname) and not parsed.username and not parsed.password
 
 
-def validate_events(records, today=None):
-    today = today or datetime.datetime.now(datetime.timezone.utc).date()
+def validate_events(records, today=None, verification_today=None):
+    now = datetime.datetime.now(datetime.timezone.utc)
+    verification_today = verification_today or today or now.date()
+    # Retain dates until the day ends in Hawaii; each browser filters locally.
+    today = today or (now - datetime.timedelta(hours=10)).date()
     if not isinstance(records, list):
         raise ValueError('events.json must contain an array')
     result, seen = [], set()
@@ -31,8 +34,11 @@ def validate_events(records, today=None):
             if not isinstance(event.get(field), str) or not event[field].strip():
                 raise ValueError(f'Event {number}: missing {field}')
         date = datetime.date.fromisoformat(event['date'])
+        end = datetime.date.fromisoformat(event.get('end_date', event['date']))
+        if end < date:
+            raise ValueError(f'Event {number}: end date precedes start date')
         verified = datetime.date.fromisoformat(event['verified_at'])
-        if verified > today:
+        if verified > verification_today:
             raise ValueError(f'Event {number}: verification date is in the future')
         if event['state'] not in STATES or event['category'] not in CATEGORIES:
             raise ValueError(f'Event {number}: invalid state or category')
@@ -42,7 +48,7 @@ def validate_events(records, today=None):
             if field in event and not isinstance(event[field], str):
                 raise ValueError(f'Event {number}: {field} must be text')
         key = (event['title'].strip().casefold(), event['date'], event['city'].strip().casefold(), event['state'])
-        if date >= today and key not in seen:
+        if end >= today and key not in seen:
             result.append(event)
             seen.add(key)
     return sorted(result, key=lambda event: (event['date'], event['title']))

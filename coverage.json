@@ -1,0 +1,82 @@
+{
+  "checked_at": "2026-11-13",
+  "source": "SCCA",
+  "calendar_records": 3387,
+  "candidate_records": 162,
+  "imported": 158,
+  "states_with_events": 31,
+  "coverage": {
+    "AK": 1,
+    "AL": 4,
+    "AR": 0,
+    "AZ": 4,
+    "CA": 19,
+    "CO": 11,
+    "CT": 3,
+    "DE": 0,
+    "FL": 14,
+    "GA": 8,
+    "HI": 0,
+    "IA": 0,
+    "ID": 0,
+    "IL": 6,
+    "IN": 3,
+    "KS": 2,
+    "KY": 0,
+    "LA": 4,
+    "MA": 2,
+    "MD": 0,
+    "ME": 0,
+    "MI": 3,
+    "MN": 4,
+    "MO": 3,
+    "MS": 0,
+    "MT": 0,
+    "NC": 1,
+    "ND": 0,
+    "NE": 0,
+    "NH": 2,
+    "NJ": 8,
+    "NM": 0,
+    "NV": 4,
+    "NY": 10,
+    "OH": 5,
+    "OK": 1,
+    "OR": 1,
+    "PA": 2,
+    "RI": 0,
+    "SC": 0,
+    "SD": 0,
+    "TN": 1,
+    "TX": 12,
+    "UT": 0,
+    "VA": 4,
+    "VT": 0,
+    "WA": 1,
+    "WI": 7,
+    "WV": 8,
+    "WY": 0
+  },
+  "skipped": [
+    {
+      "id": 53937,
+      "url": "https://www.scca.com/event/puerto-rico-region-season-finale-autocross/",
+      "reason": "Source location is not an unambiguous US city and state"
+    },
+    {
+      "id": 41856,
+      "url": "https://www.scca.com/event/reno-tire-rack-street-survival-2/",
+      "reason": "Unmapped event category"
+    },
+    {
+      "id": 39085,
+      "url": "https://www.scca.com/event/red-hills-region-tire-rack-street-survival-school/",
+      "reason": "Unmapped event category"
+    },
+    {
+      "id": 18135,
+      "url": "https://www.scca.com/event/northwest-region-tire-rack-street-survival-2026/",
+      "reason": "Unmapped event category"
+    }
+  ]
+}

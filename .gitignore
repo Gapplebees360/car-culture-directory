@@ -4,3 +4,4 @@ auto_update.ps1
 __pycache__/
 *.pyc
 *.html.tmp
+*.json.tmp

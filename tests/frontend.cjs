@@ -4,7 +4,8 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const path = require('node:path');
 const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
-const script = html.match(/<script>([\s\S]*?)<\/script>/)[1];
+const script = html.match(/<script>([\s\S]*?)<\/script>/)[1]
+  .replace(/let eventsData = (\[[\s\S]*?\]);/, 'let eventsData = [];');
 class Element {
   constructor() { this.value = ''; this.children = []; this.listeners = {}; }
   set innerHTML(value) { this.markup = value; this.children = []; this.value = ''; }
@@ -12,7 +13,7 @@ class Element {
   appendChild(child) { this.children.push(child); }
   addEventListener(name, handler) { this.listeners[name] = handler; }
 }
-const ids = ['eventsGrid', 'eventCount', 'searchInput', 'stateFilter', 'cityFilter', 'categoryFilter'];
+const ids = ['eventsGrid', 'eventCount', 'searchInput', 'stateFilter', 'cityFilter', 'categoryFilter', 'coverageSummary'];
 const elements = Object.fromEntries(ids.map(id => [id, new Element()]));
 let initialize;
 const context = vm.createContext({URL, Date, document: {

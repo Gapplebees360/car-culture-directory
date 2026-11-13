@@ -1,6 +1,6 @@
 # USA Auto Meets recovery roadmap
 
-## Phase 1 — Honest, reliable foundation (local cleanup implemented)
+## Phase 1 — Honest, reliable foundation (published)
 
 - Remove fabricated rolling dates and the unaudited Supabase write/delete path.
 - Use reviewed `events.json` as the source of truth; require a source URL and verification date.
@@ -13,6 +13,8 @@
 Acceptance: regression tests pass, invalid input leaves the published page intact, no generated dates or misleading form confirmations remain.
 
 ## Phase 2 — Restore useful event coverage
+
+Implemented first adapter: SCCA public calendar, full pagination, original event dates, US city/state extraction, stable source IDs, source attribution, coverage report, failure preservation, and automatic publishing. This supplies motorsport categories; it does not provide comprehensive car-show or cars-and-coffee coverage.
 
 1. Start with an agreed pilot region and official organizer calendars.
 2. Add one adapter per source with fixtures, source attribution, actual dates, time zone, and last verification time.
@@ -44,6 +46,6 @@ Acceptance: verified deployment reaches the custom domain, refreshes appear with
 
 ## Release notes and limits
 
-This first pass intentionally publishes zero events: all three previous dates were generated rather than verified. It is not a finished scraper. Restore listings only after checking actual organizer dates.
+The initial cleanup removed three fabricated dates. The SCCA importer now restores actual calendar listings. Remaining coverage work is to add car-show organizers, cars-and-coffee calendars, and regional sources for states with no listings. Full 50-state coverage is not yet achieved.
 
 The cleanup was transferred onto a fresh clone with the original upstream history before publishing. The initial API-reconstructed local snapshot is not used as upstream Git history.

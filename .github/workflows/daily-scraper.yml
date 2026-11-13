@@ -37,9 +37,14 @@ jobs:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: validate
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 20
     permissions:
       contents: write
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Checkout Repository
@@ -50,6 +55,9 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Import official SCCA calendar
+        run: python scripts/import_scca.py
+
       - name: Build validated event directory
         run: python scripts/update_events.py
 
@@ -57,7 +65,18 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add index.html
+          git add index.html events.json coverage.json
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "Refresh verified upcoming events"
           git push origin HEAD:main
+
+      - name: Prepare public site artifact
+        run: |
+          mkdir -p _site
+          cp index.html car_culture_directory.html CNAME events.json coverage.json _site/
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - name: Deploy refreshed calendar
+        id: deployment
+        uses: actions/deploy-pages@v4
