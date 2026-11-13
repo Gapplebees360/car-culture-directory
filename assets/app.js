@@ -99,6 +99,7 @@
         const imageUrl = escapeHtml(sourceImage || sceneImage);
         const sourceUrl = escapeHtml(safeUrl(record.url));
         const hasValidUrl = Boolean(sourceUrl);
+        const detailsUrl = /^\/events\/[a-f0-9]{20}\/$/.test(record.seo_path || '') ? record.seo_path : '';
         const date = new Date(record.date + 'T12:00:00');
         const month = date.toLocaleDateString('en-US', {month: 'short'});
         const day = date.getDate();
@@ -119,7 +120,7 @@
             />
           </div>
           <div class="event-card-body">
-            <h3 class="event-title">${event.title}</h3>
+            <h3 class="event-title">${detailsUrl ? `<a href="${detailsUrl}">${event.title}</a>` : event.title}</h3>
             <div class="meta-row">
               📅 <strong>${event.date}${event.end_date && event.end_date !== event.date ? ' – ' + event.end_date : ''}</strong> &bull; ${event.time || 'See Details'}
             </div>

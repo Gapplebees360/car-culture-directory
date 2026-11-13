@@ -56,6 +56,13 @@ def validate_events(records, today=None, verification_today=None):
 
 def build(root=ROOT, today=None):
     events = validate_events(json.loads((root / 'events.json').read_text(encoding='utf-8')), today)
+    if (root / 'seo-moderation.json').exists():
+        try:
+            from .seo import event_key
+        except ImportError:
+            from seo import event_key
+        hidden = set(json.loads((root / 'seo-moderation.json').read_text(encoding='utf-8')))
+        events = [event for event in events if event_key(event) not in hidden]
     index = root / 'index.html'
     html = index.read_text(encoding='utf-8')
     matches = list(PATTERN.finditer(html))
@@ -66,8 +73,22 @@ def build(root=ROOT, today=None):
     previous, length = json.JSONDecoder().raw_decode(html[match.end():])
     if not isinstance(previous, list) or html[match.end() + length:match.end() + length + 1] != ';':
         raise ValueError('Invalid embedded events array; homepage left unchanged')
-    payload = json.dumps(events, indent=6).replace('<', '\\u003c').replace('>', '\\u003e').replace('&', '\\u0026')
+    embedded = events
+    if '<!-- SEO_GRID_START -->' in html:
+        try:
+            from .seo import event_path
+        except ImportError:
+            from seo import event_path
+        embedded = [dict(event, seo_path=event_path(event)) for event in events]
+    payload = json.dumps(embedded, indent=6).replace('<', '\\u003c').replace('>', '\\u003e').replace('&', '\\u0026')
     updated = html[:match.end()] + payload + html[match.end() + length:]
+    if '<!-- SEO_GRID_START -->' in updated:
+        try:
+            from .seo import homepage_content, build_pages
+        except ImportError:
+            from seo import homepage_content, build_pages
+        updated = homepage_content(updated, events)
+        build_pages(root, events)
     if updated != html:
         temporary = index.with_suffix('.html.tmp')
         temporary.write_text(updated, encoding='utf-8')

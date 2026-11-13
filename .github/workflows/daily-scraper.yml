@@ -99,6 +99,9 @@ jobs:
           APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
         run: python scripts/import_facebook.py run --max-charge 0.5
 
+      - name: Refresh withdrawn-event list before static publication
+        run: python scripts/sync_seo_moderation.py
+
       - name: Build validated event directory
         run: python scripts/update_events.py
 
@@ -109,7 +112,7 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add index.html events.json coverage.json
+          git add index.html events.json coverage.json sitemap.xml seo-manifest.json seo-moderation.json events/ states/ event-types/
           if [ -f facebook-report.json ]; then git add facebook-report.json; fi
           if [ -f free-calendar-report.json ]; then git add free-calendar-report.json; fi
           git add business-calendar-report.json
@@ -122,6 +125,9 @@ jobs:
         run: |
           mkdir -p _site
           cp index.html car_culture_directory.html CNAME events.json coverage.json _site/
+          cp robots.txt sitemap.xml 404.html .nojekyll search-config.json _site/
+          cp *-indexnow.txt _site/
+          cp -r events states event-types _site/
           if [ -f community.html ]; then cp community.html _site/; fi
           cp -r assets _site/
           if [ -f facebook-report.json ]; then cp facebook-report.json _site/; fi
@@ -137,3 +143,5 @@ jobs:
         uses: actions/deploy-pages@v4
       - name: Refresh member event catalog
         run: python scripts/sync_community_catalog.py
+      - name: Notify IndexNow search engines
+        run: python scripts/notify_search_engines.py
