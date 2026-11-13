@@ -1,13 +1,13 @@
 {
   "checked_at": "2026-11-13",
-  "imported": 381,
+  "imported": 383,
   "states_with_events": 33,
   "coverage": {
     "AK": 1,
     "AL": 12,
     "AR": 0,
     "AZ": 88,
-    "CA": 27,
+    "CA": 29,
     "CO": 11,
     "CT": 3,
     "DE": 0,
@@ -56,7 +56,7 @@
   },
   "sources": {
     "Facebook": 9,
-    "SCCA": 157,
+    "SCCA": 159,
     "Events With Cars": 215
   },
   "facebook_report": "facebook-report.json",
