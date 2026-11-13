@@ -45,6 +45,7 @@ jobs:
     timeout-minutes: 30
     permissions:
       contents: write
+      actions: read
       pages: write
       id-token: write
     environment:
@@ -110,7 +111,7 @@ jobs:
           if [ -f facebook-report.json ]; then cp facebook-report.json _site/; fi
           if [ -f free-calendar-report.json ]; then cp free-calendar-report.json _site/; fi
           if [ -f organizer-registry.json ]; then cp organizer-registry.json _site/; fi
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
       - name: Deploy refreshed calendar
