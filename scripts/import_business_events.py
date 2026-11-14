@@ -165,7 +165,32 @@ def fcp(body, source, today):
     return accepted, skipped
 
 
-PARSERS = {'griots':griots,'fcp':fcp}
+def speedway_coffee(body, source, today):
+    root = Document(body).root
+    paragraphs = [clean(n.text()).replace('\u200b','') for n in root.find(lambda n:n.has_class('paragraph'))]
+    text = ' '.join(paragraphs)
+    if not re.search(r'Address\s+340 Victory Lane\s+Lincoln,\s*NE\s+68528',text):
+        raise ValueError('Speedway campus address changed or is not explicit')
+    if not re.search(r'8 am until noon',text,re.I):
+        raise ValueError('Published Cars & Coffee hours changed; review required')
+    schedules = [p for p in paragraphs if re.match(r'20\d{2} Show Dates:',p)]
+    if len(schedules)!=1:
+        raise ValueError('Explicit year/date schedule missing or ambiguous')
+    year, schedule = schedules[0].split(' Show Dates:',1)
+    matches = list(re.finditer(r'([A-Za-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?',schedule))
+    if not matches or re.sub(r'([A-Za-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?','',schedule).strip():
+        raise ValueError('Unexpected schedule text; no recurrence dates inferred')
+    events=[]
+    for match in matches:
+        start,end = dates(f'{match[1]} {match[2]}, {year}')
+        if end>=today:
+            events.append(listing(source,'Speedway Motors Cars & Coffee',start,end,'Lincoln','NE',
+                'Speedway Motors campus, 340 Victory Lane',today,'8:00 a.m.–12:00 p.m. (organizer local time)',
+                'Official Museum of American Speed schedule. Specialty-vehicle gathering at the Speedway Motors campus. Check the original page for current details and museum admission.'))
+    return events,[]
+
+
+PARSERS = {'griots':griots,'fcp':fcp,'speedway_coffee':speedway_coffee}
 
 
 def import_events(root=ROOT, fetcher=fetch, today=None):

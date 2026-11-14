@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-13",
+  "checked_at": "2026-11-14",
   "service_cost_usd": 0,
   "sources": [
     {
@@ -37,6 +37,12 @@
       "source": "FCP Euro",
       "status": "success",
       "accepted": 2,
+      "skipped": []
+    },
+    {
+      "source": "Speedway Motors Nebraska",
+      "status": "success",
+      "accepted": 6,
       "skipped": []
     }
   ]

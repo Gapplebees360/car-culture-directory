@@ -4,7 +4,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from scripts.import_business_events import dates, griots, fcp, import_events
+from scripts.import_business_events import dates, griots, fcp, speedway_coffee, import_events
 from scripts.check_business_sources import Links, check, run
 
 
@@ -19,6 +19,16 @@ def calendar(date='December 5, 2026',month='DECEMBER 2026',title='CAFFEINE &amp;
 
 
 class BusinessTests(unittest.TestCase):
+    def test_speedway_explicit_calendar_dates_not_monthly_recurrence(self):
+        body='''<div class="paragraph">2027 Show Dates:<br>May 29th<br>June 26th</div>
+        <div class="paragraph">From 8 am until noon</div><div class="paragraph">Address 340 Victory Lane<br>Lincoln, NE 68528</div>'''
+        events,skipped=speedway_coffee(body,{'name':'Speedway Motors Nebraska','url':'https://www.museumofamericanspeed.org/carsandcoffee.html'},TODAY)
+        self.assertEqual([e['date'] for e in events],['2027-05-29','2027-06-26'])
+        self.assertTrue(all(e['state']=='NE' and e['city']=='Lincoln' for e in events))
+        self.assertFalse(skipped)
+        for bad in [body.replace('2027 Show Dates:','Every last Saturday:'),body.replace('340 Victory Lane','New venue'),body.replace('8 am until noon','TBA')]:
+            with self.assertRaises(ValueError):speedway_coffee(bad,SOURCE,TODAY)
+
     def test_exact_date_location_theme_and_time(self):
         events,skipped=griots(calendar(),SOURCE,TODAY)
         self.assertFalse(skipped)

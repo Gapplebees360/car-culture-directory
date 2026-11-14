@@ -28,11 +28,11 @@
     },
     {
       "name": "Speedway Motors Nebraska",
-      "url": "https://www.speedwaymotors.com/pages/carsandcoffee",
+      "url": "https://www.museumofamericanspeed.org/carsandcoffee.html",
       "category": "hot rod and racing parts",
-      "parser": null,
-      "status": "needs_calendar_review",
-      "note": "Business discovery candidate. Event dates and public attendance require verification; not a published event."
+      "parser": "speedway_coffee",
+      "status": "daily_import",
+      "note": "Official Speedway Motors Museum of American Speed calendar; explicit dated occurrences only."
     },
     {
       "name": "Speedway Motors Arizona",

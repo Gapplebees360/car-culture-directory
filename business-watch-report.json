@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-11-13",
+  "checked_at": "2026-11-14",
   "service_cost_usd": 0,
-  "checked_this_run": 0,
+  "checked_this_run": 1,
   "note": "Discovery only. A readable business page or candidate calendar is not a verified event. Imports are separately validated in business-calendar-report.json.",
   "businesses": [
     {
@@ -32,11 +32,16 @@
     },
     {
       "name": "Speedway Motors Nebraska",
-      "url": "https://www.speedwaymotors.com/pages/carsandcoffee",
-      "checked_at": "2026-11-13",
+      "url": "https://www.museumofamericanspeed.org/carsandcoffee.html",
+      "checked_at": "2026-11-14",
       "event_dates_verified": false,
-      "status": "unavailable_needs_review",
-      "error": "HTTP Error 403: Forbidden"
+      "status": "calendar_adapter_available_see_import_report",
+      "calendar_candidates": [
+        "https://www.museumofamericanspeed.org/carsandcoffee.html",
+        "https://www.museumofamericanspeed.org/events.html",
+        "https://www.museumofamericanspeed.org/planyourvisit.html",
+        "https://www.museumofamericanspeed.org/uploads/1/0/7/2/107226215/cars-and-coffee-parking-map_orig.jpg"
+      ]
     },
     {
       "name": "Speedway Motors Arizona",
