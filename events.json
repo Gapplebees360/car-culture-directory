@@ -15,19 +15,6 @@
     "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
   },
   {
-    "title": "Friday the 13th Flash Sale-Car Show- Vendor Pop-up",
-    "date": "2026-11-13",
-    "city": "Chandler",
-    "state": "AZ",
-    "venue": "505 S Chandler Village Dr, Suite 16, Chandler, AZ",
-    "category": "Car Show",
-    "url": "https://www.facebook.com/events/2294564998061702/",
-    "source": "Facebook",
-    "source_id": "2294564998061702",
-    "verified_at": "2026-11-13",
-    "description": "Tinked Tattoos is doing a throwback to Friday the 13th sale with $13 flash and $31 flash.\nWalk-ins welcome we close when we\u2019ve served our last client.\nCheck out our Vendor Pop-Up Market while you wait and join us for our evening Car Show at 7pm."
-  },
-  {
     "title": "Houston Regional Autocross November",
     "date": "2026-11-13",
     "end_date": "2026-11-15",
@@ -40,37 +27,6 @@
     "source_id": "59172",
     "verified_at": "2026-11-14",
     "description": "Listed on the official SCCA calendar. Check the original listing for registration, schedule, and eligibility."
-  },
-  {
-    "title": "Jr\u2019s Drive-In Cruise Night",
-    "date": "2026-11-13",
-    "end_date": "2026-11-13",
-    "time": "17:00\u201320:00 (source local time)",
-    "city": "Santa Maria",
-    "state": "CA",
-    "venue": "Jr\u2019s Drive-In",
-    "category": "Cruise Night",
-    "url": "https://eventswithcars.com/event/jrs-drive-in-cruise-night/2026-11-13/",
-    "source": "Events With Cars",
-    "source_id": "10001501:2026-11-13",
-    "verified_at": "2026-11-14",
-    "description": "Listed by Events With Cars. Check the original listing for current details, admission, and schedule changes.",
-    "image": "https://eventswithcars.com/wp-content/uploads/2026/11/jrs.jpg",
-    "image_kind": "source_artwork",
-    "image_source": "https://eventswithcars.com/event/jrs-drive-in-cruise-night/2026-11-13/"
-  },
-  {
-    "title": "SEASON SEND OFF MEET",
-    "date": "2026-11-13",
-    "city": "Bangor",
-    "state": "ME",
-    "venue": "Grotto Cascade Park",
-    "category": "Pop-Up Meet",
-    "url": "https://www.facebook.com/events/1504994059355461/",
-    "source": "Facebook",
-    "source_id": "1504994059355461",
-    "verified_at": "2026-11-13",
-    "description": "!ONE FINAL CAR MEET!\n\n\u23f0: 4:00 PM \n\ud83c\udf05: Cascade Park \n\nOne last meet to end off the season! i know it\u2019s chilly but i would love to see everyone out one last time! \n\nEveryone is welcome! \nRespect the Place! No revving, burnouts, ect. "
   },
   {
     "title": "2026 Tire Rack SCCA Time Attack Challenge at Buttonwillow Raceway Park",
@@ -5568,6 +5524,24 @@
     "image": "https://eventswithcars.com/wp-content/uploads/2026/11/BrunchBanner.jpg",
     "image_kind": "source_artwork",
     "image_source": "https://eventswithcars.com/event/the-exotic-brunch/2027-05-09/"
+  },
+  {
+    "title": "Wienerschnitzel Cruise-In",
+    "date": "2027-05-13",
+    "end_date": "2027-05-13",
+    "time": "16:30\u201318:30 (source local time)",
+    "city": "Lake Havasu City",
+    "state": "AZ",
+    "venue": "Wienerschnitzel",
+    "category": "Cruise Night",
+    "url": "https://eventswithcars.com/event/wienerschnitzel-cruise-in/2027-05-13/",
+    "source": "Events With Cars",
+    "source_id": "10001266:2027-05-13",
+    "verified_at": "2026-11-14",
+    "description": "Listed by Events With Cars. Check the original listing for current details, admission, and schedule changes.",
+    "image": "https://eventswithcars.com/wp-content/uploads/2026/11/Wienerschnitzel-1.jpg",
+    "image_kind": "source_artwork",
+    "image_source": "https://eventswithcars.com/event/wienerschnitzel-cruise-in/2027-05-13/"
   },
   {
     "title": "Ohio Valley Region SCCA Hoosier Super Tour",

@@ -1,13 +1,13 @@
 {
   "checked_at": "2026-11-14",
-  "imported": 414,
-  "states_with_events": 34,
+  "imported": 412,
+  "states_with_events": 33,
   "coverage": {
     "AK": 1,
     "AL": 12,
     "AR": 0,
     "AZ": 91,
-    "CA": 30,
+    "CA": 29,
     "CO": 11,
     "CT": 3,
     "DE": 0,
@@ -23,7 +23,7 @@
     "LA": 4,
     "MA": 2,
     "MD": 0,
-    "ME": 1,
+    "ME": 0,
     "MI": 3,
     "MN": 10,
     "MO": 3,
@@ -56,9 +56,9 @@
   },
   "sources": {
     "Griot's Garage": 23,
-    "Facebook": 9,
     "SCCA": 159,
     "Events With Cars": 215,
+    "Facebook": 7,
     "FCP Euro": 2,
     "Speedway Motors Nebraska": 6
   },
