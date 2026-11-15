@@ -5,16 +5,12 @@
     {
       "source": "Events With Cars",
       "status": "success",
-      "fetched": 243,
-      "accepted": 215,
-      "cars_and_coffee": 113,
+      "fetched": 235,
+      "accepted": 208,
+      "cars_and_coffee": 109,
       "distinct_coffee_series": 15,
-      "with_artwork": 209,
+      "with_artwork": 202,
       "skipped": [
-        {
-          "id": 10002929,
-          "reason": "No structured venue"
-        },
         {
           "id": 10002930,
           "reason": "No structured venue"

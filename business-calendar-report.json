@@ -5,12 +5,8 @@
     {
       "source": "Griot's Garage",
       "status": "success",
-      "accepted": 23,
+      "accepted": 21,
       "skipped": [
-        {
-          "title": "Corvette Marque Club Meeting & Tech Session",
-          "reason": "Club meeting/technical session; public attendance not established"
-        },
         {
           "title": "NW Chapter American Truck Historical Society (ATHS) Meeting",
           "reason": "Club meeting/technical session; public attendance not established"
