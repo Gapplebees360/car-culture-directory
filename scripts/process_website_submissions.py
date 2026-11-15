@@ -1,13 +1,11 @@
 """Free bounded website inspection worker, authenticated with a short-lived GitHub job identity."""
 import datetime as dt
-import base64
 import json
 import os
 from pathlib import Path
 import time
 from urllib.parse import urlencode, urlsplit
 from urllib.request import Request, urlopen
-from urllib.error import HTTPError
 
 try:
     from .website_inspector import inspect_website, InspectionError
@@ -42,23 +40,10 @@ def github_identity(opener=urlopen):
 def rpc(route,payload=None,opener=urlopen,identity=github_identity):
     if route not in {'claim','finish','export'}:
         raise ValueError('Unsupported inspection operation')
-    token=identity()
     request=Request(BASE+route,data=json.dumps(payload or {}).encode(),method='POST',
-                    headers={'Content-Type':'application/json','Authorization':'Bearer '+token})
-    try:
-        with opener(request,timeout=45) as response:
-            raw=response.read(5*1024*1024+1)
-    except HTTPError as error:
-        if error.code==401:
-            # These are public job identifiers, not a token or credential. They
-            # diagnose trust-policy changes without printing signed bearer data.
-            try:
-                part=token.split('.')[1];claims=json.loads(base64.urlsafe_b64decode(part+'='*(-len(part)%4)))
-                public_claims={key:str(claims.get(key,''))[:250] for key in ['iss','aud','sub','repository','repository_id','ref','workflow_ref','event_name']}
-                print(json.dumps({'worker_identity_rejected':public_claims}))
-            except (ValueError,IndexError):
-                pass
-        raise
+                    headers={'Content-Type':'application/json','Authorization':'Bearer '+identity()})
+    with opener(request,timeout=45) as response:
+        raw=response.read(5*1024*1024+1)
     if len(raw)>5*1024*1024:
         raise ValueError('Inspection service response exceeds the limit')
     return json.loads(raw)
