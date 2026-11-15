@@ -53,7 +53,7 @@ class FormDataFixture {
   append(name, value) { this.fields.set(name, value); }
 }
 
-function harness({ health, submit, profile, alertsReady = true, publicRows = [], serverPageLimit } = {}) {
+function harness({ health, submit, profile, alertsReady = true, publicRows = [], serverPageLimit, profileWrite, alertLocations=[] } = {}) {
   const elements = Object.fromEntries([...markup.matchAll(/\bid="([^"]+)"/g)].map(match => [match[1], new Element(match[1])]));
   let initialize, authCallback;
   const requests = [];
@@ -66,8 +66,13 @@ function harness({ health, submit, profile, alertsReady = true, publicRows = [],
     const result = () => {
       if (table === 'uam_profiles') {
         assert.ok(profile, 'profile queries require a signed-in fixture');
+        if(state.update&&profileWrite)return profileWrite.promise.then(result=>{if(result.error)return result;updates.push({...state.update});Object.assign(profile,state.update);return {data:[{...profile}]};});
         if (state.update) { updates.push({ ...state.update }); Object.assign(profile, state.update); }
         return { data: state.single ? { ...profile } : [{ ...profile }] };
+      }
+      if(table==='uam_alert_locations'){
+        if(state.insert)alertLocations.push({id:'fixture-location-'+alertLocations.length,...state.insert});
+        return {data:alertLocations.map(row=>({...row}))};
       }
       if (table !== 'uam_events') return { data: [] };
       let rows = publicRows.slice();
@@ -95,6 +100,7 @@ function harness({ health, submit, profile, alertsReady = true, publicRows = [],
       limit: count => { state.limit = count; return builder; },
       single: () => { state.single = true; return Promise.resolve(result()); },
       update: value => { state.update = value; return builder; },
+      insert: value => { state.insert = value; return builder; },
       then: (resolve, reject) => Promise.resolve().then(result).then(resolve, reject),
     };
     return builder;
@@ -231,6 +237,42 @@ async function newOptInSetsFreshConsentWhenReady() {
   assert.equal(ui.updates.length, 1);
 }
 
+async function preferenceFeedbackStaysNextToTheButton() {
+  const profile={alerts_enabled:false,consented_at:null};
+  const locations=[];
+  const ui=harness({profile,alertsReady:false,alertLocations:locations});await ui.initialize();
+  ui.elements.alertState.value='WA';ui.elements.alertCity.value='Tacoma';
+  await ui.elements.saveAlertConsent.onclick();
+  assert.equal(locations.length,1);assert.equal(locations[0].state,'WA');assert.equal(locations[0].city,'Tacoma');
+  assert.match(ui.elements.alertPreferencesStatus.textContent,/Location and email preferences saved/);
+  assert.match(ui.elements.alertPreferencesStatus.textContent,/not activated yet/);
+  assert.equal(profile.alerts_enabled,false);
+  await ui.elements.saveAlertConsent.onclick();assert.equal(locations.length,1,'re-saving a selected location must not duplicate it');
+}
+
+async function preferenceSaveHasBusyStateAndInlineErrors() {
+  const profile={alerts_enabled:false,consented_at:null};const write=deferred();
+  const ui=harness({profile,profileWrite:write});await ui.initialize();
+  ui.elements.alertsEnabled.checked=true;
+  const saved=ui.elements.saveAlertConsent.onclick();
+  assert.equal(ui.elements.saveAlertConsent.disabled,true);assert.equal(ui.elements.saveAlertConsent.textContent,'Saving…');
+  assert.match(ui.elements.alertPreferencesStatus.textContent,/Saving email preferences/);
+  const again=ui.elements.saveAlertConsent.onclick();await again;
+  write.resolve({error:{message:'Could not store preferences'}});await saved;
+  assert.equal(ui.elements.saveAlertConsent.disabled,false);
+  assert.equal(ui.elements.alertPreferencesStatus.textContent,'Could not store preferences');
+  assert.equal(ui.elements.alertPreferencesStatus.classes.has('is-error'),true);
+  assert.equal(ui.updates.length,0);
+}
+
+async function invalidLocationIsExplainedLocally() {
+  const ui=harness({profile:{alerts_enabled:false,consented_at:null}});await ui.initialize();
+  ui.elements.alertCity.value='Tacoma';await ui.elements.saveAlertConsent.onclick();
+  assert.match(ui.elements.alertPreferencesStatus.textContent,/Choose a state/);
+  assert.equal(ui.elements.alertPreferencesStatus.classes.has('is-error'),true);
+  assert.equal(ui.elements.saveAlertConsent.disabled,false);
+}
+
 function publicEvent(number, date, endDate, flyer = false) {
   return { event_key: 'community:' + String(number).padStart(5, '0'), event_data: {
     title: 'Fixture event ' + number, date, ...(endDate ? { end_date: endDate } : {}),
@@ -275,6 +317,9 @@ async function oversizedOrTruncatedCalendarIsExplicitlyReported() {
   await unchangedAlertConsentKeepsOriginalCutoff();
   await outageStillAllowsOptOutButNotNewOptIn();
   await newOptInSetsFreshConsentWhenReady();
+  await preferenceFeedbackStaysNextToTheButton();
+  await preferenceSaveHasBusyStateAndInlineErrors();
+  await invalidLocationIsExplainedLocally();
   await upcomingCommunityEventsAreFilteredBeforePagination();
   await oversizedOrTruncatedCalendarIsExplicitlyReported();
   console.log('Community UI checks passed: async submission, recovery, consent preservation/opt-out/readiness, and complete upcoming-event pagination.');

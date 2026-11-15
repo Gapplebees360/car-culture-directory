@@ -8,6 +8,15 @@
   const check=result=>{if(result.error)throw new Error(result.error.message);return result.data;};
   const member=async()=> (await db.auth.getUser()).data.user;
   const message=(value,error=false)=>{let box=$('communityMessage');if(!box){box=document.createElement('div');box.id='communityMessage';box.className='community-toast';box.setAttribute('role','status');document.body.appendChild(box);}box.textContent=value;box.classList.toggle('is-error',error);};
+  const alertPreferenceMessage=(value,error=false)=>{const box=$('alertPreferencesStatus');if(box){box.textContent=value;box.classList.toggle('is-error',error);}message(value,error);};
+  async function saveSelectedAlertLocation(user) {
+    const state=$('alertState').value,city=$('alertCity').value.trim();
+    if(!state){if(city)throw new Error('Choose a state for the city you entered.');return false;}
+    const rows=check(await db.from('uam_alert_locations').select('id,state,city').eq('user_id',user.id));
+    if(rows.some(row=>row.state===state&&(row.city||'').trim().toLowerCase()===city.toLowerCase()))return false;
+    check(await db.from('uam_alert_locations').insert({user_id:user.id,state,city:city||null}));
+    return true;
+  }
   async function eventKey(event) {
     if(event.event_key)return event.event_key;
     const value=JSON.stringify([event.source,event.source_id||event.url,event.date]);
@@ -146,7 +155,12 @@
     $('forgotPassword').onclick=async()=>{try{const email=$('loginEmail').value.trim();if(!email)throw new Error('Enter your account email first');check(await db.auth.resetPasswordForEmail(email,{redirectTo:location.origin+'/community.html'}));message('If this account exists, check your email for a password reset link.');}catch(error){message(error.message,true);}};
     $('resetPasswordForm').onsubmit=async e=>{e.preventDefault();try{check(await db.auth.updateUser({password:$('newPassword').value}));$('passwordRecovery').hidden=true;message('Password updated.');}catch(error){message(error.message,true);}};
     $('addAlertLocation').onsubmit=async e=>{e.preventDefault();try{const user=await member();check(await db.from('uam_alert_locations').insert({user_id:user.id,state:$('alertState').value,city:$('alertCity').value.trim()||null}));message('Alert location saved.');await refreshAccount();}catch(error){message(error.message,true);}};
-    $('saveAlertConsent').onclick=async()=>{try{
+    $('saveAlertConsent').onclick=async()=>{
+      const button=$('saveAlertConsent');if(button.disabled)return;
+      const label=button.textContent;button.disabled=true;button.textContent='Saving…';
+      alertPreferenceMessage('Saving email preferences…');
+      let locationSaved=false;
+      try{
       const user=await member();if(!user?.email_confirmed_at)throw new Error('Sign in with a verified email first');
       const enabled=$('alertsEnabled').checked;
       const current=check(await db.from('uam_profiles').select('alerts_enabled,consented_at').eq('user_id',user.id).single());
@@ -158,12 +172,14 @@
       }
       // Re-saving an enabled preference must not move the consent cutoff forward
       // and suppress events that are already waiting in the delivery queue.
+      locationSaved=await saveSelectedAlertLocation(user);
       if(enabled!==current.alerts_enabled||consentedAt!==current.consented_at){
         check(await db.from('uam_profiles').update({alerts_enabled:enabled,consented_at:consentedAt}).eq('user_id',user.id));
       }
-      message(enabled?'Email alerts enabled for your saved locations.':'Email alerts are off.');
       await refreshAccount();
-    }catch(error){message(error.message,true);}};
+      const saved=locationSaved?'Location and email preferences saved. ':'Email preferences saved. ';
+      alertPreferenceMessage(saved+(enabled?'Alerts are enabled for your saved locations.':$('alertsEnabled').disabled?'Event-alert delivery is not activated yet, so alerts remain off.':'Alerts are off.'));
+    }catch(error){alertPreferenceMessage((locationSaved?'Your location was saved, but email preferences could not be confirmed. ':'')+error.message,true);}finally{button.disabled=false;button.textContent=label;}};
     $('submitEventForm').onsubmit=async e=>{e.preventDefault();const form=e.currentTarget;const button=$('submitEventButton');button.disabled=true;try{const fields=new FormData(form);const flyer=fields.get('flyer');if(!flyer?.size)throw new Error('An event flyer is required');const event=Object.fromEntries(fields.entries());delete event.flyer;event.flyer_permission=$('flyerPermission').checked;const body=new FormData();body.append('flyer',flyer);body.append('event',JSON.stringify(event));const result=await invoke('/submit',body,true);message(result.status==='approved'?'Event published after the automated checks.':'Event received with its flyer and queued for moderator approval.');form.reset();await refreshAccount();}catch(error){message(error.message,true);}finally{button.disabled=false;}};
     $('changeAdminForm').onsubmit=async e=>{e.preventDefault();if(!confirm('Transfer site moderation to this verified account?'))return;try{check(await db.rpc('uam_change_admin',{p_email:$('newAdminEmail').value.trim()}));message('Administrator changed.');await refreshAccount();}catch(error){message(error.message,true);}};
     const unsubscribe=new URLSearchParams(location.search).get('unsubscribe');
