@@ -117,11 +117,15 @@ Deno.serve(async(req: Request) => {
       const claimed=check(await db.rpc('uam_claim_alerts'));
       let sent=0,failed=0;
       for(const batch of claimed) {
+        // An uncertain earlier request may already have delivered. Stop retries
+        // before the provider forgets its key, including the request timeout.
+        const retryBefore=Date.parse(batch.retry_before);
+        if(!Number.isFinite(retryBefore)||Date.now()+10000>=retryBefore){failed++;continue;}
         const keys=batch.events.map((event: any)=>event.event_key).sort();
         const idempotency='uam-alert-'+batch.batch_id;
         const unsubscribe=ORIGIN+'/community.html?unsubscribe='+encodeURIComponent(batch.unsubscribe_token);
         const items=batch.events.map((event: any)=>'<li><a href="'+escapeHtml(event.event_data.url)+'">'+escapeHtml(event.event_data.title)+'</a> — '+escapeHtml(event.event_data.date)+' · '+escapeHtml(event.event_data.city)+', '+escapeHtml(event.event_data.state)+'</li>').join('');
-        const response=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:'Bearer '+secret('RESEND_API_KEY'),'Content-Type':'application/json','Idempotency-Key':idempotency},body:JSON.stringify({from:secret('EMAIL_FROM'),to:[batch.email],subject:'New car events near you · USA Auto Meets',html:'<h1>Your next meet is out there.</h1><ul>'+items+'</ul><p>You requested these local event alerts. <a href="'+unsubscribe+'">Unsubscribe or change your preferences</a>.</p>'})});
+        const response=await fetch('https://api.resend.com/emails',{method:'POST',signal:AbortSignal.timeout(10000),headers:{Authorization:'Bearer '+secret('RESEND_API_KEY'),'Content-Type':'application/json','Idempotency-Key':idempotency},body:JSON.stringify({from:secret('EMAIL_FROM'),to:[batch.email],subject:'New car events near you · USA Auto Meets',html:'<h1>Your next meet is out there.</h1><ul>'+items+'</ul><p>You requested these local event alerts. <a href="'+unsubscribe+'">Unsubscribe or change your preferences</a>.</p>'})});
         check(await db.rpc('uam_finish_alerts',{p_user:batch.user_id,p_keys:keys,p_sent:response.ok}));
         if(response.ok) sent++;
         else{failed++;console.error('Alert provider rejected batch',{batch_id:batch.batch_id,status:response.status});}

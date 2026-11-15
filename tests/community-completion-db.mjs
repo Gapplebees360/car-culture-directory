@@ -19,6 +19,7 @@ await pg.exec(`
 await pg.exec(await readFile(new URL('../supabase/migrations/20261113_community.sql',import.meta.url),'utf8'));
 
 await pg.exec(await readFile(new URL('../supabase/proposals/community-completion.sql',import.meta.url),'utf8'));
+await pg.exec(await readFile(new URL('../supabase/proposals/alert-retry-window.sql',import.meta.url),'utf8'));
 const owner=randomUUID(),moderator=randomUUID(),recipient=randomUUID();
 for(const [id,email] of [[owner,'owner@example.test'],[moderator,'mod@example.test'],[recipient,'recipient@example.test']])await pg.query('insert into auth.users(id,email,email_confirmed_at) values($1,$2,now())',[id,email]);
 await pg.query('insert into public.uam_admins(email) values($1)',['mod@example.test']);
@@ -93,6 +94,23 @@ await addAlertEvent('recipient-change');first=(await batches())[0];await expire(
 await pg.query('update auth.users set email=$1 where id=$2',['updated@example.test',recipient]);
 assert.deepEqual(await batches(),[]);
 assert.equal((await pg.query('select status from public.uam_alert_delivery where batch_id=$1',[first.batch_id])).rows[0].status,'suppressed');
+// Retrying after an uncertain delivery cannot outlive provider duplicate protection.
+await addAlertEvent('retry-window');first=(await batches())[0];
+assert.ok(Number.isFinite(Date.parse(first.retry_before)));
+assert.deepEqual(await batches(),[]); // Active lease blocks concurrent sends.
+await expire();retry=(await batches())[0];
+assert.equal(retry.batch_id,first.batch_id);assert.equal(retry.retry_before,first.retry_before);
+await pg.exec("update public.uam_alert_delivery set first_attempt_at=now()-interval '23 hours',lease_until=now()-interval '1 minute' where status='sending'");
+assert.deepEqual(await batches(),[]);
+assert.equal((await pg.query('select status from public.uam_alert_delivery where batch_id=$1',[first.batch_id])).rows[0].status,'suppressed');
+await addAlertEvent('provider-failed');first=(await batches())[0];
+await pg.query('select public.uam_finish_alerts($1,$2,false)',[recipient,[key('provider-failed')]]);
+retry=(await batches())[0];assert.equal(retry.batch_id,first.batch_id);assert.equal(retry.retry_before,first.retry_before);
+await pg.query('select public.uam_finish_alerts($1,$2,true)',[recipient,[key('provider-failed')]]);
+assert.deepEqual(await batches(),[]); // Recorded successful sends never replay.
+await addAlertEvent('unknown-attempt');first=(await batches())[0];
+await pg.query('update public.uam_alert_delivery set first_attempt_at=null where batch_id=$1',[first.batch_id]);await expire();
+assert.deepEqual(await batches(),[]);
 await claim(recipient);assert.deepEqual((await pg.query('select payload_fingerprint from public.uam_alert_delivery')).rows,[]);
 await pg.close();
 // Execute the actual Edge sync routine with fake network/DB boundaries. Invalid
