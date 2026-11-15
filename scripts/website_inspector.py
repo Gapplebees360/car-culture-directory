@@ -31,6 +31,8 @@ USER_AGENT = 'USAAutoMeets/1.0 (+https://usautomeets.com/)'
 MAX_BYTES = 1024 * 1024
 MAX_PAGES = 3
 MAX_NODES = 2000
+MAX_ROBOTS_RULES = 1000
+MAX_ROBOTS_PATTERN = 2048
 EVENT_TYPES = {'Event', 'SportsEvent', 'Festival', 'ExhibitionEvent', 'SocialEvent'}
 BUSINESS_TYPES = {'AutomotiveBusiness', 'AutoPartsStore', 'AutoRepair', 'AutoBodyShop', 'AutoDealer', 'AutoWash'}
 CAR_PATTERN = re.compile(r'\b(?:car\s*(?:show|meet|cruise|rally)|cars?\s*(?:&|and)\s*coffee|caffeine\s*(?:&|and)\s*gasoline|cars?\s*(?:&|and)\s*caffeine|auto\s*show|automotive\s*(?:show|meet|event)|autocross|rallycross|track\s*day|drag\s*rac(?:e|ing)|dyno\s*day|hot\s*rod\s*(?:show|meet)|cruise[- ]?in|cruise\s*night)\b', re.I)
@@ -153,11 +155,46 @@ def fetch_public(url):
     raise InspectionError('Redirect limit exceeded')
 
 
+def _robots_wildcard_match(pattern, path, terminal=False):
+    """Match an anchored robots pattern without regex or backtracking.
+
+    Stars separate literal segments. Earliest middle-segment matches leave the
+    most room for later segments; an anchored final literal is reserved at the
+    end before searching. Searches only advance through the request path.
+    """
+    segments = pattern.split('*')
+    if len(segments) == 1:
+        return path == pattern if terminal else path.startswith(pattern)
+    first, last = segments[0], segments[-1]
+    if not path.startswith(first):
+        return False
+    position = len(first)
+    if terminal and last:
+        if not path.endswith(last):
+            return False
+        limit = len(path) - len(last)
+        middle = segments[1:-1]
+    else:
+        limit = len(path)
+        middle = segments[1:]
+    if position > limit:
+        return False
+    for segment in middle:
+        if not segment:
+            continue
+        found = path.find(segment, position, limit)
+        if found < 0:
+            return False
+        position = found + len(segment)
+    return position <= limit
+
+
 class Robots:
     """Conservative RFC 9309 wildcard/longest-match rules, plus crawl delay."""
     def __init__(self, body):
         groups = []
         agents, rules, delay, started = [], [], 0, False
+        rule_count = 0
         for raw in body.splitlines():
             line = raw.split('#', 1)[0].strip()
             if ':' not in line:
@@ -172,6 +209,11 @@ class Robots:
             elif agents:
                 started = True
                 if key in {'allow', 'disallow'} and value:
+                    rule_count += 1
+                    if rule_count > MAX_ROBOTS_RULES:
+                        raise InspectionError('Robots policy exceeds the inspection rule limit; inspection deferred')
+                    if len(value) > MAX_ROBOTS_PATTERN:
+                        raise InspectionError('Robots policy pattern exceeds the inspection length limit; inspection deferred')
                     rules.append((key == 'allow', value))
                 elif key == 'crawl-delay':
                     try:
@@ -199,8 +241,9 @@ class Robots:
         for allow, rule in self.rules:
             terminal = rule.endswith('$')
             raw = normalized(rule[:-1] if terminal else rule)
-            pattern = '^' + '.*'.join(re.escape(p) for p in raw.split('*')) + ('$' if terminal else '')
-            if re.search(pattern, path):
+            if len(raw) > MAX_ROBOTS_PATTERN:
+                raise InspectionError('Normalized robots pattern exceeds the inspection length limit; inspection deferred')
+            if _robots_wildcard_match(raw, path, terminal):
                 matches.append((len(raw.replace('*', '')), allow))
         return max(matches, default=(0, True))[1]
 

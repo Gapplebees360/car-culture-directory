@@ -152,6 +152,35 @@ class EventInspectionTests(unittest.TestCase):
             inspect_website(BASE + '/', today=TODAY, fetcher=fetch)
         self.assertEqual(fetch.calls, [BASE + '/robots.txt'])
 
+    def test_robots_many_stars_use_deterministic_matching(self):
+        # The previous ^/a.*a.*...b regex has exponentially many failing paths.
+        # Assert the old regex engine is never invoked for these policy rules.
+        pattern = '/' + 'a*' * 300 + 'b'
+        policy = Robots('User-agent: *\nDisallow: ' + pattern)
+        with patch('scripts.website_inspector.re.search', side_effect=AssertionError('No regex matching for robots wildcards')):
+            self.assertTrue(policy.allowed(BASE + '/' + 'a' * 10000 + 'c'))
+            self.assertFalse(policy.allowed(BASE + '/' + 'a' * 10000 + 'b/extra'))
+        terminal = Robots('User-agent: *\nDisallow: ' + pattern + '$')
+        self.assertFalse(terminal.allowed(BASE + '/' + 'a' * 10000 + 'b'))
+        self.assertTrue(terminal.allowed(BASE + '/' + 'a' * 10000 + 'b/extra'))
+        # A trailing star can consume the complete remaining suffix, including empty.
+        trailing = Robots('User-agent: *\nDisallow: /a*b*$')
+        self.assertFalse(trailing.allowed(BASE + '/ab'))
+        self.assertFalse(trailing.allowed(BASE + '/axbyz'))
+        self.assertTrue(trailing.allowed(BASE + '/axc'))
+
+    def test_excessive_robots_policy_fails_closed_instead_of_truncating(self):
+        for body in [
+            'User-agent: *\n' + 'Allow: /\n' * 1000 + 'Disallow: /',
+            'User-agent: *\nDisallow: /' + 'a' * 2048,
+        ]:
+            with self.subTest(length=len(body)), self.assertRaisesRegex(InspectionError, 'Robots policy'):
+                inspect_website(BASE + '/', today=TODAY, fetcher=Fetcher(robots=body))
+        # Unicode normalization can expand a short raw rule past the same bound.
+        unicode_policy = Robots('User-agent: *\nDisallow: /' + '\u00e9' * 400)
+        with self.assertRaisesRegex(InspectionError, 'Normalized robots pattern'):
+            unicode_policy.allowed(BASE + '/safe')
+
     def test_discovery_is_same_origin_bounded_and_never_executes_page_code(self):
         links = '<a href="/events/a">A</a><a href="/events/b">B</a><a href="/events/c">C</a><a href="https://foreign.example.org/events">External</a><script>throw new Error("not executed")</script>'
         fetch = Fetcher({BASE + '/':page({'@type':'AutoRepair'}, links), BASE + '/events/a':page(event()), BASE + '/events/b':page(event()), BASE + '/events/c':page(event())})
