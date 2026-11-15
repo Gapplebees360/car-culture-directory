@@ -1,5 +1,6 @@
 import { createClient } from 'npm:@supabase/supabase-js@2.119.0';
 import { createRemoteJWKSet, jwtVerify } from 'npm:jose@6.1.0';
+import { publicCommunityEvents, publicCommunityFlyer } from './public-community.mjs';
 import { authenticateWebsiteWorker } from './website-worker-auth.mjs';
 import { validateSubmission, inspectFlyer, digest, eventKey, escapeHtml } from './validation.mjs';
 
@@ -60,6 +61,12 @@ Deno.serve(async(req: Request) => {
   const path=pathOf(req);
   try {
     const db=admin();
+    if(req.method==='GET' && (path==='/public-events'||path==='/public-flyer')) {
+      const response=await (path==='/public-events'?publicCommunityEvents(db,req.url):publicCommunityFlyer(db,req.url));
+      const headers=new Headers(response.headers);
+      for(const [name,value] of Object.entries(cors))headers.set(name,value);
+      return new Response(response.body,{status:response.status,headers});
+    }
     if(path.startsWith('/websites/worker/')) {
       const token=(req.headers.get('authorization')||'').replace(/^Bearer\s+/i,'');
       if(req.method!=='POST'||!await authenticateWebsiteWorker(token,(value: string,options: any)=>jwtVerify(value,websiteWorkerKeys,options)))return json({error:'Authorized inspection workflow required'},401);

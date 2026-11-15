@@ -1,4 +1,5 @@
 import datetime as dt
+import hashlib
 from html.parser import HTMLParser
 import json
 from pathlib import Path
@@ -9,6 +10,7 @@ import xml.etree.ElementTree as ET
 
 from scripts.seo import build_pages, event_path, event_key, event_schema, homepage_content
 from scripts.update_events import validate_events, build
+from tests.test_public_community_export import community_event
 
 
 def event(**changes):
@@ -18,6 +20,44 @@ def event(**changes):
 
 
 class SEOTests(unittest.TestCase):
+    def test_community_identity_and_imported_paths(self):
+        first, second = community_event(1), community_event(2)
+        self.assertNotEqual(event_path(first), event_path(second))
+        self.assertEqual(event_key(first), first['event_key'])
+        self.assertEqual(event_path(first), '/events/' + hashlib.sha256(first['event_key'].encode()).hexdigest()[:20] + '/')
+        self.assertEqual(event_path(first), event_path(first | {'date': '2026-12-06', 'url': 'https://new.example'}))
+        original = event()
+        old_identity = json.dumps([original['source'], original['source_id'], original['date']], ensure_ascii=False, separators=(',', ':'))
+        self.assertEqual(event_path(original), '/events/' + hashlib.sha256(old_identity.encode()).hexdigest()[:20] + '/')
+        with self.assertRaises(ValueError):
+            event_key(first | {'event_key': 'community:not-a-uuid'})
+
+    def test_community_static_pages_and_withdrawal_keep_browser_imports_only(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            imported = event()
+            community = [community_event(1), community_event(2)]
+            catalog = json.dumps([imported])
+            (root/'events.json').write_text(catalog)
+            (root/'community-events.json').write_text(json.dumps(community))
+            (root/'index.html').write_text('<!-- SEO_GRID_START --><!-- SEO_GRID_END --><!-- SEO_STATES_START --><!-- SEO_STATES_END --><script>let eventsData = [];</script>')
+            build(root, dt.date(2026,11,13))
+            homepage = (root/'index.html').read_text()
+            payload, _ = json.JSONDecoder().raw_decode(homepage.split('let eventsData = ', 1)[1])
+            self.assertEqual(payload, [imported | {'seo_path': event_path(imported)}])
+            self.assertEqual((root/'events.json').read_text(), catalog)
+            self.assertIn('/states/alaska/', homepage)
+            for record in community:
+                detail = root/event_path(record).lstrip('/')/'index.html'
+                self.assertIn('/community.html?event=' + record['event_key'], detail.read_text())
+                self.assertIn(event_path(record), (root/'sitemap.xml').read_text())
+            (root/'community-events.json').write_text('[]')
+            build(root, dt.date(2026,11,13))
+            for record in community:
+                self.assertFalse((root/event_path(record).lstrip('/')/'index.html').exists())
+                self.assertNotIn(event_path(record), (root/'sitemap.xml').read_text())
+            self.assertFalse((root/'states/alaska/index.html').exists())
+
     def test_event_identity_stays_stable_when_title_or_image_changes(self):
         original=event()
         self.assertEqual(event_path(original),event_path(original|{'title':'Corrected title','image':'https://example.org/new.jpg'}))

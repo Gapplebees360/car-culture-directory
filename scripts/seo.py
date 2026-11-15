@@ -17,11 +17,18 @@ def slug(value):
 
 
 def event_path(event):
+    if event.get('source') == 'Community':
+        return '/events/'+hashlib.sha256(event_key(event).encode()).hexdigest()[:20]+'/'
     identity = json.dumps([event.get('source'),event.get('source_id') or event['url'],event['date']],ensure_ascii=False,separators=(',',':'))
     return '/events/'+hashlib.sha256(identity.encode()).hexdigest()[:20]+'/'
 
 
 def event_key(event):
+    if event.get('source') == 'Community':
+        key = event.get('event_key')
+        if not isinstance(key, str) or not re.fullmatch(r'community:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}', key):
+            raise ValueError('Community event requires a canonical community UUID key')
+        return key
     identity = json.dumps([event.get('source'),event.get('source_id') or event['url'],event['date']],ensure_ascii=False,separators=(',',':'))
     return 'imported:'+hashlib.sha256(identity.encode()).hexdigest()
 

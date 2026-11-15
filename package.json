@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "test:community": "node tests/community-ui.cjs && node tests/community-db.mjs && node tests/community-completion-db.mjs && node tests/alert-delivery.mjs && node tests/website-submissions-db.mjs && node tests/website-submissions-ui.cjs && node tests/website-worker-auth.mjs && node --test tests/community-validation.mjs && node tests/check-edge-syntax.mjs"
+    "test:community": "node tests/community-ui.cjs && node tests/community-db.mjs && node tests/community-completion-db.mjs && node tests/alert-delivery.mjs && node tests/website-submissions-db.mjs && node tests/website-submissions-ui.cjs && node tests/website-worker-auth.mjs && node --test tests/public-community.mjs && node --test tests/community-validation.mjs && node tests/check-edge-syntax.mjs"
   },
   "devDependencies": {
     "@electric-sql/pglite": "0.5.16",

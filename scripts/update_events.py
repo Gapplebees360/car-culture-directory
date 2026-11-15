@@ -56,6 +56,13 @@ def validate_events(records, today=None, verification_today=None):
 
 def build(root=ROOT, today=None):
     events = validate_events(json.loads((root / 'events.json').read_text(encoding='utf-8')), today)
+    try:
+        from .sync_public_community_events import SNAPSHOT, validate_public_events
+    except ImportError:
+        from sync_public_community_events import SNAPSHOT, validate_public_events
+    community = []
+    if (root / SNAPSHOT).exists():
+        community = validate_public_events(json.loads((root / SNAPSHOT).read_text(encoding='utf8')), today)
     if (root / 'seo-moderation.json').exists():
         try:
             from .seo import event_key
@@ -87,8 +94,9 @@ def build(root=ROOT, today=None):
             from .seo import homepage_content, build_pages
         except ImportError:
             from seo import homepage_content, build_pages
-        updated = homepage_content(updated, events)
-        build_pages(root, events)
+        seo_events = sorted(events + community, key=lambda event: (event['date'], event['title']))
+        updated = homepage_content(updated, seo_events)
+        build_pages(root, seo_events)
     if updated != html:
         temporary = index.with_suffix('.html.tmp')
         temporary.write_text(updated, encoding='utf-8')
