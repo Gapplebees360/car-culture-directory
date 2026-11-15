@@ -1,4 +1,6 @@
 import { createClient } from 'npm:@supabase/supabase-js@2.119.0';
+import { createRemoteJWKSet, jwtVerify } from 'npm:jose@6.1.0';
+import { authenticateWebsiteWorker } from './website-worker-auth.mjs';
 import { validateSubmission, inspectFlyer, digest, eventKey, escapeHtml } from './validation.mjs';
 
 const ORIGIN = 'https://usautomeets.com';
@@ -7,6 +9,7 @@ const json = (data: unknown,status=200) => Response.json(data,{status,headers:{.
 const secret = (name: string) => Deno.env.get(name) || '';
 const admin = () => createClient(secret('SUPABASE_URL'),secret('SUPABASE_SERVICE_ROLE_KEY'),{auth:{persistSession:false,autoRefreshToken:false}});
 const check = (result: any) => {if(result.error) throw new Error(result.error.message); return result.data;};
+const websiteWorkerKeys=createRemoteJWKSet(new URL('https://token.actions.githubusercontent.com/.well-known/jwks'),{timeoutDuration:5000});
 const pathOf = (req: Request) => new URL(req.url).pathname.split('/community')[1] || '/';
 async function user(req: Request, db: any) {
   const token=(req.headers.get('authorization')||'').replace(/^Bearer\s+/i,'');
@@ -16,20 +19,38 @@ async function user(req: Request, db: any) {
 }
 
 async function sync(db: any) {
-  const response=await fetch(ORIGIN+'/events.json?catalog='+Date.now(),{headers:{'Cache-Control':'no-cache'}});
+  const response=await fetch(ORIGIN+'/events.json?catalog='+Date.now(),{headers:{'Cache-Control':'no-cache'},signal:AbortSignal.timeout(30000)});
   if(!response.ok) throw new Error('Published event feed is unavailable');
   const events=await response.json();
   if(!Array.isArray(events)||events.length>10000) throw new Error('Unexpected event feed');
   const rows=[];
   for(const event of events) {
-    if(!event.title || !event.url || !/^\d{4}-\d{2}-\d{2}$/.test(event.date) || event.source==='Community') continue;
-    rows.push({event_key:await eventKey(event),event_data:event,approved:true,updated_at:new Date().toISOString()});
+    // Reject a malformed snapshot before changing any catalog row. A failed source
+    // request is never interpreted as an empty replacement catalog.
+    if(!event || typeof event!=='object' || typeof event.title!=='string' || !event.title.trim()
+      || typeof event.source!=='string' || !event.source.trim() || event.source==='Community'
+      || typeof event.url!=='string' || !/^https?:\/\//.test(event.url)
+      || typeof event.date!=='string' || !/^\d{4}-\d{2}-\d{2}$/.test(event.date)
+      || !Number.isFinite(Date.parse(event.date+'T12:00:00Z'))
+      || new Date(event.date+'T12:00:00Z').toISOString().slice(0,10)!==event.date) throw new Error('Invalid published catalog snapshot');
+    rows.push({event_key:await eventKey(event),event_data:event});
   }
-  const blocked=check(await db.from('uam_flags').select('event_key').eq('status','confirmed'));
-  const hidden=new Set(blocked.map((flag: any)=>flag.event_key));
-  for(const row of rows) if(hidden.has(row.event_key)) row.approved=false;
-  for(let i=0;i<rows.length;i+=100) check(await db.from('uam_events').upsert(rows.slice(i,i+100),{onConflict:'event_key',ignoreDuplicates:false}));
-  return {synced:rows.length};
+  // One service-only RPC atomically adds current imports and retires missing ones.
+  // It preserves human-confirmed suppressions and leaves community submissions alone.
+  return check(await db.rpc('uam_reconcile_catalog',{p_rows:rows}));
+}
+
+async function refreshCatalog(db: any) {
+  if(!check(await db.rpc('uam_claim_catalog_refresh'))) return {cached:true};
+  try {
+    return await sync(db);
+  } catch(error) {
+    // Preserve the source/transaction error even if shortening the cooldown fails.
+    // The bounded fetch timeout keeps a failed request within its own active lease.
+    try {check(await db.rpc('uam_fail_catalog_refresh'));}
+    catch {console.error('Could not shorten failed catalog refresh cooldown');}
+    throw error;
+  }
 }
 
 Deno.serve(async(req: Request) => {
@@ -39,6 +60,22 @@ Deno.serve(async(req: Request) => {
   const path=pathOf(req);
   try {
     const db=admin();
+    if(path.startsWith('/websites/worker/')) {
+      const token=(req.headers.get('authorization')||'').replace(/^Bearer\s+/i,'');
+      if(req.method!=='POST'||!await authenticateWebsiteWorker(token,(value: string,options: any)=>jwtVerify(value,websiteWorkerKeys,options)))return json({error:'Authorized inspection workflow required'},401);
+      if(path==='/websites/worker/claim')return json(check(await db.rpc('uam_claim_websites',{p_limit:3})));
+      if(path==='/websites/worker/export')return json(check(await db.rpc('uam_export_website_events')));
+      if(path==='/websites/worker/finish') {
+        const reader=req.body?.getReader();if(!reader)return json({error:'Inspection report required'},400);
+        const chunks: Uint8Array[]=[];let size=0;
+        while(true){const part=await reader.read();if(part.done)break;size+=part.value.length;if(size>1024*1024){await reader.cancel();return json({error:'Inspection report exceeds the limit'},413);}chunks.push(part.value);}
+        const body=JSON.parse(await new Blob(chunks).text());
+        const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+        if(!uuid.test(body.id)||!uuid.test(body.lease_token)||!body.report||typeof body.report!=='object')return json({error:'Invalid inspection report'},400);
+        return json(check(await db.rpc('uam_finish_website',{p_id:body.id,p_lease:body.lease_token,p_report:body.report})));
+      }
+      return json({error:'Not found'},404);
+    }
     if(path==='/health') {
       const ready=await db.from('uam_profiles').select('user_id',{head:true,count:'exact'});
       return json({accounts:!ready.error,submissions:!ready.error,signup_ready:!ready.error&&secret('AUTH_EMAIL_READY')==='true',alerts_ready:!ready.error&&!!secret('RESEND_API_KEY')&&!!secret('EMAIL_FROM')&&!!secret('ALERT_CRON_SECRET')},ready.error?503:200);
@@ -51,8 +88,7 @@ Deno.serve(async(req: Request) => {
     }
     if(path==='/sync' && req.method==='POST') {
       // Fixed public source only; a database lease limits refresh to once per hour.
-      if(!check(await db.rpc('uam_claim_catalog_refresh'))) return json({cached:true});
-      return json(await sync(db));
+      return json(await refreshCatalog(db));
     }
     if(path==='/submit' && req.method==='POST') {
       const member=await user(req,db);

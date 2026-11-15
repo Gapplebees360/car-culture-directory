@@ -82,16 +82,23 @@ jobs:
         continue-on-error: true
         run: python scripts/check_business_sources.py
 
+      - name: Inspect submitted websites and refresh enrolled sources
+        id: websites
+        continue-on-error: true
+        run: python scripts/process_website_submissions.py
+
       - name: Check free source health
         env:
           SCCA_RESULT: ${{ steps.scca.outcome }}
           FREE_RESULT: ${{ steps.free.outcome }}
           BUSINESS_RESULT: ${{ steps.business.outcome }}
+          WEBSITE_RESULT: ${{ steps.websites.outcome }}
         run: |
           if [ "$SCCA_RESULT" = failure ]; then echo '::warning::SCCA refresh failed; prior source data was retained.'; fi
           if [ "$FREE_RESULT" = failure ]; then echo '::warning::Free calendar refresh failed; prior source data was retained.'; fi
           if [ "$BUSINESS_RESULT" = failure ]; then echo '::warning::Business calendar refresh failed; prior source data was retained.'; fi
-          if [ "$SCCA_RESULT" = failure ] && [ "$FREE_RESULT" = failure ] && [ "$BUSINESS_RESULT" = failure ]; then exit 1; fi
+          if [ "$WEBSITE_RESULT" = failure ]; then echo '::warning::Website inspection unavailable; previous published data was retained.'; fi
+          if [ "$SCCA_RESULT" = failure ] && [ "$FREE_RESULT" = failure ] && [ "$BUSINESS_RESULT" = failure ] && [ "$WEBSITE_RESULT" = failure ]; then exit 1; fi
 
       - name: Import public Facebook events across 50 states
         if: github.event_name == 'workflow_dispatch' && inputs.facebook
@@ -116,6 +123,7 @@ jobs:
           if [ -f facebook-report.json ]; then git add facebook-report.json; fi
           if [ -f free-calendar-report.json ]; then git add free-calendar-report.json; fi
           git add business-calendar-report.json
+          if [ -f website-import-report.json ]; then git add website-import-report.json; fi
           if [ -f business-watch-report.json ]; then git add business-watch-report.json; fi
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "Refresh verified upcoming events"
@@ -136,6 +144,7 @@ jobs:
           if [ -f organizer-registry.json ]; then cp organizer-registry.json _site/; fi
           cp business-sources.json business-calendar-report.json _site/
           if [ -f business-watch-report.json ]; then cp business-watch-report.json _site/; fi
+          if [ -f website-import-report.json ]; then cp website-import-report.json _site/; fi
       - uses: actions/upload-pages-artifact@v5
         with:
           path: _site

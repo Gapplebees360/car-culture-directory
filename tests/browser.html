@@ -18,8 +18,10 @@ frame.addEventListener('load', async () => {
     check(frame.contentWindow.getComputedStyle(doc.getElementById('loadMore')).display === 'none', 'Load more must actually be invisible for no results');
     doc.getElementById('resetFilters').click();
     check(cards().length === 18, 'Reset must restore the initial page');
-    change('stateFilter', 'ME');
-    check(cards().length > 0 && cards().every(card => card.textContent.includes(', ME')), 'State filter must match Maine locations');
+    const populatedState = [...doc.getElementById('stateFilter').options].find(option => /^[A-Z]{2}$/.test(option.value) && /\([1-9]\d* events\)/.test(option.textContent));
+    check(populatedState, 'At least one state must have upcoming fixture listings');
+    change('stateFilter', populatedState.value);
+    check(cards().length > 0 && cards().every(card => card.textContent.includes(', ' + populatedState.value)), 'State filter must match the selected state');
     doc.getElementById('resetFilters').click();
     change('categoryFilter', 'Cars & Coffee');
     check(cards().length > 0 && cards().every(card => card.querySelector('.category-badge').textContent === 'Cars & Coffee'), 'Category filter must match');

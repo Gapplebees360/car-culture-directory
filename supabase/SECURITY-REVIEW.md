@@ -21,3 +21,11 @@ Signed-in moderation RPCs intentionally use privileged operations after checking
 ## Release limits
 
 Registration is gated until verified SMTP/auth redirect setup is marked ready. Event alerts are gated until the sender, API credential, and cron secret are configured. The scheduler and real email delivery still need an end-to-end check. Privileged database keys, mail credentials, and cron secrets are never committed to browser code.
+
+## Website import release, November 14, 2026
+
+The approved completion and website-submission proposals were applied as `uam_completion_fixes_20261114` and `uam_website_submissions_20261114`. The community function is version 3. All three website tables have RLS. Live permission checks confirm anonymous users cannot claim inspections or reconcile the catalog, registered users cannot finish inspections, and only authenticated members can call the submission RPC (which verifies their email and rate limit in its body). An unauthenticated worker request returns 401. Signup and email-alert readiness remain false.
+
+The advisor adds two intentional authenticated SECURITY DEFINER notices: `uam_submit_website` checks verified identity and daily quota, and `uam_set_website_source` checks administrator identity. Browser execution is necessary for those specific operations; no general table-write privilege is granted. The service-only worker RPCs use SECURITY INVOKER and are unavailable to browser roles. See [authenticated function advisory](https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable).
+
+`uam_website_event_links` has RLS and no client policy deliberately, denying browser reads/writes; the service role handles links. See [deny-by-default table advisory](https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy). The existing anonymous opaque confirmed-event suppression helper remains intentional; see [public helper advisory](https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable). No new public privileged inspection function was exposed.

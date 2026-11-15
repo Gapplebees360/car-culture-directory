@@ -55,9 +55,31 @@
     card.querySelector('.card-footer').appendChild(actions);
   }
   async function loadPublicEvents() {
-    const rows=check(await db.from('uam_events').select('event_key,event_data,flyer_path').eq('approved',true).like('event_key','community:%').limit(500));
-    const paths=rows.map(row=>row.flyer_path).filter(Boolean);
-    const signed=paths.length?check(await db.storage.from('uam-flyers').createSignedUrls(paths,3600)):[];
+    const now=new Date();
+    const today=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
+    const pageSize=250,maxRows=10000,rows=[];
+    for(let offset=0;offset<=maxRows;offset+=pageSize){
+      const result=await db.from('uam_events').select('event_key,event_data,flyer_path',{count:'exact'}).eq('approved',true).like('event_key','community:%')
+        .or(`event_data->>end_date.gte.${today},and(event_data->>end_date.is.null,event_data->>date.gte.${today})`)
+        .order('event_data->>date',{ascending:true}).order('event_key',{ascending:true})
+        .range(offset,offset===maxRows?offset:offset+pageSize-1);
+      const batch=check(result);
+      if(offset===maxRows&&batch.length){
+        const explanation='The community calendar is too large to load completely. Please check back shortly.';
+        message(explanation,true);throw new Error(explanation);
+      }
+      rows.push(...batch);
+      if(batch.length<pageSize&&Number.isInteger(result.count)&&rows.length<result.count){
+        const explanation='Some community listings could not be loaded. Please try again later.';
+        message(explanation,true);throw new Error(explanation);
+      }
+      if(batch.length<pageSize)break;
+    }
+    const paths=[...new Set(rows.map(row=>row.flyer_path).filter(Boolean))];
+    const signed=[];
+    for(let offset=0;offset<paths.length;offset+=pageSize){
+      signed.push(...check(await db.storage.from('uam-flyers').createSignedUrls(paths.slice(offset,offset+pageSize),3600)));
+    }
     const images=new Map(signed.filter(row=>row.signedUrl).map(row=>[row.path,row.signedUrl]));
     return rows.map(row=>({...row.event_data,event_key:row.event_key,...(images.has(row.flyer_path)?{image:images.get(row.flyer_path),image_kind:'source_artwork'}:{})}));
   }
@@ -77,8 +99,8 @@
     const profile=check(await db.from('uam_profiles').select('*').eq('user_id',user.id).single());
     $('alertsEnabled').checked=profile.alerts_enabled;
     const health=await fetch(base+'/health').then(r=>r.json()).catch(()=>({}));
-    $('alertsEnabled').disabled=!health.alerts_ready;
-    $('emailReadiness').textContent=health.alerts_ready?'Choose where to hear about newly listed events.':'Email sending is being activated. You can save locations now; email alerts remain off until delivery is ready.';
+    $('alertsEnabled').disabled=!health.alerts_ready&&!profile.alerts_enabled;
+    $('emailReadiness').textContent=health.alerts_ready?'Choose where to hear about newly listed events.':profile.alerts_enabled?'Email delivery is temporarily unavailable. Your preference is saved, and you can still turn alerts off.':'Email sending is being activated. You can save locations now; email alerts remain off until delivery is ready.';
     const locations=check(await db.from('uam_alert_locations').select('*').eq('user_id',user.id));
     $('alertLocations').replaceChildren();
     for(const loc of locations){const row=document.createElement('li');row.textContent=(loc.city?loc.city+', ':'All cities in ')+loc.state+' ';const button=document.createElement('button');button.textContent='Remove';button.onclick=async()=>{check(await db.from('uam_alert_locations').delete().eq('id',loc.id));await refreshAccount();};row.appendChild(button);$('alertLocations').appendChild(row);}
@@ -124,13 +146,32 @@
     $('forgotPassword').onclick=async()=>{try{const email=$('loginEmail').value.trim();if(!email)throw new Error('Enter your account email first');check(await db.auth.resetPasswordForEmail(email,{redirectTo:location.origin+'/community.html'}));message('If this account exists, check your email for a password reset link.');}catch(error){message(error.message,true);}};
     $('resetPasswordForm').onsubmit=async e=>{e.preventDefault();try{check(await db.auth.updateUser({password:$('newPassword').value}));$('passwordRecovery').hidden=true;message('Password updated.');}catch(error){message(error.message,true);}};
     $('addAlertLocation').onsubmit=async e=>{e.preventDefault();try{const user=await member();check(await db.from('uam_alert_locations').insert({user_id:user.id,state:$('alertState').value,city:$('alertCity').value.trim()||null}));message('Alert location saved.');await refreshAccount();}catch(error){message(error.message,true);}};
-    $('saveAlertConsent').onclick=async()=>{try{const user=await member();check(await db.from('uam_profiles').update({alerts_enabled:$('alertsEnabled').checked,consented_at:$('alertsEnabled').checked?new Date().toISOString():null}).eq('user_id',user.id));message($('alertsEnabled').checked?'Email alerts enabled for your saved locations.':'Email alerts are off.');}catch(error){message(error.message,true);}};
-    $('submitEventForm').onsubmit=async e=>{e.preventDefault();const button=$('submitEventButton');button.disabled=true;try{const fields=new FormData(e.currentTarget);const flyer=fields.get('flyer');if(!flyer?.size)throw new Error('An event flyer is required');const event=Object.fromEntries(fields.entries());delete event.flyer;event.flyer_permission=$('flyerPermission').checked;const body=new FormData();body.append('flyer',flyer);body.append('event',JSON.stringify(event));const result=await invoke('/submit',body,true);message(result.status==='approved'?'Event published after the automated checks.':'Event received with its flyer and queued for moderator approval.');e.currentTarget.reset();await refreshAccount();}catch(error){message(error.message,true);}finally{button.disabled=false;}};
+    $('saveAlertConsent').onclick=async()=>{try{
+      const user=await member();if(!user?.email_confirmed_at)throw new Error('Sign in with a verified email first');
+      const enabled=$('alertsEnabled').checked;
+      const current=check(await db.from('uam_profiles').select('alerts_enabled,consented_at').eq('user_id',user.id).single());
+      let consentedAt=enabled?current.consented_at:null;
+      if(enabled&&(!current.alerts_enabled||!consentedAt)){
+        const health=await fetch(base+'/health').then(r=>r.json()).catch(()=>({}));
+        if(!health.alerts_ready)throw new Error('Email delivery is not ready. You can save locations now and enable alerts once delivery is available.');
+        consentedAt=new Date().toISOString();
+      }
+      // Re-saving an enabled preference must not move the consent cutoff forward
+      // and suppress events that are already waiting in the delivery queue.
+      if(enabled!==current.alerts_enabled||consentedAt!==current.consented_at){
+        check(await db.from('uam_profiles').update({alerts_enabled:enabled,consented_at:consentedAt}).eq('user_id',user.id));
+      }
+      message(enabled?'Email alerts enabled for your saved locations.':'Email alerts are off.');
+      await refreshAccount();
+    }catch(error){message(error.message,true);}};
+    $('submitEventForm').onsubmit=async e=>{e.preventDefault();const form=e.currentTarget;const button=$('submitEventButton');button.disabled=true;try{const fields=new FormData(form);const flyer=fields.get('flyer');if(!flyer?.size)throw new Error('An event flyer is required');const event=Object.fromEntries(fields.entries());delete event.flyer;event.flyer_permission=$('flyerPermission').checked;const body=new FormData();body.append('flyer',flyer);body.append('event',JSON.stringify(event));const result=await invoke('/submit',body,true);message(result.status==='approved'?'Event published after the automated checks.':'Event received with its flyer and queued for moderator approval.');form.reset();await refreshAccount();}catch(error){message(error.message,true);}finally{button.disabled=false;}};
     $('changeAdminForm').onsubmit=async e=>{e.preventDefault();if(!confirm('Transfer site moderation to this verified account?'))return;try{check(await db.rpc('uam_change_admin',{p_email:$('newAdminEmail').value.trim()}));message('Administrator changed.');await refreshAccount();}catch(error){message(error.message,true);}};
     const unsubscribe=new URLSearchParams(location.search).get('unsubscribe');
     if(unsubscribe){$('unsubscribePanel').hidden=false;$('confirmUnsubscribe').onclick=async()=>{try{await invoke('/unsubscribe',{token:unsubscribe});message('Email alerts have been turned off.');$('unsubscribePanel').hidden=true;}catch(error){message(error.message,true);}};}
     await refreshAccount();
-    db.auth.onAuthStateChange(event=>{if(event==='PASSWORD_RECOVERY')$('passwordRecovery').hidden=false;setTimeout(()=>refreshAccount().catch(error=>message(error.message,true)),0);});
   }
+  // Register before readiness/account requests: the SDK can process a recovery
+  // link during initialization and does not replay that recovery event later.
+  db.auth.onAuthStateChange(event=>{if(!$('signedOut'))return;if(event==='PASSWORD_RECOVERY')$('passwordRecovery').hidden=false;setTimeout(()=>refreshAccount().catch(error=>message(error.message,true)),0);});
   document.addEventListener('DOMContentLoaded',()=>setupPage().catch(error=>message(error.message,true)));
 })();
