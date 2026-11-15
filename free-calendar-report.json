@@ -4,9 +4,126 @@
   "sources": [
     {
       "source": "Events With Cars",
-      "status": "failed",
-      "error": "Expecting value: line 1 column 1 (char 0)",
-      "prior_data_retained": true
+      "status": "success",
+      "fetched": 243,
+      "accepted": 215,
+      "cars_and_coffee": 113,
+      "distinct_coffee_series": 15,
+      "with_artwork": 209,
+      "skipped": [
+        {
+          "id": 10002929,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 10002930,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 10002931,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 10002932,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 10002933,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 10002934,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 10002935,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 10002936,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 10002937,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 33900,
+          "reason": "No supported automotive event category"
+        },
+        {
+          "id": 10002938,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 10002939,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 10002940,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 10002941,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 10002942,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 10002943,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 10002944,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 10002945,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 10002946,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 10002947,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 10002948,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 10002949,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 10002950,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 10002951,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 33893,
+          "reason": "No supported automotive event category"
+        },
+        {
+          "id": 10002952,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 10002953,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 10002954,
+          "reason": "No structured venue"
+        }
+      ]
     }
   ]
 }
