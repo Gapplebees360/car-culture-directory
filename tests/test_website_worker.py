@@ -10,6 +10,16 @@ def event(source='Official'):
     return dict(title='Fixture Car Show',date='2026-12-05',city='Tacoma',state='WA',venue='Garage',category='Car Show',url='https://cars.example.org/show',source=source,source_id='show',verified_at='2026-11-14')
 
 class WebsiteWorkerTests(unittest.TestCase):
+    def test_utc_verification_date_can_follow_us_local_event_date(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)
+            original=event()|{'verified_at':'2026-11-15'}
+            (root/'events.json').write_text(json.dumps([original]))
+            def call(route,payload=None):return []
+            result=run(root,call,today=TODAY,verification_date=dt.date(2026,11,15))
+            self.assertEqual(result['failed'],0)
+            self.assertEqual(json.loads((root/'events.json').read_text()),[original])
+
     def test_inspection_uses_claim_and_exports_only_approved_website_data(self):
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory);original=event();website=event('Website: cars.example.org')|{'title':'Second Car Show'}

@@ -49,7 +49,8 @@ def rpc(route,payload=None,opener=urlopen,identity=github_identity):
     return json.loads(raw)
 
 
-def run(root=ROOT,call=rpc,inspector=inspect_website,today=None,clock=time.monotonic):
+def run(root=ROOT,call=rpc,inspector=inspect_website,today=None,clock=time.monotonic,verification_date=None):
+    verification_date=verification_date or dt.datetime.now(dt.timezone.utc).date()
     today=today or (dt.datetime.now(dt.timezone.utc)-dt.timedelta(hours=10)).date()
     existing=json.loads((root/'events.json').read_text(encoding='utf8'))
     started=clock()
@@ -82,7 +83,7 @@ def run(root=ROOT,call=rpc,inspector=inspect_website,today=None,clock=time.monot
     for event in exported:
         if not isinstance(event,dict) or not str(event.get('source','')).startswith('Website: '):
             raise ValueError('Unexpected website source identity; prior published data retained')
-    combined=validate_events([event for event in json.loads((root/'events.json').read_text(encoding='utf8')) if not str(event.get('source','')).startswith('Website: ')]+exported,today)
+    combined=validate_events([event for event in json.loads((root/'events.json').read_text(encoding='utf8')) if not str(event.get('source','')).startswith('Website: ')]+exported,today,verification_today=verification_date)
     temporary=root/'events.json.tmp'
     temporary.write_text(json.dumps(combined,indent=2)+'\n',encoding='utf8')
     temporary.replace(root/'events.json')
