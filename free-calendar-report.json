@@ -5,11 +5,11 @@
     {
       "source": "Events With Cars",
       "status": "success",
-      "fetched": 235,
-      "accepted": 208,
-      "cars_and_coffee": 109,
+      "fetched": 243,
+      "accepted": 213,
+      "cars_and_coffee": 112,
       "distinct_coffee_series": 15,
-      "with_artwork": 202,
+      "with_artwork": 207,
       "skipped": [
         {
           "id": 10002930,
@@ -118,6 +118,18 @@
         {
           "id": 10002954,
           "reason": "No structured venue"
+        },
+        {
+          "id": 33890,
+          "reason": "No supported automotive event category"
+        },
+        {
+          "id": 10002955,
+          "reason": "No structured venue"
+        },
+        {
+          "id": 33885,
+          "reason": "US location not explicit"
         }
       ]
     }
