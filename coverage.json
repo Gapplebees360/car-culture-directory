@@ -1,6 +1,6 @@
 {
   "checked_at": "2026-11-19",
-  "imported": 396,
+  "imported": 397,
   "states_with_events": 33,
   "coverage": {
     "AK": 1,
@@ -45,7 +45,7 @@
     "SC": 2,
     "SD": 0,
     "TN": 2,
-    "TX": 21,
+    "TX": 22,
     "UT": 0,
     "VA": 4,
     "VT": 0,
@@ -55,7 +55,7 @@
     "WY": 0
   },
   "sources": {
-    "SCCA": 149,
+    "SCCA": 150,
     "Events With Cars": 216,
     "Griot's Garage": 21,
     "Facebook": 3,
