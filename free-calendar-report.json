@@ -5,11 +5,11 @@
     {
       "source": "Events With Cars",
       "status": "success",
-      "fetched": 246,
-      "accepted": 216,
+      "fetched": 245,
+      "accepted": 215,
       "cars_and_coffee": 115,
       "distinct_coffee_series": 15,
-      "with_artwork": 210,
+      "with_artwork": 209,
       "skipped": [
         {
           "id": 10002930,

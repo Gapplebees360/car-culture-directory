@@ -1641,6 +1641,20 @@
     "image_source": "https://eventswithcars.com/event/wienerschnitzel-cruise-in-car-show-2/2027-01-02/"
   },
   {
+    "title": "Houston SCCA Regional Solo #1 2027",
+    "date": "2027-01-03",
+    "end_date": "2027-01-03",
+    "state": "TX",
+    "city": "Katy",
+    "venue": "Legacy Stadium, 1830 Katyland DR",
+    "category": "Autocross",
+    "url": "https://www.scca.com/event/houston-scca-regional-solo-1-2027/",
+    "source": "SCCA",
+    "source_id": "62606",
+    "verified_at": "2026-11-20",
+    "description": "Listed on the official SCCA calendar. Check the original listing for registration, schedule, and eligibility."
+  },
+  {
     "title": "Wimberley Coffee & Cars",
     "date": "2027-01-03",
     "end_date": "2027-01-03",
@@ -3470,7 +3484,7 @@
     "image_source": "https://eventswithcars.com/event/bullhead-city-pre-car-show-cruise-in-coffee-meet/2027-03-20/"
   },
   {
-    "title": "Cal Club March Regional Road Race (Pending Approval)",
+    "title": "Cal Club March Regional Road Race",
     "date": "2027-03-20",
     "end_date": "2027-03-21",
     "state": "CA",
@@ -5955,6 +5969,20 @@
     "url": "https://www.scca.com/event/land-olakes-regional-road-race-john-hertsgaard-memorial-jack-pines-sprints/",
     "source": "SCCA",
     "source_id": "60532",
+    "verified_at": "2026-11-20",
+    "description": "Listed on the official SCCA calendar. Check the original listing for registration, schedule, and eligibility."
+  },
+  {
+    "title": "New England Region Midnight Madness Regional Road Race and  Club Race Experience",
+    "date": "2027-08-28",
+    "end_date": "2027-08-28",
+    "state": "CT",
+    "city": "Thompson",
+    "venue": "Thompson Speedway Motorsports Park, 205 E Thompson Rd",
+    "category": "Track / Drag",
+    "url": "https://www.scca.com/event/new-england-region-midnight-madness-regional-road-race-and-club-race-experience/",
+    "source": "SCCA",
+    "source_id": "62612",
     "verified_at": "2026-11-20",
     "description": "Listed on the official SCCA calendar. Check the original listing for registration, schedule, and eligibility."
   },

@@ -1,6 +1,6 @@
 {
   "checked_at": "2026-11-20",
-  "imported": 393,
+  "imported": 395,
   "states_with_events": 33,
   "coverage": {
     "AK": 1,
@@ -9,7 +9,7 @@
     "AZ": 88,
     "CA": 25,
     "CO": 11,
-    "CT": 3,
+    "CT": 4,
     "DE": 0,
     "FL": 111,
     "GA": 8,
@@ -45,7 +45,7 @@
     "SC": 2,
     "SD": 0,
     "TN": 2,
-    "TX": 22,
+    "TX": 23,
     "UT": 0,
     "VA": 3,
     "VT": 0,
@@ -56,7 +56,7 @@
   },
   "sources": {
     "Griot's Garage": 21,
-    "SCCA": 147,
+    "SCCA": 149,
     "Events With Cars": 215,
     "Facebook": 3,
     "FCP Euro": 1,
