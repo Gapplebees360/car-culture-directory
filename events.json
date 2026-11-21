@@ -15,20 +15,6 @@
     "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
   },
   {
-    "title": "Buccaneer Region Savannah Autocross Event 9",
-    "date": "2026-11-21",
-    "end_date": "2026-11-21",
-    "state": "GA",
-    "city": "Savannah",
-    "venue": "Hutchinson Island Paddock, 100 Grand Prize of America Avenue",
-    "category": "Autocross",
-    "url": "https://www.scca.com/event/buccaneer-region-savannah-autocross-event-9/",
-    "source": "SCCA",
-    "source_id": "61652",
-    "verified_at": "2026-11-21",
-    "description": "Listed on the official SCCA calendar. Check the original listing for registration, schedule, and eligibility."
-  },
-  {
     "title": "Bullhead City Pre-Car Show Cruise-In Coffee Meet",
     "date": "2026-11-21",
     "end_date": "2026-11-21",
@@ -2515,6 +2501,20 @@
     "image": "https://eventswithcars.com/wp-content/uploads/2026/11/jrs.jpg",
     "image_kind": "source_artwork",
     "image_source": "https://eventswithcars.com/event/jrs-drive-in-cruise-night/2027-02-12/"
+  },
+  {
+    "title": "Arizona Snowbird Street Car Track Day",
+    "date": "2027-02-13",
+    "end_date": "2027-02-14",
+    "state": "AZ",
+    "city": "Casa Grande",
+    "venue": "Podium Club at ATTESA, 6870 S Bianco RD",
+    "category": "Track / Drag",
+    "url": "https://www.scca.com/event/arizona-snowbird-street-car-track-day/",
+    "source": "SCCA",
+    "source_id": "62665",
+    "verified_at": "2026-11-21",
+    "description": "Listed on the official SCCA calendar. Check the original listing for registration, schedule, and eligibility."
   },
   {
     "title": "Auto Addicts Cars & Coffee",
