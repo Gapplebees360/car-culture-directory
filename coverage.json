@@ -1,12 +1,12 @@
 {
   "checked_at": "2026-11-22",
-  "imported": 382,
+  "imported": 383,
   "states_with_events": 33,
   "coverage": {
     "AK": 1,
     "AL": 8,
     "AR": 0,
-    "AZ": 87,
+    "AZ": 88,
     "CA": 25,
     "CO": 11,
     "CT": 4,
@@ -58,7 +58,7 @@
     "Griot's Garage": 21,
     "SCCA": 144,
     "Facebook": 3,
-    "Events With Cars": 207,
+    "Events With Cars": 208,
     "FCP Euro": 1,
     "Speedway Motors Nebraska": 6
   },
@@ -70,6 +70,6 @@
   "business_watch_report": "business-watch-report.json",
   "cars_and_coffee_occurrences": 127,
   "distinct_cars_and_coffee_series": 28,
-  "with_source_artwork": 202,
+  "with_source_artwork": 203,
   "note": "Searches target all 50 states; listings require an explicit source date and US location. Empty states indicate no accepted listings, not proof that no events exist."
 }
