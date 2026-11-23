@@ -5,11 +5,11 @@
     {
       "source": "Events With Cars",
       "status": "success",
-      "fetched": 237,
-      "accepted": 208,
-      "cars_and_coffee": 109,
+      "fetched": 240,
+      "accepted": 210,
+      "cars_and_coffee": 110,
       "distinct_coffee_series": 15,
-      "with_artwork": 202,
+      "with_artwork": 204,
       "skipped": [
         {
           "id": 10002931,
@@ -126,6 +126,10 @@
         {
           "id": 33885,
           "reason": "US location not explicit"
+        },
+        {
+          "id": 10002956,
+          "reason": "No structured venue"
         }
       ]
     }
