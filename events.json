@@ -5601,6 +5601,21 @@
     "description": "Listed on the official SCCA calendar. Check the original listing for registration, schedule, and eligibility."
   },
   {
+    "title": "GOODGUYS 39th Griot's Garage Pacific Northwest Nationals",
+    "date": "2027-07-23",
+    "end_date": "2027-07-25",
+    "city": "Puyallup",
+    "state": "WA",
+    "venue": "Washington State Fair Events Center",
+    "category": "Car Show",
+    "time": "See organizer for schedule",
+    "source": "Griot's Garage",
+    "source_id": "9702466887d4a2fdf6417592",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-25",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
+  },
+  {
     "title": "Mahoning Valley Christmas in July Regional Road Race",
     "date": "2027-07-24",
     "end_date": "2027-07-25",
@@ -5882,6 +5897,21 @@
     "source_id": "61810",
     "verified_at": "2026-11-25",
     "description": "Listed on the official SCCA calendar. Check the original listing for registration, schedule, and eligibility."
+  },
+  {
+    "title": "Alfa Romeo Club Cars and Cannoli's",
+    "date": "2027-09-04",
+    "end_date": "2027-09-04",
+    "city": "Tacoma",
+    "state": "WA",
+    "venue": "Griot's Garage",
+    "category": "Car Show",
+    "time": "11:00 a.m. - 2:00 p.m.",
+    "source": "Griot's Garage",
+    "source_id": "bc0782c60460c7b320b09788",
+    "url": "https://www.griotsgarage.com/events/",
+    "verified_at": "2026-11-25",
+    "description": "Listed on the official business calendar. Check organizer details, admission, and schedule changes before attending."
   },
   {
     "title": "CAFFEINE & GASOLINE\u00ae \u2014 Italian",

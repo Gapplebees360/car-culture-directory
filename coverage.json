@@ -1,6 +1,6 @@
 {
   "checked_at": "2026-11-25",
-  "imported": 385,
+  "imported": 387,
   "states_with_events": 32,
   "coverage": {
     "AK": 1,
@@ -49,7 +49,7 @@
     "UT": 0,
     "VA": 4,
     "VT": 0,
-    "WA": 21,
+    "WA": 23,
     "WI": 7,
     "WV": 7,
     "WY": 0
@@ -57,7 +57,7 @@
   "sources": {
     "Events With Cars": 210,
     "SCCA": 146,
-    "Griot's Garage": 20,
+    "Griot's Garage": 22,
     "FCP Euro": 1,
     "Facebook": 2,
     "Speedway Motors Nebraska": 6
