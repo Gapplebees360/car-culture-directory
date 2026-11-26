@@ -1,11 +1,11 @@
 {
-  "checked_at": "2026-11-25",
+  "checked_at": "2026-11-26",
   "service_cost_usd": 0,
   "sources": [
     {
       "source": "Events With Cars",
       "status": "failed",
-      "error": "Expecting value: line 1 column 1 (char 0)",
+      "error": "HTTP Error 429: Too Many Requests",
       "prior_data_retained": true
     }
   ]
