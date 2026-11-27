@@ -1,13 +1,13 @@
 {
-  "checked_at": "2026-11-26",
+  "checked_at": "2026-11-27",
   "service_cost_usd": 0,
-  "checked_this_run": 0,
+  "checked_this_run": 59,
   "note": "Discovery only. A readable business page or candidate calendar is not a verified event. Imports are separately validated in business-calendar-report.json.",
   "businesses": [
     {
       "name": "Griot's Garage",
       "url": "https://www.griotsgarage.com/events/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "calendar_adapter_available_see_import_report",
       "calendar_candidates": [
@@ -17,7 +17,7 @@
     {
       "name": "FCP Euro",
       "url": "https://info.fcpeuro.com/event-schedule",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "calendar_adapter_available_see_import_report",
       "calendar_candidates": []
@@ -25,7 +25,7 @@
     {
       "name": "Summit Racing",
       "url": "https://www.summitracing.com/newsandevents/calendar",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "unavailable_needs_review",
       "error": "Automated access blocked; manual review or organizer feed needed"
@@ -46,7 +46,7 @@
     {
       "name": "Speedway Motors Arizona",
       "url": "https://www.speedwaymotors.com/pages/carsandcoffee-AZ",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "unavailable_needs_review",
       "error": "HTTP Error 403: Forbidden"
@@ -54,7 +54,7 @@
     {
       "name": "Holley",
       "url": "https://www.holley.com/event/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "unavailable_needs_review",
       "error": "HTTP Error 403: Forbidden"
@@ -62,7 +62,7 @@
     {
       "name": "AmericanMuscle",
       "url": "https://www.americanmuscle.com/car-shows.html",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "page_readable_needs_calendar_review",
       "calendar_candidates": [
@@ -83,7 +83,7 @@
     {
       "name": "JEGS",
       "url": "https://www.jegs.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "unavailable_needs_review",
       "error": "HTTP Error 403: Forbidden"
@@ -91,7 +91,7 @@
     {
       "name": "Turn 14 Distribution",
       "url": "https://www.turn14.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "no_calendar_link_found_needs_review",
       "calendar_candidates": []
@@ -99,7 +99,7 @@
     {
       "name": "ECS Tuning",
       "url": "https://www.ecstuning.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "unavailable_needs_review",
       "error": "HTTP Error 403: Forbidden"
@@ -107,21 +107,15 @@
     {
       "name": "034Motorsport",
       "url": "https://www.034motorsport.com/blog/category/events/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
-      "status": "page_readable_needs_calendar_review",
-      "calendar_candidates": [
-        "https://www.034motorsport.com/blog/category/events/",
-        "https://www.034motorsport.com/blog/category/events/page/2/",
-        "https://www.034motorsport.com/blog/category/events/page/3/",
-        "https://www.034motorsport.com/blog/category/events/page/4/",
-        "https://www.034motorsport.com/blog/category/events/page/5/"
-      ]
+      "status": "unavailable_needs_review",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "name": "Roush Performance",
       "url": "https://www.roushperformance.com/pages/events",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "page_readable_needs_calendar_review",
       "calendar_candidates": [
@@ -132,7 +126,7 @@
     {
       "name": "Lingenfelter Performance Engineering",
       "url": "https://www.lingenfelter.com/2026-events",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "page_readable_needs_calendar_review",
       "calendar_candidates": [
@@ -142,7 +136,7 @@
     {
       "name": "H&R Springs",
       "url": "https://www.hrsprings.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "page_readable_needs_calendar_review",
       "calendar_candidates": [
@@ -153,7 +147,7 @@
     {
       "name": "Edelbrock",
       "url": "https://www.edelbrock.com/event-schedule/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "unavailable_needs_review",
       "error": "HTTP Error 403: Forbidden"
@@ -161,7 +155,7 @@
     {
       "name": "QA1",
       "url": "https://qa1.net/events/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "page_readable_needs_calendar_review",
       "calendar_candidates": [
@@ -172,7 +166,7 @@
     {
       "name": "Detroit Speed",
       "url": "https://www.detroitspeed.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "no_calendar_link_found_needs_review",
       "calendar_candidates": []
@@ -180,7 +174,7 @@
     {
       "name": "BMR Suspension",
       "url": "https://www.bmrsuspension.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "no_calendar_link_found_needs_review",
       "calendar_candidates": []
@@ -188,7 +182,7 @@
     {
       "name": "Borla",
       "url": "https://www.borla.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "no_calendar_link_found_needs_review",
       "calendar_candidates": []
@@ -196,7 +190,7 @@
     {
       "name": "aFe POWER",
       "url": "https://afepower.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "no_calendar_link_found_needs_review",
       "calendar_candidates": []
@@ -204,7 +198,7 @@
     {
       "name": "Mishimoto",
       "url": "https://www.mishimoto.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "no_calendar_link_found_needs_review",
       "calendar_candidates": []
@@ -212,7 +206,7 @@
     {
       "name": "COBB Tuning",
       "url": "https://www.cobbtuning.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "unavailable_needs_review",
       "error": "HTTP Error 403: Forbidden"
@@ -220,15 +214,17 @@
     {
       "name": "MAPerformance",
       "url": "https://www.maperformance.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
-      "status": "no_calendar_link_found_needs_review",
-      "calendar_candidates": []
+      "status": "page_readable_needs_calendar_review",
+      "calendar_candidates": [
+        "https://www.maperformance.com/collections/maperformance-coupon-codes-sales"
+      ]
     },
     {
       "name": "GrimmSpeed",
       "url": "https://www.grimmspeed.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "no_calendar_link_found_needs_review",
       "calendar_candidates": []
@@ -236,7 +232,7 @@
     {
       "name": "Import Image Racing",
       "url": "https://www.importimageracing.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "no_calendar_link_found_needs_review",
       "calendar_candidates": []
@@ -244,7 +240,7 @@
     {
       "name": "Fitment Industries",
       "url": "https://www.fitmentindustries.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "unavailable_needs_review",
       "error": "HTTP Error 405: Method Not Allowed"
@@ -252,7 +248,7 @@
     {
       "name": "Tire Rack",
       "url": "https://www.tirerack.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "no_calendar_link_found_needs_review",
       "calendar_candidates": []
@@ -260,7 +256,7 @@
     {
       "name": "Discount Tire",
       "url": "https://www.discounttire.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "no_calendar_link_found_needs_review",
       "calendar_candidates": []
@@ -268,7 +264,7 @@
     {
       "name": "Chemical Guys",
       "url": "https://www.chemicalguys.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "no_calendar_link_found_needs_review",
       "calendar_candidates": []
@@ -276,7 +272,7 @@
     {
       "name": "Adam's Polishes",
       "url": "https://adamspolishes.com/pages/adams-cars-and-coffee",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "page_readable_needs_calendar_review",
       "calendar_candidates": [
@@ -288,7 +284,7 @@
     {
       "name": "Detail Garage",
       "url": "https://detailgarage.com/pages/event-training",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "page_readable_needs_calendar_review",
       "calendar_candidates": [
@@ -299,7 +295,7 @@
     {
       "name": "Meguiars",
       "url": "https://www.meguiars.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "unavailable_needs_review",
       "error": "HTTP Error 403: Forbidden"
@@ -307,7 +303,7 @@
     {
       "name": "CJ Pony Parts",
       "url": "https://www.cjponyparts.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "unavailable_needs_review",
       "error": "HTTP Error 403: Forbidden"
@@ -315,7 +311,7 @@
     {
       "name": "Late Model Restoration",
       "url": "https://lmr.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "unavailable_needs_review",
       "error": "HTTP Error 403: Forbidden"
@@ -323,7 +319,7 @@
     {
       "name": "National Parts Depot",
       "url": "https://www.npdlink.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "no_calendar_link_found_needs_review",
       "calendar_candidates": []
@@ -331,7 +327,7 @@
     {
       "name": "Classic Industries",
       "url": "https://www.classicindustries.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "unavailable_needs_review",
       "error": "HTTP Error 403: Forbidden"
@@ -339,7 +335,7 @@
     {
       "name": "Brothers Trucks",
       "url": "https://www.holley.com/brands/brothers_trucks/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "unavailable_needs_review",
       "error": "HTTP Error 403: Forbidden"
@@ -347,7 +343,7 @@
     {
       "name": "Ringbrothers",
       "url": "https://www.ringbrothers.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "unavailable_needs_review",
       "error": "HTTP Error 403: Forbidden"
@@ -355,7 +351,7 @@
     {
       "name": "Roadster Shop",
       "url": "https://roadstershop.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "page_readable_needs_calendar_review",
       "calendar_candidates": [
@@ -365,7 +361,7 @@
     {
       "name": "Hennessey Performance",
       "url": "https://www.hennesseyperformance.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "no_calendar_link_found_needs_review",
       "calendar_candidates": []
@@ -373,7 +369,7 @@
     {
       "name": "Shelby American",
       "url": "https://shelby.com/Shelby-Events",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "page_readable_needs_calendar_review",
       "calendar_candidates": [
@@ -385,7 +381,7 @@
     {
       "name": "Saleen",
       "url": "https://www.saleen.com/saleen-open-house-2026",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "unavailable_needs_review",
       "error": "HTTP Error 429: Too Many Requests"
@@ -393,7 +389,7 @@
     {
       "name": "Dinan",
       "url": "https://www.dinancars.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "unavailable_needs_review",
       "error": "HTTP Error 403: Forbidden"
@@ -401,7 +397,7 @@
     {
       "name": "Turner Motorsport",
       "url": "https://www.turnermotorsport.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "unavailable_needs_review",
       "error": "HTTP Error 403: Forbidden"
@@ -409,7 +405,7 @@
     {
       "name": "BimmerWorld",
       "url": "https://www.bimmerworld.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "no_calendar_link_found_needs_review",
       "calendar_candidates": []
@@ -417,7 +413,7 @@
     {
       "name": "IPD",
       "url": "https://www.ipdusa.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "unavailable_needs_review",
       "error": "HTTP Error 403: Forbidden"
@@ -425,7 +421,7 @@
     {
       "name": "Pelican Parts",
       "url": "https://www.pelicanparts.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "unavailable_needs_review",
       "error": "HTTP Error 403: Forbidden"
@@ -433,7 +429,7 @@
     {
       "name": "RallySport Direct",
       "url": "https://www.rallysportdirect.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "no_calendar_link_found_needs_review",
       "calendar_candidates": []
@@ -441,7 +437,7 @@
     {
       "name": "Perrin Performance",
       "url": "https://perrin.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "no_calendar_link_found_needs_review",
       "calendar_candidates": []
@@ -449,7 +445,7 @@
     {
       "name": "Z1 Motorsports",
       "url": "https://www.z1motorsports.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "unavailable_needs_review",
       "error": "HTTP Error 403: Forbidden"
@@ -457,7 +453,7 @@
     {
       "name": "Z1 Off-Road",
       "url": "https://www.z1offroad.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "unavailable_needs_review",
       "error": "HTTP Error 403: Forbidden"
@@ -465,7 +461,7 @@
     {
       "name": "Rennline",
       "url": "https://www.rennline.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "unavailable_needs_review",
       "error": "HTTP Error 403: Forbidden"
@@ -473,7 +469,7 @@
     {
       "name": "AWE",
       "url": "https://awe-tuning.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "page_readable_needs_calendar_review",
       "calendar_candidates": [
@@ -483,7 +479,7 @@
     {
       "name": "APR",
       "url": "https://www.goapr.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "unavailable_needs_review",
       "error": "HTTP Error 403: Forbidden"
@@ -491,18 +487,17 @@
     {
       "name": "Garrett Motion",
       "url": "https://www.garrettmotion.com/newsroom-garrett-motion/events-calendar/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "page_readable_needs_calendar_review",
       "calendar_candidates": [
+        "https://www.garrettmotion.com/event/ahr-chicago-expo-2027/",
         "https://www.garrettmotion.com/event/ahr-vegas-expo-2026/",
         "https://www.garrettmotion.com/event/china-refrigeration-expo-2026/",
         "https://www.garrettmotion.com/event/garrett-motion-at-iaa-transportation-2026/",
         "https://www.garrettmotion.com/event/garrett-motion-at-smm-hamburg-2026/",
         "https://www.garrettmotion.com/event/the-47th-international-vienna-motor-symposium/",
         "https://www.garrettmotion.com/event/webinar-commercial-vehicle-beam-axles/",
-        "https://www.garrettmotion.com/ja/news/events-calendar/",
-        "https://www.garrettmotion.com/ko/newsroom-garrett-motion/events-calendar/",
         "https://www.garrettmotion.com/newsroom-garrett-motion/events-calendar/",
         "https://www.garrettmotion.com/newsroom-garrett-motion/events-calendar/archive/"
       ]
@@ -510,7 +505,7 @@
     {
       "name": "Precision Turbo",
       "url": "https://www.precisionturbo.net/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "no_calendar_link_found_needs_review",
       "calendar_candidates": []
@@ -518,7 +513,7 @@
     {
       "name": "Texas Speed",
       "url": "https://www.texas-speed.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "unavailable_needs_review",
       "error": "HTTP Error 403: Forbidden"
@@ -526,7 +521,7 @@
     {
       "name": "Brian Tooley Racing",
       "url": "https://briantooleyracing.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "no_calendar_link_found_needs_review",
       "calendar_candidates": []
@@ -534,7 +529,7 @@
     {
       "name": "Sikky Manufacturing",
       "url": "https://www.sikky.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "no_calendar_link_found_needs_review",
       "calendar_candidates": []
@@ -542,7 +537,7 @@
     {
       "name": "SPL Parts",
       "url": "https://www.splparts.com/",
-      "checked_at": "2026-11-20",
+      "checked_at": "2026-11-27",
       "event_dates_verified": false,
       "status": "no_calendar_link_found_needs_review",
       "calendar_candidates": []
